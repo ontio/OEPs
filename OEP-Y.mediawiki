@@ -30,7 +30,6 @@ This proposal makes use of the following functions and definitions:
 
 ===General verification process===
 #Requester signs and sends a Request to Service provider.
-#SeP extracts Signature from Request.
 #SeP validates the Signature.
 #SeP retrieves DDO corresponding to supplied ONT ID using ONT ID Smart contract.
 #SeP checks if the DDO contains public key used in Signature.
@@ -51,7 +50,7 @@ Request sent to Service provider should be in JSON format and needs to contain O
 Signature is generated using similar algorithm as Transaction signing in Ontology blockchain, therefore Private and Public key pair is used:
 
 # '''RequestHash''' = SHA256(SHA256(StringifiedJSONRequest))
-# '''SignedHash''' = Sign(SHA256(RequestHash, Privatekey))
+# '''SignedHash''' = Sign(SHA256(RequestHash, PrivateKey))
 
 Result Signature is embedded into Request object:
 
@@ -63,12 +62,8 @@ Result Signature is embedded into Request object:
   "OntId": "did:ont:TWbWxyRQaxsG3saSZaUt6pHTghgta4qWBA",
   ...,
   "Signature": {
-    "PubKeys": [
-      PublicKey
-    ],
-    "SigData": [
-      SignatureSchemaByte + SignedHash
-    ]
+    "PubKey": PublicKey,
+    "SigData": SignatureSchemaByte + SignedHash
   },
 }
 </pre>
@@ -76,8 +71,21 @@ Result Signature is embedded into Request object:
 The '''Sign''' method should implement specific cryptographic algorithm corresponding to selected Signature schema.
 
 
-===Extracting and validating of Signature===
+===Validating of Signature===
+Validation of signature will ensure, that the Request was not forged and nobody tampered with the Request:
 
+#Remove Signature attribute from the Request
+#'''RequestHash''' = SHA256(SHA256(StringifiedJSONRequest))
+#'''Result''' = ValidateSignature(SHA256(RequestHash), Signature.PubKey)
+
+The '''ValidateSignature''' method should implement specific cryptographic algorithm for signature validation corresponding to selected Signature schema.
+
+===Retrieving DDO and proving the identity===
+Service provider needs to use one of the SDKs for communicating with Ontology network to retrieve DDO for ONT ID specified in the request. 
+
+After successfully retrieving DDO from blockchain, SeP checks PublicKeys array and try to find PublicKey which was used in the Request.
+
+If the Public key is present, the Service provider has authenticated the Requester and verified that he is owner of the ONT ID.
 
 ===Supported signature schemes===
 *'''SHA224withECDSA''' = 0,
@@ -94,8 +102,8 @@ The '''Sign''' method should implement specific cryptographic algorithm correspo
 
 ==Rationale==
 
-'''''User story:''' As a Service Provider, I need to check if the requester is really who he claims to be, before providing the service.''
+'''''User story:''' As a Service Provider, I need to check if the Requester is really who he claims to be, before providing the service.''
 
 or more specifically
 
-'''''User story:''' As a Trust Anchor who would like to issue a verificable claim, I need to check if the requester is really who he claims to be.''
+'''''User story:''' As a Trust Anchor who would like to issue a verificable claim, I need to check if the Requester is really who he claims to be.''
