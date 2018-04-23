@@ -87,6 +87,8 @@ After successfully retrieving DDO from blockchain, SeP checks PublicKeys array a
 
 If the Public key is present, the Service provider has authenticated the Requester and verified that he is owner of the ONT ID.
 
+If the Public key is not present or no DDO is returned, then the identity is not verified and SeP should not proceed.
+
 ===Supported signature schemes===
 *'''SHA224withECDSA''' = 0,
 *'''SHA256withECDSA''' = 1,
