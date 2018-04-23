@@ -10,7 +10,7 @@
 ==Abstract==
 
 A method is proposed for online verification of ONT ID ownership. Trust anchors or other entities can use this method for identity authentication. 
-This method is based on the same cryptographic principles as is used during caller identification in smart-contract execution.
+This method is based on the same cryptographic principles as is used during caller identification in Smart contract execution.
 
 ==Motivation==
 
@@ -20,11 +20,77 @@ Currently there is no recommended or established way of ONT ID ownership verific
 
 This proposal makes use of the following functions and definitions:
 
+*'''Requester''', an user wanting to prove ONT ID ownership.
+*'''Service provider (SeP)''', a provider of some service (e.g.: issuing veryfiable claim).
+*'''Signature''', a cryptographic signature of unsigned data using one of the supported cryptographic schemes.
 *'''SHA256''', a well-known hashing algorithm that takes an arbitrary number of bytes as input and deterministically yields a 32-byte hash.
+*'''DDO''', an ONT ID Description Object, describing the current state of ONT ID with its claims and used public keys.
+*'''Signature schema''', a concrete selection of signing algorithm used.
+*'''Signature schema byte''', an one byte representation of Signature schema used.
+
+===General verification process===
+#Requester signs and sends a Request to Service provider.
+#SeP extracts Signature from Request.
+#SeP validates the Signature.
+#SeP retrieves DDO corresponding to supplied ONT ID using ONT ID Smart contract.
+#SeP checks if the DDO contains public key used in Signature.
+
+===Signing and sending Request===
+Request sent to Service provider should be in JSON format and needs to contain OntId attribute and can contain any other arbitrary attributes:
+
+<pre>
+{
+  "id": "7c756d2c-0630-4aa1-86e1-87a6921a5241",
+  "data1": "...",
+  "data2": "...",
+  "OntId": "did:ont:TWbWxyRQaxsG3saSZaUt6pHTghgta4qWBA",
+  ...,
+}
+</pre>
+
+Signature is generated using similar algorithm as Transaction signing in Ontology blockchain, therefore Private and Public key pair is used:
+
+# '''RequestHash''' = SHA256(SHA256(StringifiedJSONRequest))
+# '''SignedHash''' = Sign(SHA256(RequestHash, Privatekey))
+
+Result Signature is embedded into Request object:
+
+<pre>
+{
+  "id": "7c756d2c-0630-4aa1-86e1-87a6921a5241",
+  "data1": "...",
+  "data2": "...",
+  "OntId": "did:ont:TWbWxyRQaxsG3saSZaUt6pHTghgta4qWBA",
+  ...,
+  "Signature": {
+    "PubKeys": [
+      PublicKey
+    ],
+    "SigData": [
+      SignatureSchemaByte + SignedHash
+    ]
+  },
+}
+</pre>
+
+The '''Sign''' method should implement specific cryptographic algorithm corresponding to selected Signature schema.
 
 
+===Extracting and validating of Signature===
 
-The technical specification should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current ONT platforms.
+
+===Supported signature schemes===
+*'''SHA224withECDSA''' = 0,
+*'''SHA256withECDSA''' = 1,
+*'''SHA384withECDSA''' = 2,
+*'''SHA512withECDSA''' = 3,
+*'''SHA3_224withECDSA''' = 4,
+*'''SHA3_256withECDSA''' = 5,
+*'''SHA3_384withECDSA''' = 6,
+*'''SHA3_512withECDSA''' = 7,
+*'''RIPEMD160withECDSA''' = 8,
+*'''SM3withSM2''' = 9,
+*'''SHA512withEDDS''' = 10,
 
 ==Rationale==
 
