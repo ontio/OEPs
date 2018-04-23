@@ -1,0 +1,40 @@
+<pre>
+  OEP: <to be assigned>
+  Title: Verification of ONT ID ownership in web environment
+  Author: Matus Zamborsky
+  Type: Informational
+  Status: Draft
+  Created: 2018-04-23
+</pre>
+
+==Abstract==
+
+A method is proposed for online verification of ONT ID ownership. Trust anchors or other entities can use this method for identity authentication. 
+This method is based on the same cryptographic principles as is used during caller identification in smartcontract execution.
+
+
+==Motivation==
+
+The motivation is critical for OEPs that want to change the ONT protocol. It should clearly explain why the existing protocol specification is inadequate to address the problem that the OEP solves. OEP submissions without sufficient motivation may be rejected outright.
+
+==Specification==
+
+The technical specification should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations for any of the current ONT platforms.
+
+==Rationale==
+
+The rationale fleshes out the specification by describing what motivated the design and why particular design decisions were made. It should describe alternate designs that were considered and related work, e.g. how the feature is supported in other languages.
+
+The rationale may also provide evidence of consensus within the community, and should discuss important objections or concerns raised during discussion.
+
+==Backwards Compatibility==
+
+All OEPs that introduce backwards incompatibilities must include a section describing these incompatibilities and their severity. The OEP must explain how the author proposes to deal with these incompatibilities. OEP submissions without a sufficient backwards compatibility treatise may be rejected outright.
+
+==Test Cases==
+
+Test cases for an implementation are mandatory for OEPs that are affecting consensus changes. Other OEPs can choose to include links to test cases if applicable.
+
+==Implementation==
+
+The implementations must be completed before any OEP is given status "Final", but it need not be completed before the OEP is accepted. It is better to finish the specification and rationale first and reach consensus on it before writing code.
