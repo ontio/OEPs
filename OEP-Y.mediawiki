@@ -30,7 +30,7 @@ This proposal makes use of the following functions and definitions:
 *'''Key type''', a type of key (ECDSA, SM2, EDDSA).
 *'''Key type byte''', an one byte representation of Key type used.
 *'''Curve type''', a specific elliptic curve used (e.g.: secp256r1(P256)).
-*'''Cerve type byte''', an one byte representation of Curve type used.
+*'''Curve type byte''', an one byte representation of Curve type used.
 *'''Operation ||''', a string concatenation operation.
 
 ===General verification process===
@@ -67,9 +67,9 @@ Result Signature is embedded into Request object:
   "OntId": "did:ont:TWbWxyRQaxsG3saSZaUt6pHTghgta4qWBA",
   ...,
   "Signature": {
-    "PubKey": PublicKey,
+    "PubKey": KeyTypeByte || CurveTypeByte || PublicKey,
     "Algorithm": SignatureSchemaByte
-    "SigData": KeyTypeByte || CurveTypeByte || SignedHash
+    "SigData": SignedHash
   },
 }
 </pre>
