@@ -27,6 +27,11 @@ This proposal makes use of the following functions and definitions:
 *'''DDO''', an ONT ID Description Object, describing the current state of ONT ID with its claims and used public keys.
 *'''Signature schema''', a concrete selection of signing algorithm used.
 *'''Signature schema byte''', an one byte representation of Signature schema used.
+*'''Key type''', a type of key (ECDSA, SM2, EDDSA).
+*'''Key type byte''', an one byte representation of Key type used.
+*'''Curve type''', a specific elliptic curve used (e.g.: secp256r1(P256)).
+*'''Cerve type byte''', an one byte representation of Curve type used.
+*'''Operation ||''', a string concatenation operation.
 
 ===General verification process===
 #Requester signs and sends a Request to Service provider.
@@ -47,10 +52,10 @@ Request sent to Service provider should be in JSON format and needs to contain O
 }
 </pre>
 
-Signature is generated using similar algorithm as Transaction signing in Ontology blockchain, therefore Private and Public key pair is used:
+Signature is generated with asymetric cryptography using elliptic curves, therefore Private and Public key pair is used:
 
-# '''RequestHash''' = SHA256(SHA256(StringifiedJSONRequest))
-# '''SignedHash''' = Sign(SHA256(RequestHash, PrivateKey))
+# '''RequestHash''' = SHA256(StringifiedJSONRequest))
+# '''SignedHash''' = Sign(RequestHash, PrivateKey)
 
 Result Signature is embedded into Request object:
 
@@ -63,20 +68,20 @@ Result Signature is embedded into Request object:
   ...,
   "Signature": {
     "PubKey": PublicKey,
-    "SigData": SignatureSchemaByte + SignedHash
+    "Algorithm": SignatureSchemaByte
+    "SigData": KeyTypeByte || CurveTypeByte || SignedHash
   },
 }
 </pre>
 
-The '''Sign''' method should implement specific cryptographic algorithm corresponding to selected Signature schema.
-
+The '''Sign''' method should implement specific cryptographic algorithm corresponding to selected Signature schema, key type and specified curve.
 
 ===Validating of Signature===
 Validation of signature will ensure, that the Request was not forged and nobody tampered with the Request:
 
 #Remove Signature attribute from the Request
-#'''RequestHash''' = SHA256(SHA256(StringifiedJSONRequest))
-#'''Result''' = ValidateSignature(SHA256(RequestHash), Signature.PubKey)
+#'''RequestHash''' = SHA256(StringifiedJSONRequest)
+#'''Result''' = ValidateSignature(RequestHash, Signature.PubKey)
 
 The '''ValidateSignature''' method should implement specific cryptographic algorithm for signature validation corresponding to selected Signature schema.
 
