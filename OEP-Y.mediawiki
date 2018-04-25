@@ -2,7 +2,7 @@
   OEP: <to be assigned>
   Title: Verification of ONT ID ownership in web environment
   Author: Matus Zamborsky <zamborsky@gmail.com>
-  Type: Informational
+  Type: Standard
   Status: Draft
   Created: 2018-04-23
 </pre>
@@ -114,3 +114,10 @@ If the Public key is not present or no DDO is returned, then the identity is not
 or more specifically
 
 '''''User story:''' As a Trust Anchor who would like to issue a verificable claim, I need to check if the Requester is really who he claims to be.''
+
+==Test Cases==
+backslash47/ontology-ts-sdk - https://github.com/backslash47/ontology-ts-sdk/blob/oep-verify-impl/test/webRequest.test.ts
+
+==Implementation==
+
+backslash47/ontology-ts-sdk - https://github.com/backslash47/ontology-ts-sdk/blob/oep-verify-impl/src/web/webRequest.ts
