@@ -22,11 +22,12 @@ This proposal makes use of the following functions and definitions:
 
 *'''Requester''', an user wanting to prove his ONT ID ownership.
 *'''Service provider (SeP)''', a provider of some service (e.g.: issuing veryfiable claim).
-*'''Signature''', a cryptographic signature of unsigned data using one of the supported cryptographic schemes.
-*'''SHA256''', a well-known hashing algorithm that takes an arbitrary number of bytes as input and deterministically yields a 32-byte hash.
+*'''Signature''', a cryptographic signature of unsigned data using one of the supported signature schemas.
 *'''Base64''', a well-known byte array encoding scheme used to encode arbitrary byte array into string. 
-*'''Signature schema''', a concrete selection of signing algorithm used.
+*'''Signature schema''', a concrete selection of hashing function and signing algorithm used. 
 *'''PublicKeyId''', the ID of a signature public key.
+*'''GetPublicKeyStatus''', a method of ONT ID smart contract to retrieve the public key and its status by id.
+*'''Stringify''', a deterministic algorithm for encoding a JSON object as a single string. The algorithm needs to be implemented on both Requester and SeP end in the same manner, so it produces the same result for the same input.
 
 ===General verification process===
 #Requester signs and sends a Request to Service provider.
@@ -49,8 +50,7 @@ Unsigned request:
 
 Signature is generated using asymetric cryptography, therefore corresponding Private and Public key pair is used:
 
-# '''RequestHash''' = SHA256(StringifiedJSONRequest))
-# '''SignedHash''' = Sign(RequestHash, PrivateKey)
+# '''SignedHash''' = Sign(Stringify(Request), PrivateKey)
 
 Result Signature is embedded into Request object:
 
@@ -71,14 +71,16 @@ Result Signature is embedded into Request object:
 
 The '''Sign''' method should implement specific cryptographic algorithm corresponding to selected Signature schema and encode the resulting value in Base64 encoding.
 
+===Requesting status of declared Public Key===
+Service provider will preferably use one of the SDKs for communicating with Ontology blockchain to retrieve Public key status for declared Public key and check if it is not revoked.
+
+#'''Status''' = GetPublicKeyStatus(Signature.PublicKeyId)
+
 ===Validating of Signature===
 Validation of signature will ensure, that the Request was not forged and nobody tampered with the Request. 
 
-First Service provider needs to use one of the SDKs for communicating with Ontology blockchain to retrieve Public key status for declared Public key and check if it is not revoked. Then it should validate the signature:
-
 #Remove Signature attribute from the Request
-#'''RequestHash''' = SHA256(StringifiedJSONRequest)
-#'''Result''' = ValidateSignature(RequestHash, Signature, PublicKey)
+#'''Result''' = ValidateSignature(Stringify(Request), Signature, PublicKey)
 
 The '''ValidateSignature''' method should implement specific cryptographic algorithm for signature validation corresponding to selected Signature schema.
 
@@ -86,7 +88,7 @@ If the signature is valid, the Service provider has authenticated the Requester 
 
 If the signature is not valid or the Service provider is not able to retrieve Public key status or the status is revoked, then the identity is not verified and SeP should not proceed.
 
-===Supported signature schemes===
+===Supported signature schemas===
 *'''SHA224withECDSA''',
 *'''SHA256withECDSA''',
 *'''SHA384withECDSA''',
