@@ -20,7 +20,7 @@ Currently there is no recommended or established way of ONT ID ownership verific
 
 This proposal makes use of the following functions and definitions:
 
-*'''Requester''', an user wanting to prove ONT ID ownership.
+*'''Requester''', an user wanting to prove his ONT ID ownership.
 *'''Service provider (SeP)''', a provider of some service (e.g.: issuing veryfiable claim).
 *'''Signature''', a cryptographic signature of unsigned data using one of the supported cryptographic schemes.
 *'''SHA256''', a well-known hashing algorithm that takes an arbitrary number of bytes as input and deterministically yields a 32-byte hash.
