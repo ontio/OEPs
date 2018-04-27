@@ -10,7 +10,7 @@
 ==Abstract==
 
 A method is proposed for online verification of ONT ID ownership. Trust anchors or other entities can use this method for identity authentication. 
-This method is based on the same cryptographic principles as is used during caller identification in Smart contract execution.
+This method is based on the same cryptographic principles as is used during claim verification.
 
 ==Motivation==
 
@@ -24,35 +24,30 @@ This proposal makes use of the following functions and definitions:
 *'''Service provider (SeP)''', a provider of some service (e.g.: issuing veryfiable claim).
 *'''Signature''', a cryptographic signature of unsigned data using one of the supported cryptographic schemes.
 *'''SHA256''', a well-known hashing algorithm that takes an arbitrary number of bytes as input and deterministically yields a 32-byte hash.
-*'''DDO''', an ONT ID Description Object, describing the current state of ONT ID with its claims and used public keys.
+*'''Base64''', a well-known byte array encoding scheme used to encode arbitrary byte array into string. 
 *'''Signature schema''', a concrete selection of signing algorithm used.
-*'''Signature schema byte''', an one byte representation of Signature schema used.
-*'''Key type''', a type of key (ECDSA, SM2, EDDSA).
-*'''Key type byte''', an one byte representation of Key type used.
-*'''Curve type''', a specific elliptic curve used (e.g.: secp256r1(P256)).
-*'''Curve type byte''', an one byte representation of Curve type used.
-*'''Operation ||''', a string concatenation operation.
+*'''PublicKeyId''', the ID of a signature public key.
 
 ===General verification process===
 #Requester signs and sends a Request to Service provider.
-#SeP validates the Signature.
-#SeP retrieves DDO corresponding to supplied ONT ID using ONT ID Smart contract.
-#SeP checks if the DDO contains public key used in Signature.
+#SeP requests status of declared public key from blockchain.
+#SeP validates if the key is not revoked and verifies the signature.
 
 ===Signing and sending Request===
-Request sent to Service provider should be in JSON format and needs to contain OntId attribute and can contain any other arbitrary attributes:
+Request sent to Service provider should be in JSON format and needs to contain Signature and can contain any other arbitrary attributes which are the also subject of signing.
+
+Unsigned request:
 
 <pre>
 {
   "id": "7c756d2c-0630-4aa1-86e1-87a6921a5241",
   "data1": "...",
   "data2": "...",
-  "OntId": "did:ont:TWbWxyRQaxsG3saSZaUt6pHTghgta4qWBA",
   ...,
 }
 </pre>
 
-Signature is generated with asymetric cryptography using elliptic curves, therefore Private and Public key pair is used:
+Signature is generated using asymetric cryptography, therefore corresponding Private and Public key pair is used:
 
 # '''RequestHash''' = SHA256(StringifiedJSONRequest))
 # '''SignedHash''' = Sign(RequestHash, PrivateKey)
@@ -64,48 +59,45 @@ Result Signature is embedded into Request object:
   "id": "7c756d2c-0630-4aa1-86e1-87a6921a5241",
   "data1": "...",
   "data2": "...",
-  "OntId": "did:ont:TWbWxyRQaxsG3saSZaUt6pHTghgta4qWBA",
   ...,
   "Signature": {
-    "PubKey": KeyTypeByte || CurveTypeByte || PublicKey,
-    "Algorithm": SignatureSchemaByte
-    "SigData": SignedHash
+    "PublicKeyId": "did:ont:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r#keys-1",
+    "Format": "pgp",
+    "Value": SignedHash,
+    "Algorithm": "SHA256withECDSA"
   },
 }
 </pre>
 
-The '''Sign''' method should implement specific cryptographic algorithm corresponding to selected Signature schema, key type and specified curve.
+The '''Sign''' method should implement specific cryptographic algorithm corresponding to selected Signature schema and encode the resulting value in Base64 encoding.
 
 ===Validating of Signature===
-Validation of signature will ensure, that the Request was not forged and nobody tampered with the Request:
+Validation of signature will ensure, that the Request was not forged and nobody tampered with the Request. 
+
+First Service provider needs to use one of the SDKs for communicating with Ontology blockchain to retrieve Public key status for declared Public key and check if it is not revoked. Then it should validate the signature:
 
 #Remove Signature attribute from the Request
 #'''RequestHash''' = SHA256(StringifiedJSONRequest)
-#'''Result''' = ValidateSignature(RequestHash, Signature.PubKey)
+#'''Result''' = ValidateSignature(RequestHash, Signature, PublicKey)
 
 The '''ValidateSignature''' method should implement specific cryptographic algorithm for signature validation corresponding to selected Signature schema.
 
-===Retrieving DDO and proving the identity===
-Service provider needs to use one of the SDKs for communicating with Ontology network to retrieve DDO for ONT ID specified in the request. 
+If the signature is valid, the Service provider has authenticated the Requester and verified that he is owner of the ONT ID.
 
-After successfully retrieving DDO from blockchain, SeP checks PublicKeys array and try to find PublicKey which was used in the Request.
-
-If the Public key is present, the Service provider has authenticated the Requester and verified that he is owner of the ONT ID.
-
-If the Public key is not present or no DDO is returned, then the identity is not verified and SeP should not proceed.
+If the signature is not valid, the Service provider is not able to retrieve Public key status, or the status is revoked, then the identity is not verified and SeP should not proceed.
 
 ===Supported signature schemes===
-*'''SHA224withECDSA''' = 0,
-*'''SHA256withECDSA''' = 1,
-*'''SHA384withECDSA''' = 2,
-*'''SHA512withECDSA''' = 3,
-*'''SHA3_224withECDSA''' = 4,
-*'''SHA3_256withECDSA''' = 5,
-*'''SHA3_384withECDSA''' = 6,
-*'''SHA3_512withECDSA''' = 7,
-*'''RIPEMD160withECDSA''' = 8,
-*'''SM3withSM2''' = 9,
-*'''SHA512withEDDS''' = 10,
+*'''SHA224withECDSA''',
+*'''SHA256withECDSA''',
+*'''SHA384withECDSA''',
+*'''SHA512withECDSA''',
+*'''SHA3_224withECDSA''',
+*'''SHA3_256withECDSA''',
+*'''SHA3_384withECDSA''',
+*'''SHA3_512withECDSA''',
+*'''RIPEMD160withECDSA''',
+*'''SM3withSM2''',
+*'''SHA512withEDDS'''
 
 ==Rationale==
 
