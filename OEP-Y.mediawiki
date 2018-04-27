@@ -82,9 +82,9 @@ First Service provider needs to use one of the SDKs for communicating with Ontol
 
 The '''ValidateSignature''' method should implement specific cryptographic algorithm for signature validation corresponding to selected Signature schema.
 
-If the signature is valid, the Service provider has authenticated the Requester and verified that he is owner of the ONT ID.
+If the signature is valid, the Service provider has authenticated the Requester and verified that he is the owner of the ONT ID.
 
-If the signature is not valid, the Service provider is not able to retrieve Public key status, or the status is revoked, then the identity is not verified and SeP should not proceed.
+If the signature is not valid or the Service provider is not able to retrieve Public key status or the status is revoked, then the identity is not verified and SeP should not proceed.
 
 ===Supported signature schemes===
 *'''SHA224withECDSA''',
