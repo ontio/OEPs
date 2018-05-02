@@ -1,0 +1,117 @@
+<pre>
+  OEP: <to be assigned>
+  Title: Verification of ONT ID ownership in web environment
+  Author: Matus Zamborsky <zamborsky@gmail.com>
+  Type: Standard
+  Status: Draft
+  Created: 2018-04-23
+</pre>
+
+==Abstract==
+
+A method is proposed for online verification of ONT ID ownership. Trust anchors or other entities can use this method for identity authentication. 
+This method is based on the same cryptographic principles as is used during claim verification.
+
+==Motivation==
+
+Currently there is no recommended or established way of ONT ID ownership verification in web environment. Main motivation is to guide implementators of services interacting with ONT ID identity to use common principles and to prevent implementations which are not secure. 
+
+==Specification==
+
+This proposal makes use of the following functions and definitions:
+
+*'''Requester''', an user wanting to prove his ONT ID ownership.
+*'''Service provider (SeP)''', a provider of some service (e.g.: issuing veryfiable claim).
+*'''Signature''', a cryptographic signature of unsigned data using one of the supported signature schemas.
+*'''Base64''', a well-known byte array encoding scheme used to encode arbitrary byte array into string. 
+*'''Signature schema''', a concrete selection of hashing function and signing algorithm used. 
+*'''PublicKeyId''', the ID of a signature public key.
+*'''GetPublicKeyStatus''', a method of ONT ID smart contract to retrieve the public key and its status by id.
+*'''Stringify''', a deterministic algorithm for encoding a JSON object as a single string. The algorithm needs to be implemented on both Requester and SeP end in the same manner, so it produces the same result for the same input.
+
+===General verification process===
+#Requester signs and sends a Request to Service provider.
+#SeP requests status of declared public key from blockchain.
+#SeP validates if the key is not revoked and verifies the signature.
+
+===Signing and sending Request===
+Request sent to Service provider should be in JSON format and needs to contain Signature and can contain any other arbitrary attributes which are the also subject of signing.
+
+Unsigned request:
+
+<pre>
+{
+  "id": "7c756d2c-0630-4aa1-86e1-87a6921a5241",
+  "data1": "...",
+  "data2": "...",
+  ...,
+}
+</pre>
+
+Signature is generated using asymetric cryptography, therefore corresponding Private and Public key pair is used:
+
+# '''SignedHash''' = Sign(Stringify(Request), PrivateKey)
+
+Result Signature is embedded into Request object:
+
+<pre>
+{
+  "id": "7c756d2c-0630-4aa1-86e1-87a6921a5241",
+  "data1": "...",
+  "data2": "...",
+  ...,
+  "Signature": {
+    "PublicKeyId": "did:ont:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r#keys-1",
+    "Format": "pgp",
+    "Value": SignedHash,
+    "Algorithm": "SHA256withECDSA"
+  },
+}
+</pre>
+
+The '''Sign''' method should implement specific cryptographic algorithm corresponding to selected Signature schema and encode the resulting value in Base64 encoding.
+
+===Requesting status of declared Public Key===
+Service provider will preferably use one of the SDKs for communicating with Ontology blockchain to retrieve Public key status for declared Public key and check if it is not revoked.
+
+#'''Status''' = GetPublicKeyStatus(Signature.PublicKeyId)
+
+===Validating of Signature===
+Validation of signature will ensure, that the Request was not forged and nobody tampered with the Request. 
+
+#Remove Signature attribute from the Request
+#'''Result''' = ValidateSignature(Stringify(Request), Signature, PublicKey)
+
+The '''ValidateSignature''' method should implement specific cryptographic algorithm for signature validation corresponding to selected Signature schema.
+
+If the signature is valid, the Service provider has authenticated the Requester and verified that he is the owner of the ONT ID.
+
+If the signature is not valid or the Service provider is not able to retrieve Public key status or the status is revoked, then the identity is not verified and SeP should not proceed.
+
+===Supported signature schemas===
+*'''SHA224withECDSA''',
+*'''SHA256withECDSA''',
+*'''SHA384withECDSA''',
+*'''SHA512withECDSA''',
+*'''SHA3_224withECDSA''',
+*'''SHA3_256withECDSA''',
+*'''SHA3_384withECDSA''',
+*'''SHA3_512withECDSA''',
+*'''RIPEMD160withECDSA''',
+*'''SM3withSM2''',
+*'''SHA512withEDDS'''
+
+==Rationale==
+
+'''''User story:''' As a Service Provider, I need to check if the Requester is really who he claims to be, before providing the service.''
+
+or more specifically
+
+'''''User story:''' As a Trust Anchor who would like to issue a verificable claim, I need to check if the Requester is really who he claims to be.''
+
+==Test Cases==
+backslash47/ontology-ts-sdk - https://github.com/backslash47/ontology-ts-sdk/blob/oep-verify-impl/test/webRequest.test.ts
+
+==Implementation==
+
+backslash47/ontology-ts-sdk - https://github.com/backslash47/ontology-ts-sdk/blob/oep-verify-impl/src/web/webRequest.ts
