@@ -20,4 +20,10 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 | ontology Team
 | Meta
 | Active
+||-
+| [[OEP-2|2]]
+| Ontology DID enhancements
+| ontology Team & community
+| Meta
+| Active
 |}
