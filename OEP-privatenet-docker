@@ -1,0 +1,41 @@
+<pre>
+  OEP: <to be assigned>
+  Title: Creation of an Ontology multinode docker image 
+  Author: Panther142
+  Type: Meta
+  Status: Draft
+  Created: 2018-04-30
+</pre>
+
+==Abstract==
+
+A docker image pre-configured with an Ontology multinode setup has been created to assist developers in testing and deploying applications/services in a local environment they can control. 
+Github repository: https://github.com/OntologyCommunityDevelopers/ontology-privatenet-docker
+
+==Motivation==
+
+Currently the Ontology testnet is the only pre-configured network available for developers.  The process of setting up a privatenet is slow and by creating a docker image, this will reduce the timeframe for development teams to get access to a test environment.  It also allows developers to keep their code and intellectual property off a public online testnet.
+
+==Specification==
+
+The docker image is based on a Ubuntu 16.04 build and has been pre-configured with the following:
+
+4 nodes running v0.75
+RPC, RESTful and Websocket ports configured for each node
+Development ONT address containing 100 million ONT for testing
+
+==Rationale==
+
+The rational for the creation was to enable a quick and easy way for developers to setup their own privatenet.  Docker was chosen over other virtualisation technologies (such as VMWare or VirtualBox) as it is platform independant (runs on Windows, Linux and Mac OS X) and the images are significantly smaller in size than VMWare or VirtualBox.
+
+==Backwards Compatibility==
+
+Not applicable
+
+==Test Cases==
+
+Not applicable
+
+==Implementation==
+
+Complete
