@@ -1,0 +1,36 @@
+<pre>
+  OEP: <to be assigned>
+  Title: Development of C# RPC and REST client
+  Author: Bruno Freitas
+  Type: Meta
+  Status: Draft
+  Created: 2018-06-25
+</pre>
+
+==Abstract==
+
+To support the ongoing development of the Ontology ecosystem, a C# RPC and REST client is almost completed. This client acts like a tool to ease and help the C# developers to build applications on top of Ontology. This way, developers do not need to worry about setting up DTO's and client arquitecture. The project is modular on the RPC, so any new API calls are easily implemented and tested. The github repository is located at: https://github.com/BrunoFreitasgit/OntApiClient
+
+==Motivation==
+
+This project was inspired on Nethereum, C# SDK to Ethereum (https://github.com/Nethereum/) and I ported it to NEO of behalf on CoZ (https://github.com/CityOfZion/NeoModules). So, because of the similarities between NEO and ONT, this can be easily ported and help other developers building applications.
+
+==Specification==
+
+The project is using .Net Standard 2.0, the latest version.
+
+==Rationale==
+
+See motivation
+
+==Backwards Compatibility==
+
+Not applicable
+
+==Test Cases==
+
+Any API call can be easily tested
+
+==Implementation==
+
+In progress at https://github.com/BrunoFreitasgit/OntApiClient
