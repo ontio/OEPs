@@ -138,9 +138,10 @@ If you are interested in assuming ownership of a OEP, send a message asking to t
 
 ==OEP Editors==
 
-The current OEP editor is
+The current OEP editors are
 
-*Erik Zhang (@erikzhang)
+*Ning Hu (@javajoker)
+*Edmond (@Honglei-Cong)
 
 ==OEP Editor Responsibilities & Workflow==
 
