@@ -1,0 +1,164 @@
+<pre>
+  OEP: 5
+  Title: DApp web API
+  Author: Matus Zamborsky <zamborsky@gmail.com>
+  Type: Meta
+  Status: Draft
+  Created: 2018-08-03
+</pre>
+
+==Abstract==
+
+A method is proposed for authentication of user in off-chain communication. This method is a part of verifiable claim online requesting, but can be used in other scenarios where Service provider needs to authenticate the user prior providing the service. This method is based on the cryptographic principles and data structures of JWT tokens.
+
+==Motivation==
+
+Currently there is no recommended or established way of authenticating  user in off-chain communication. A typical use case is requesting verifiable claim. Main motivation is to guide implementators of services interacting with ONT ID identity to use common principles and to prevent implementations which are not secure. 
+
+==Specification==
+
+This proposal makes use of the following functions and definitions:
+
+*'''Requester''', an user wanting to prove his ONT ID ownership and requesting a service. In the context of this proposal, requester is combination of an user and an user agent application which handles credentials of the user and the communication protocol.
+*'''Service provider (SeP)''', a provider of some service (e.g.: Issuer is issuing verifiable claims).
+*'''Off-chain communication''', an online communication between entities which take place outside the blockchain.
+*'''Signature''', a cryptographic signature of unsigned data using one of the supported signature schemes.
+*'''Signature scheme''', a concrete selection of hashing function and signature algorithm used. 
+*'''PublicKeyId''', the ID of a signature public key.
+*'''GetPublicKeyStatus''', a method of ONT ID smart contract to retrieve the public key and its status by its id.
+*'''JWT Token''', a JSON object that is defined in [https://tools.ietf.org/html/rfc7519 RFC 7519] as a safe way to disclose a set of information between two parties.
+*'''JWS Signature''', a standard defined for signing arbitrary JSON objects defined in [https://tools.ietf.org/html/rfc7515 RFC 7515].
+*'''A || B''', a string concatenation of two values A and B.
+
+===General verification process===
+#Requester prepares the request.
+#Requester signs and sends a request to Service provider.
+#SeP requests status of declared public key from blockchain.
+#SeP validates if the key is not revoked and verifies the signature.
+
+===Preparation of the request===
+Verifiable claim request is represented similarly to the claim itself, as a signed JWT token. Basic structure of the token consists of three parts: Header, Payload and Signature. The standard JWT attributes are reused as much as possible and in special cases custom attributes are defined.
+
+====Header====
+Header of the request specifies the signature scheme employed and public key used to verify the signature.
+
+<pre>
+{
+  "alg": "ES256",
+  "typ": "JWT",
+  "kid": "did:ont:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r#keys-1"
+}
+</pre>
+
+* '''typ''' attribute is always JWT. 
+* '''alg''' attribute identifies the signature scheme used to secure the JWT token. A list of supported values is based on IANA "JSON Web Signature and Encryption Algorithms" registry and can be found [[#supported-signature-schemes|here]].
+* '''kid''' attribute refers to the public key used for signature verification. It has the form of Public Key Id as defined in ONT ID specification.
+
+====Payload====
+Payload is the main part of the request. It contains necessary information about requester and SeP and also all the information the requester wants to disclose to the SeP.
+
+<pre>
+{
+  "iss": "did:ont:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r",
+  "sub": "did:ont:SI59Js0zpNSiPOzBdB5cyxu80BO3cjGT70",
+  "iat": 1525465044,
+  "exp": 1530735444,
+  "data": {
+    ...
+  }
+}
+</pre>
+
+* '''iss''' attribute refers to the ONT ID of requester and has the form of ONT ID.
+* '''sub''' attribute refers to the ONT ID of SeP and has the form of ONT ID.
+* '''iat''' attribute marks the time the token was created and has the format of unix timestamp.
+* '''exp''' attribute marks the expiration time of the token and has the format of unix timestamp.
+* '''data''' attribute is the root of custom request object. It contains the information to disclose. 
+
+===Signing the request===
+After constructing Header and Payload of the request, Signature part is computed according to JWS standard. Full description can be found in [https://tools.ietf.org/html/rfc7515#section-5.1 RFC 7515 Section 5.1]. The simplified version is as follows:
+
+* Compute the signing input as serialization of Header and Payload according to JWS specification.
+<pre>
+  BASE64URL(Header) || '.' || BASE64URL(Payload)
+</pre>
+* Compute the JWS Signature in the manner defined for the particular signature scheme being used over the signing input.
+* Encode the signature
+<pre>
+  BASE64URL(Signature)
+</pre>
+* Create the signed JWT token using JWS Compact Serialization
+<pre>
+  BASE64URL(Header) || '.' || BASE64URL(Payload) || '.' || BASE64URL(Signature)
+</pre>
+
+===Sending the request===
+After constructing whole request, it should be transferred to the SeP in a secure way, because it might contain private information about requester as part of the payload.
+
+Most widespread method will be transferring the request as POST body over HTTPS protocol. Another important method will be inter-application communication on mobile devices where requester is on one side, and SeP is another mobile application.
+
+===Verification of request===
+Before SeP provides the service, it must verify the signature and authorize the requester. To do so, it must:
+
+* Deserialize the request
+* Request status of declared Public Key
+* Validate Signature 
+* Determine the ONT ID of requester
+
+====Deserialization====
+The process of deserialization is exactly opposite of the serialization steps. Therefore the first step is to divide the encoded request by separator '.' into BASE64URL encoded Header, Payload and Signature. After that it must decode the BASE64URL encoding.
+
+====Requesting status of public Key====
+Public key used during signing process is stored in attribute '''kid''' in the Header. SeP will preferably use one of the SDKs for communicating with Ontology blockchain to retrieve Public key status for declared Public key and check if it is not revoked.
+
+<pre>
+  Status = GetPublicKeyStatus(kid)
+</pre>
+
+If SeP is not able to retrieve Public key status or the status is revoked, then the identity is not verified and SeP must not proceed.
+
+====Validating of Signature====
+Validation of signature will ensure, that the request was not forged and nobody tampered with the Request. Signature is validated according to JWS standard. Full description can be found in [https://tools.ietf.org/html/rfc7515#section-5.2 RFC 7515 Section 5.2]. The simplified version is as follows:
+
+* Compute the signing input as serialization of Header and Payload according to JWS specification.
+<pre>
+  BASE64URL(Header) || '.' || BASE64URL(Payload)
+</pre>
+* Validate the JWS Signature against the JWS signing input in the manner defined for the particular signature scheme being used.
+
+If the signature is not valid, then the identity is not verified and SeP must not proceed.
+
+====Determining the ONT ID of requester====
+Final step in verification of the requester is determining if declared public key in Header attribute '''kid''' belongs to proclaimed issuer of the request in Payload attribute '''iss'''. This is straightforward process, because the '''kid''' has a form of <ONTID>#keys-<id>. Therefore a check if the '''kid''' attribute starts with '''iss''' attribute is sufficient.
+
+If the check passed, the Service provider has authenticated the Requester and verified that he is the owner of the ONT ID and can proceed.
+
+Otherwise the identity is not verified and SeP must not proceed.
+
+===Supported signature schemes===
+*'''ES224''' - ECDSA with SHA224,
+*'''ES256''' - ECDSA with SHA256,
+*'''ES384''' - ECDSA with SHA384,
+*'''ES512''' - ECDSA with SHA512,
+*'''ES3-224''' - ECDSA with SHA3 224
+*'''ES3-256''' - ECDSA with SHA3 256
+*'''ES3-384''' - ECDSA with SHA3 384
+*'''ES3-512''' - ECDSA with SHA3 512
+*'''ER160''' - ECDSA with RIPEMD160
+*'''SM''' - SM2 with SM3
+*'''EDS512''' - EDDSA with SHA256
+
+==Rationale==
+
+'''''User story:''' As a Service Provider, I need to check if the Requester is really who he claims to be, before providing the service.''
+
+or more specifically
+
+'''''User story:''' As a Trust Anchor who would like to issue a verifiable claim, I need to check if the Requester is really who he claims to be.''
+
+==Test Cases==
+backslash47/ontology-ts-sdk - https://github.com/backslash47/ontology-ts-sdk/blob/oep-verify-impl/test/webRequest.test.ts
+
+==Implementation==
+
+backslash47/ontology-ts-sdk - https://github.com/backslash47/ontology-ts-sdk/blob/oep-verify-impl/src/web/webRequest.ts
