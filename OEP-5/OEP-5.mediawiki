@@ -30,7 +30,10 @@ This proposal makes use of the following functions and definitions:
 
 *'''dAPI''', the API for dApps this OEP is proposing.
 
-*'''dAPI provider''', an implementation of the dAPI in the form of web browser plugin or other means, where a user interaction with the provider can be injected into api call workflow (e.g.: confirming transfer)
+*'''dAPI provider''', an implementation of the dAPI in the form of web browser plugin or other means, where a user interaction with the provider can be injected into api call workflow (e.g.: confirming transfer).
+
+*'''Notify event''', an event broadcasted from smart contract execution.
+
 
 ===Components===
 Although this proposal is bringing clear and simple API for the dApps, the individual functions can be divided into these components:
@@ -57,7 +60,17 @@ API specification is a complex document. Every method has some inputs and output
 
 <pre>
 type Network = 'MAIN' | 'TEST' | 'PRIVATE';
+
 type Asset = 'ont' | 'ong';
+
+enum TransactionType {
+    BookKeeper = 2,
+    Claim = 3,
+    Deploy = 208,
+    Invoke = 209,
+    Enrollment = 4,
+    Vote = 5
+}
 
 interface OntIdAttribute {
     key: string;
@@ -68,6 +81,16 @@ interface OntIdAttribute {
 interface OntIdDDO {
     ...
 }
+
+type EventListener = (data: any) => void;
+
+type ParameterType = 'Boolean' | 'Integer' | 'ByteArray' | 'Interface' | 'Array' | 'Struct' |
+  'Map' | 'String' | 'Int' | 'Long' | 'IntArray' | 'LongArray' | 'Address';
+
+interface Parameter {
+    value: string;
+}
+
 </pre>
 
 ===Network===
@@ -213,17 +236,40 @@ function invoke(constract: string, method: string, parameters: Parameter[], gasP
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code>.
 The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing.
 
+Smart code execution is two step process:
+
+1. The transaction is send to the network.
+2. The transaction is recorded to the blockchain at a later time.
+
+The <code>invoke</code> function will finish as soon as the transaction is sent to the network. To receive useful data from <code>method</code> execution it is necessary to start listening for events using <code>addEventListener</code>.
+
 
 ====invokeRead====
 <pre>
-function invokeRead(constract: string, method: string, parameters: Parameter[]): Promise<void>
+function invokeRead(constract: string, method: string, parameters: Parameter[]): Promise<any>
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code> in read only mode (preExec). This kind of method call does not write anything to blockchain and therefore does not need to be signed or paid for. It is processed without user interaction.
 
+====addEventListener====
+<pre>
+function addEventListener(listener: EventListener): void
+</pre>
+
+Starts listening for Notify events.
+
+====removeEventListener====
+<pre>
+function addEventListener(listener: EventListener): void
+</pre>
+
+Stops listening for Notify events.
+
 ==Rationale==
+
+'''''User story''''': As a '''dApp''' developer, I need to use a lightweight api for integration with Ontology network without requiring my users to share their private keys with me.
 
 ==Test Cases==
 
 ==Implementation==
-
+OntologyCommunityDevelopers/ontology-plugin-wallet - https://github.com/OntologyCommunityDevelopers/ontology-plugin-wallet
