@@ -42,6 +42,14 @@ Although this proposal is bringing clear and simple API for the dApps, the indiv
 
 * '''Utils''', a group of utility function for encoding and decoding the data from/to blockchain.
 
+===Network===
+
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
+```
+
 ==Rationale==
 
 ==Test Cases==
