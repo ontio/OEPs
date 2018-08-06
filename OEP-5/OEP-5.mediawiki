@@ -109,21 +109,55 @@ Returns currently selected address of logged in user or null if there is none.
 function makeTransfer(senderAddress: string, recipientAddress: string, asset: Asset, amount: BigNumber): Promise<void>
 </pre>
 
-Initiates a transfer of <code>amount asset</code> from <code>senderAddress</code> to <code>recipientAddress</code>. The <code>senderAddress</code> must be one of the addresses returned by <code>getOwnAddresses</code>
+Initiates a transfer of <code>amount asset</code> from <code>senderAddress</code> to <code>recipientAddress</code>. The <code>senderAddress</code> must be one of the addresses returned by <code>getOwnAddresses</code>.
 
 
 ===Runtime.Identity===
 A primary focus of Runtime.Identity API is to enumerate the ONT-ID identities under user control and initiate a process of adding/removing attribute from the identity. The request needs to be confirmed by the user. 
 
+====getOwnIdentities====
 <pre>
-
-function getDefaultIdentity(): string | null
 function getOwnIdentities(): string[]
+</pre>
 
+Returns all the identites associated with logged in user.
+
+====getDefaultIdentity====
+<pre>
+function getDefaultIdentity(): string | null
+</pre>
+
+Returns currently selected identity of logged in user or null if there is none.
+
+====getDDO====
+<pre>
 function getDDO(ontId: string): Promise<OntIdDDO>
+</pre>
+
+Queries Description Object of the identity. This operation is not signed and therefore does not require user interaction.
+
+====getAttributes====
+<pre>
+function getAttributes(ontId: string): Promise<OntIdAttribute[]>
+</pre>
+
+Queries attributes attached to the identity. This operation is not signed and therefore does not require user interaction.
+
+
+====addAttributes====
+<pre>
 function addAttributes(ontId: string, attributes: OntIdAttribute[]): Promise<void>
+</pre>
+
+Adds attributes to the identity. The <code>ontId</code> must be one of the identities returned by <code>getOwnIdentities</code>.
+
+====removeAttributes====
+<pre>
 function removeAttribute(ontId: string, key: string): Promise<void>
 </pre>
+
+Removes attribute from the identity. The <code>ontId</code> must be one of the identities returned by <code>getOwnIdentities</code>.
+
 
 ===Runtime.Message===
 This API deals with arbitrary message signing and verification. For security reasons, the API will prepend the supplied the message with known prefix or typed messages needs to be used.
