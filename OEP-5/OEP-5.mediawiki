@@ -1,8 +1,8 @@
 <pre>
-  OEP: 5
-  Title: dApp web API (dAPI)
+  OEP: 6
+  Title: API for dApps (dAPI)
   Author: Matus Zamborsky <zamborsky@gmail.com>
-  Type: Meta
+  Type: Standard
   Status: Draft
   Created: 2018-08-03
 </pre>
