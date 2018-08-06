@@ -65,6 +65,29 @@ function getBalance(address: string): Promise<Balance>
 
 For further explanation about the wrapped method consult https://ontio.github.io/documentation/restful_api_en.html . The types '''Transaction''', '''Block''', '''MerkleProof''' and '''Balance''' corresponds to the exact object returned from Ontology blockchain. '''BigNumber''' corresponds to a implementation of BigNumbers.
 
+===Runtime===
+A runtime API consists of:
+
+<pre>
+type Asset = 'ont' | 'ong';
+
+interface OntIdAttribute {
+    key: string;
+    type: string;
+    value: string;
+}
+
+function getOwnAddress(): string | null
+
+function makeTransfer(recipientAddress: string, asset: Asset, amount: BigNumber): Promise<void>
+function withdrawOng(amount: BigNumber): Promise<void>
+
+function registerOntId(ontId: string, publicKey: string): Promise<void>
+function addOntIdAttributes(ontId: string, attributes: OntIdAttribute[]): Promise<void>
+function removeOntIdAttribute(ontId: string, key: string): Promise<void>
+</pre>
+
+
 ==Rationale==
 
 ==Test Cases==
