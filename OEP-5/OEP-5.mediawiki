@@ -55,13 +55,25 @@ Any time dApp makes a call that requires a private key to sign something (makeTr
 ===Complex structures===
 API specification is a complex document. Every method has some inputs and outputs. Although we use the primitive types (numbers, strings, booleans) whenever possible, there are places where a complex object is required. To preciselly describe the structure of those objects, we'd chosen Typescript syntax.
 
-===Network===
-A network API consists of:
-
 <pre>
 type Network = 'MAIN' | 'TEST' | 'PRIVATE';
 type Asset = 'ont' | 'ong';
 
+interface OntIdAttribute {
+    key: string;
+    type: string;
+    value: string;
+}
+
+interface OntIdDDO {
+    ...
+}
+</pre>
+
+===Network===
+A network API consists of:
+
+<pre>
 function getGenerateBlockTime(): Promise<number | null>
 function getNodeCount(): Promise<number>
 function getBlockHeight(): Promise<number>
@@ -81,11 +93,15 @@ A primary focus of Runtime.Asset API is to enumerate the addresses under user co
 
 A Runtime.Asset API consists of:
 
+====getOwnAddresses====
 <pre>
-type Asset = 'ont' | 'ong';
-
-function getDefaultAddress(): string | null
 function getOwnAddresses(): string[]
+</pre>
+
+Returns all the addresses associated with logged in user.
+
+<pre>
+function getDefaultAddress(): string | null
 
 function makeTransfer(senderAddress: string, recipientAddress: string, asset: Asset, amount: BigNumber): Promise<void>
 function withdrawOng(amount: BigNumber): Promise<void>
@@ -95,15 +111,6 @@ function withdrawOng(amount: BigNumber): Promise<void>
 A primary focus of Runtime.Identity API is to enumerate the ONT-ID identities under user control and initiate a process of adding/removing attribute from the identity. The request needs to be confirmed by the user. 
 
 <pre>
-interface OntIdAttribute {
-    key: string;
-    type: string;
-    value: string;
-}
-
-interface OntIdDDO {
-    ...
-}
 
 function getDefaultIdentity(): string | null
 function getOwnIdentities(): string[]
