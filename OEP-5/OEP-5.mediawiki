@@ -100,12 +100,19 @@ function getOwnAddresses(): string[]
 
 Returns all the addresses associated with logged in user.
 
+====getDefaultAddress====
 <pre>
 function getDefaultAddress(): string | null
-
-function makeTransfer(senderAddress: string, recipientAddress: string, asset: Asset, amount: BigNumber): Promise<void>
-function withdrawOng(amount: BigNumber): Promise<void>
 </pre>
+Returns currently selected address of logged in user or null if there is none.
+
+====makeTransfer====
+<pre>
+function makeTransfer(senderAddress: string, recipientAddress: string, asset: Asset, amount: BigNumber): Promise<void>
+</pre>
+
+Initiates a transfer of <code>amount asset</code> from <code>senderAddress</code> to <code>recipientAddress</code>. The <code>senderAddress</code> must be one of the addresses returned by <code>getOwnAddresses</code>
+
 
 ===Runtime.Identity===
 A primary focus of Runtime.Identity API is to enumerate the ONT-ID identities under user control and initiate a process of adding/removing attribute from the identity. The request needs to be confirmed by the user. 
