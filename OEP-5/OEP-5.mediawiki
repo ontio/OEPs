@@ -13,11 +13,13 @@ A Javascript API is proposed for dApps development. This dAPI allows dApps to co
 
 ==Motivation==
 
-Currently a dApp will use one of the SDKs (Typescript, Java, Python, ...) to communicate with Ontology network. This setup has two main disadvantages:
+Currently a dApp will use one of the SDKs (Typescript, Java, Python, ...) to communicate with Ontology network. This setup has three main disadvantages:
 
 1. User of the dApp will have to trust the dApp developer with his private keys and that information about transfers mediated through the dApp are legitimate.
 
 2. Although the SDKs are very powerful, they are hard to use. A more streamlined API will allow developers to focus on the application itself.
+
+3. Hard to implement integration to external signing mechanism (e.g.: Ledger, Trezor)
 
 ==Specification==
 This proposal makes use of the following functions and definitions:
@@ -26,7 +28,7 @@ This proposal makes use of the following functions and definitions:
 
 *'''SHA256''', a well-known hashing algorithm that takes an arbitrary number of bytes as input and deterministically yields a 32-byte hash.
 
-*'''dApp''', an application with decentralized characteristics running in web environment. The application uses Ontology network for value transfers, contracts enforcing and identification between participants.
+*'''dApp''', an application with decentralised characteristics running in web environment. The application uses Ontology network for value transfers, contracts enforcing and identification between participants.
 
 *'''dAPI''', the API for dApps this OEP is proposing.
 
@@ -38,9 +40,9 @@ This proposal makes use of the following functions and definitions:
 ===Components===
 Although this proposal is bringing clear and simple API for the dApps, the individual functions can be divided into these components:
 
-* '''Network''', a thin wrapper around the Ontology Node API, masking the complexity of rpc/rest calls and websockets with Request-Response facade.
+* '''Network''', a thin wrapper around the Ontology Node API, masking the complexity of rpc/rest calls and web-sockets with Request-Response facade.
 
-* '''Asset''', functions for transfering assets between user account and others.
+* '''Asset''', functions for transferring assets between user account and others.
 
 * '''Identity''', functions for interacting with own ONT-ID identity.
 
@@ -55,8 +57,10 @@ Because dAPI shifts the issue of trust from dApp to dApp provider, all account a
 
 Any time dApp makes a call that requires a private key to sign something (makeTransfer, sign), dApp provider will inform user about the action and prompt him for permission.
 
+dApp provider can even forward the request to external signing mechanism as part of the process. This way the dApp does not need to specifically integrate with such mechanism.
+
 ===Complex structures===
-API specification is a complex document. Every method has some inputs and outputs. Although we use the primitive types (numbers, strings, booleans) whenever possible, there are places where a complex object is required. To preciselly describe the structure of those objects, we'd chosen Typescript syntax.
+API specification is a complex document. Every method has some inputs and outputs. Although we use the primitive types (numbers, strings, booleans) whenever possible, there are places where a complex object is required. To precisely describe the structure of those objects, we'd chosen Typescript syntax.
 
 <pre>
 type Network = 'MAIN' | 'TEST' | 'PRIVATE';
@@ -68,7 +72,7 @@ enum TransactionType {
     Claim = 3,
     Deploy = 208,
     Invoke = 209,
-    Enrollment = 4,
+    Enrolment = 4,
     Vote = 5
 }
 
@@ -101,7 +105,7 @@ function getGenerateBlockTime(): Promise<number | null>
 function getNodeCount(): Promise<number>
 function getBlockHeight(): Promise<number>
 function getMerkleProof(txHash: string): Promise<MerkleProof>
-function getStorage(constractAddress: string, key: string): Promise<string>
+function getStorage(contract: string, key: string): Promise<string>
 function getAllowance(asset: Asset, fromAddress: string, toAddress: string): Promise<BigNumber>
 function getBlock(block: number | string): Promise<Block>
 function getTransaction(txHash: string): Promise<Transaction>
@@ -143,7 +147,7 @@ A primary focus of Runtime.Identity API is to enumerate the ONT ID identities un
 function getOwnIdentities(): string[]
 </pre>
 
-Returns all the identites associated with logged in user.
+Returns all the identities associated with logged in user.
 
 ====getDefaultIdentity====
 <pre>
@@ -226,11 +230,11 @@ Verifies that the <code>signature</code> is created by the account or identity o
 Verification is done on '''SHA-256''' hash of the message.
 
 ===SmartContract===
-The main functionality of this component is invocaction of smart contract methods.
+The main functionality of this component is invocation of smart contract methods.
 
 ====invoke====
 <pre>
-function invoke(constract: string, method: string, parameters: Parameter[], gasPrice: BigNumber, gasLimit: BigNumber): Promise<void>
+function invoke(contract: string, method: string, parameters: Parameter[], gasPrice: BigNumber, gasLimit: BigNumber): Promise<void>
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code>.
@@ -246,7 +250,7 @@ The <code>invoke</code> function will finish as soon as the transaction is sent 
 
 ====invokeRead====
 <pre>
-function invokeRead(constract: string, method: string, parameters: Parameter[]): Promise<any>
+function invokeRead(contract: string, method: string, parameters: Parameter[]): Promise<any>
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code> in read only mode (preExec). This kind of method call does not write anything to blockchain and therefore does not need to be signed or paid for. It is processed without user interaction.
