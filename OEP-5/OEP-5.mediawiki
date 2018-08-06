@@ -162,7 +162,7 @@ Removes attribute from the identity. The <code>ontId</code> must be one of the i
 
 
 ===Runtime.Message===
-This API deals with arbitrary message signing and verification. For security reasons, the API will prepend the supplied the message with known prefix or typed messages needs to be used.
+This API deals with arbitrary message signing and verification.
 
 ====signMessageHash====
 <pre>
