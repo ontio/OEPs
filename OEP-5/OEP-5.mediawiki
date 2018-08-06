@@ -44,11 +44,6 @@ Although this proposal is bringing clear and simple API for the dApps, the indiv
 
 ===Network===
 
-```ruby
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
-```
 
 ==Rationale==
 
