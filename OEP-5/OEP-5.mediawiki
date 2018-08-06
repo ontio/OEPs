@@ -35,11 +35,22 @@ Although this proposal is bringing clear and simple API for the dApps, the indiv
 
 * '''Network''', a thin wrapper around the Ontology Node API, masking the complexity of rpc/rest calls and websockets with Request-Response facade.
 
-* '''Runtime''', a main point of integration with the dAPI provider, where the issue of trust is shifted from dApp to dApp provider.
+* '''Runtime.*''', a main point of integration with the dAPI provider, where the issue of trust is shifted from dApp to dApp provider.
 
-* '''Smart contract''', a high level wrapper around the Smart Contract invocation and deployment.
+* '''Runtime.Asset''', functions for transfering assets between user account and others.
+
+* '''Runtime.Identity''', functions for interacting with own ONT-ID identity.
+
+* '''Runtime.SmartContract''', a high level wrapper around the Smart Contract invocation and deployment.
+
+* '''Runtime.Message''', functions for signing arbitrary messages.
 
 * '''Utils''', a group of utility function for encoding and decoding the data from/to blockchain.
+
+===Account/Identity management and transaction signing ===
+Because dAPI shifts the issue of trust from dApp to dApp provider, all account and identity management is external to the dApp. Therefore there are no methods which directly handle private keys. The dApp won't need to sign the transaction itself. 
+
+Any time dApp makes a call that requires a private key to sign something (makeTransfer, sign), dApp provider will inform user about the action and prompt him for permission.
 
 ===Complex structures===
 API specification is a complex document. Every method has some inputs and outputs. Although we use the primitive types (numbers, strings, booleans) whenever possible, there are places where a complex object is required. To preciselly describe the structure of those objects, we'd chosen Typescript syntax.
@@ -65,26 +76,55 @@ function getBalance(address: string): Promise<Balance>
 
 For further explanation about the wrapped method consult https://ontio.github.io/documentation/restful_api_en.html . The types '''Transaction''', '''Block''', '''MerkleProof''' and '''Balance''' corresponds to the exact object returned from Ontology blockchain. '''BigNumber''' corresponds to a implementation of BigNumbers.
 
-===Runtime===
-A runtime API consists of:
+===Runtime.Asset===
+A primary focus of Runtime.Asset API is to enumerate the addresses under user control and initiate a transfer of ong withdrawal. The request needs to be confirmed by the user.
+
+A Runtime.Asset API consists of:
 
 <pre>
 type Asset = 'ont' | 'ong';
 
+function getDefaultAddress(): string | null
+function getOwnAddresses(): string[]
+
+function makeTransfer(senderAddress: string, recipientAddress: string, asset: Asset, amount: BigNumber): Promise<void>
+function withdrawOng(amount: BigNumber): Promise<void>
+</pre>
+
+===Runtime.Identity===
+A primary focus of Runtime.Identity API is to enumerate the ONT-ID identities under user control and initiate a process of adding/removing attribute from the identity. The request needs to be confirmed by the user. 
+
+<pre>
 interface OntIdAttribute {
     key: string;
     type: string;
     value: string;
 }
 
-function getOwnAddress(): string | null
+interface OntIdDDO {
+    ...
+}
 
-function makeTransfer(recipientAddress: string, asset: Asset, amount: BigNumber): Promise<void>
-function withdrawOng(amount: BigNumber): Promise<void>
+function getDefaultIdentity(): string | null
+function getOwnIdentities(): string[]
 
-function registerOntId(ontId: string, publicKey: string): Promise<void>
-function addOntIdAttributes(ontId: string, attributes: OntIdAttribute[]): Promise<void>
-function removeOntIdAttribute(ontId: string, key: string): Promise<void>
+function getDDO(ontId: string): Promise<OntIdDDO>
+function addAttributes(ontId: string, attributes: OntIdAttribute[]): Promise<void>
+function removeAttribute(ontId: string, key: string): Promise<void>
+</pre>
+
+===Runtime.Message===
+This API deals with arbitrary message signing and verification. For security reasons, the API will prepend the supplied the message with known prefix or typed messages needs to be used.
+
+<pre>
+function signMessage(messageHash: string): Promise<string>
+function verifyMessage(messageHash: string, signature: string): Promise<boolean>
+
+function signPersonalMessage(message: string): Promise<string>
+function verifyPersonalMessage(message: string, signature: string): Promise<boolean>
+
+function signTypedMessage(message: TypedMessage): Promise<string>
+function verifyTypedMessage(message: TypedMessage, signature: string): Promise<boolean>
 </pre>
 
 
