@@ -62,45 +62,14 @@ dApp provider can even forward the request to external signing mechanism as part
 ===Complex structures===
 API specification is a complex document. Every method has some inputs and outputs. Although we use the primitive types (numbers, strings, booleans) whenever possible, there are places where a complex object is required. To precisely describe the structure of those objects, we'd chosen Typescript syntax.
 
-<pre>
-type Network = 'MAIN' | 'TEST' | 'PRIVATE';
-
-type Asset = 'ont' | 'ong';
-
-enum TransactionType {
-    BookKeeper = 2,
-    Claim = 3,
-    Deploy = 208,
-    Invoke = 209,
-    Enrolment = 4,
-    Vote = 5
-}
-
-interface OntIdAttribute {
-    key: string;
-    type: string;
-    value: string;
-}
-
-interface OntIdDDO {
-    ...
-}
-
-type EventListener = (data: any) => void;
-
-type ParameterType = 'Boolean' | 'Integer' | 'ByteArray' | 'Interface' | 'Array' | 'Struct' |
-  'Map' | 'String' | 'Int' | 'Long' | 'IntArray' | 'LongArray' | 'Address';
-
-interface Parameter {
-    value: string;
-}
-
-</pre>
 
 ===Network===
 A network API consists of:
 
 <pre>
+type Network = 'MAIN' | 'TEST' | 'PRIVATE';
+type Asset = 'ont' | 'ong';
+
 function getGenerateBlockTime(): Promise<number | null>
 function getNodeCount(): Promise<number>
 function getBlockHeight(): Promise<number>
@@ -158,6 +127,10 @@ Returns currently selected identity of logged in user or null if there is none.
 
 ====getDDO====
 <pre>
+interface OntIdDDO {
+    ...
+}
+
 function getDDO(ontId: string): Promise<OntIdDDO>
 </pre>
 
@@ -165,6 +138,12 @@ Queries Description Object of the identity. This operation is not signed and the
 
 ====getAttributes====
 <pre>
+interface OntIdAttribute {
+    key: string;
+    type: string;
+    value: string;
+}
+
 function getAttributes(ontId: string): Promise<OntIdAttribute[]>
 </pre>
 
@@ -234,7 +213,16 @@ The main functionality of this component is invocation of smart contract methods
 
 ====invoke====
 <pre>
-function invoke(contract: string, method: string, parameters: Parameter[], gasPrice: BigNumber, gasLimit: BigNumber): Promise<void>
+type ParameterType = 'Boolean' | 'Integer' | 'ByteArray' | 'Interface' | 'Array' | 'Struct' |
+  'Map' | 'String' | 'Int' | 'Long' | 'IntArray' | 'LongArray' | 'Address';
+
+interface Parameter {
+    type: ParameterType;
+    value: string;
+}
+
+function invoke(contract: string, method: string, parameters: Parameter[], 
+  gasPrice: BigNumber, gasLimit: BigNumber): Promise<void>
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code>.
@@ -257,6 +245,8 @@ Initiates a <code>method</code> call to a smart <code>contract</code> with suppl
 
 ====addEventListener====
 <pre>
+type EventListener = (data: any) => void;
+
 function addEventListener(listener: EventListener): void
 </pre>
 
