@@ -20,7 +20,9 @@ Currently a dApp will use one of the SDKs (Typescript, Java, Python, ...) to com
 2. Although the SDKs are very powerful, they are hard to use. A more streamlined API will allow developers to focus on the application itself.
 
 ==Specification==
+API specification is a complex document. Every method has some inputs and outputs. Although we use the primitive types (numbers, strings, booleans) whenever possible, there are places where a complex object is required. To preciselly describe the structure of those objects, we'd chosen Typescript syntax.
 
+===Definitions===
 This proposal makes use of the following functions and definitions:
 
 *'''SDK''', a software development kit implementing low level communication with the network and providing high level interface for dApps.
@@ -31,10 +33,12 @@ This proposal makes use of the following functions and definitions:
 
 *'''dAPI provider''', an implementation of the dAPI in the form of web browser plugin or other means, where a user interaction with the provider can be injected into api call workflow (e.g.: confirming transfer)
 
+
+
 ===dAPI grouping===
 Although this proposal is bringing clear and simple API for the dApps, the individual functions can be divided into these groups:
 
-* '''Network''', a thin wrapper around the Ontology Node Websocket API, masking the complexity of websockets with Request-Response facade.
+* '''Network''', a thin wrapper around the Ontology Node API, masking the complexity of rpc/rest calls and websockets with Request-Response facade.
 
 * '''Runtime''', a main point of integration with the dAPI provider, where the issue of trust is shifted from dApp to dApp provider.
 
@@ -43,7 +47,20 @@ Although this proposal is bringing clear and simple API for the dApps, the indiv
 * '''Utils''', a group of utility function for encoding and decoding the data from/to blockchain.
 
 ===Network===
+A network API consists of:
 
+<pre>
+function getGenerateBlockTime(): Promise<number | null>
+function getNodeCount(): Promise<number>
+function getBlockHeight(): Promise<number>
+function getMerkleProof(txHash: string): Promise<MerkleProof>
+function getStorage(constractAddress: string, key: string): Promise<string>
+function getAllowance(asset: Asset, fromAddress: string, toAddress: string): Promise<BigNumber>
+function getBlock(block: number | string): Promise<Block>
+function getTransaction(txHash: string): Promise<Transaction>
+function getNetwork(): Network
+function getBalance(address: string, asset: Asset): Promise<BigNumber>
+</pre>
 
 ==Rationale==
 
