@@ -47,7 +47,7 @@ Although this proposal is bringing clear and simple API for the dApps, the indiv
 
 * '''Utils''', a group of utility function for encoding and decoding the data from/to blockchain.
 
-===Account/Identity managemen===
+===Account/Identity management===
 Because dAPI shifts the issue of trust from dApp to dApp provider, all account and identity management is external to the dApp. Therefore there are no methods which directly handle private keys. The dApp won't need to sign the transaction itself. 
 
 Any time dApp makes a call that requires a private key to sign something (makeTransfer, sign), dApp provider will inform user about the action and prompt him for permission.
@@ -203,7 +203,23 @@ Verifies that the <code>signature</code> is created by the account or identity o
 Verification is done on '''SHA-256''' hash of the message.
 
 ===SmartContract===
+The main functionality of this component is invocaction of smart contract methods.
 
+====invoke====
+<pre>
+function invoke(constract: string, method: string, parameters: Parameter[], gasPrice: BigNumber, gasLimit: BigNumber): Promise<void>
+</pre>
+
+Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code>.
+The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing.
+
+
+====invokeRead====
+<pre>
+function invokeRead(constract: string, method: string, parameters: Parameter[]): Promise<void>
+</pre>
+
+Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code> in read only mode (preExec). This kind of method call does not write anything to blockchain and therefore does not need to be signed or paid for. It is processed without user interaction.
 
 ==Rationale==
 
