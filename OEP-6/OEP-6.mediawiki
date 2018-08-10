@@ -270,6 +270,12 @@ function addEventListener(listener: EventListener): void
 
 Stops listening for Notify events.
 
+==Architecture==
+The interaction between dApp and Ontology network can be described with this diagram:
+
+[[Image:OEP-6-1.svg|Architecture]]
+
+
 ==Rationale==
 
 '''''User story''''': As a '''dApp''' developer, I need to use a lightweight api for integration with Ontology network without requiring my users to share their private keys with me.
