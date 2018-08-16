@@ -137,7 +137,7 @@ interface OntIdDDO {
     ...
 }
 
-function getDDO(ontId: string): Promise<OntIdDDO>
+function getDDO(identity: string): Promise<OntIdDDO>
 </pre>
 
 Queries Description Object of the identity. This operation is not signed and therefore does not require user interaction.
@@ -150,7 +150,7 @@ interface OntIdAttribute {
     value: string;
 }
 
-function getAttributes(ontId: string): Promise<OntIdAttribute[]>
+function getAttributes(identity: string): Promise<OntIdAttribute[]>
 </pre>
 
 Queries attributes attached to the identity. This operation is not signed and therefore does not require user interaction.
@@ -158,17 +158,17 @@ Queries attributes attached to the identity. This operation is not signed and th
 
 ====addAttributes====
 <pre>
-function addAttributes(ontId: string, attributes: OntIdAttribute[]): Promise<void>
+function addAttributes(identity: string, attributes: OntIdAttribute[]): Promise<void>
 </pre>
 
-Adds attributes to the identity. The <code>ontId</code> must be one of the identities returned by <code>getOwnIdentities</code>.
+Adds attributes to the identity. The <code>identity</code> must be one of the identities returned by <code>getOwnIdentities</code>.
 
 ====removeAttributes====
 <pre>
-function removeAttribute(ontId: string, key: string): Promise<void>
+function removeAttribute(identity: string, key: string): Promise<void>
 </pre>
 
-Removes attribute from the identity. The <code>ontId</code> must be one of the identities returned by <code>getOwnIdentities</code>.
+Removes attribute from the identity. The <code>identity</code> must be one of the identities returned by <code>getOwnIdentities</code>.
 
 
 ===Message===
@@ -176,10 +176,10 @@ This API deals with arbitrary message signing and verification.
 
 ====signMessageHash====
 <pre>
-function signMessageHash(messageHash: string, accountOrIdentity: string): Promise<string>
+function signMessageHash(messageHash: string, address: string): Promise<string>
 </pre>
 
-Initiates signing of arbitrary <code>messageHash</code> by the account or identity. The <code>accountOrIdentity</code> '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
+Initiates signing of arbitrary <code>messageHash</code> by the account or identity. The <code>address</code> '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
 
 This method does not require the dApp to disclose the message itself, only the hash. 
 
@@ -188,29 +188,29 @@ Therefore the hash is prepended with known string '''Ontology message:''', hashe
 
 ====verifyMessageHash====
 <pre>
-function verifyMessageHash(messageHash: string, accountOrIdentity: string, signature: string): Promise<boolean>
+function verifyMessageHash(messageHash: string, address: string, signature: string): Promise<boolean>
 </pre>
 
-Verifies that the <code>signature</code> is created by the account or identity over <code>messageHash</code>. The <code>accountOrIdentity</code> '''does not''' need to be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
+Verifies that the <code>signature</code> is created by the account or identity over <code>messageHash</code>. The <code>address</code> '''does not''' need to be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
 
 This method does not require the dApp to disclose the message itself, only the hash. The hash is prepended with known string '''Ontology message:''', hashed with '''SHA-256''' and only this hash is put for verification.
 
 
 ====signMessage====
 <pre>
-function signMessage(message: string, accountOrIdentity: string): Promise<string>
+function signMessage(message: string, address: string): Promise<string>
 </pre>
 
-Initiates signing of text <code>message</code> by the account or identity. The <code>accountOrIdentity</code> '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
+Initiates signing of text <code>message</code> by the account or identity. The <code>address</code> '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
 
 This method provide the dAPI provider with the message body, which it should display to the user prior to signing (e.g.: a contract to sign). Signing is done on '''SHA-256''' hash of the message.
 
 ====verifyMessage====
 <pre>
-function verifyMessage(message: string, accountOrIdentity: string, signature: string): Promise<boolean>
+function verifyMessage(message: string, address: string, signature: string): Promise<boolean>
 </pre>
 
-Verifies that the <code>signature</code> is created by the account or identity over text <code>message</code>. The <code>accountOrIdentity</code> '''does not''' need to be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
+Verifies that the <code>signature</code> is created by the account or identity over text <code>message</code>. The <code>address</code> '''does not''' need to be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
 
 Verification is done on '''SHA-256''' hash of the message.
 
@@ -227,12 +227,12 @@ interface Parameter {
     value: string;
 }
 
-function invoke(contract: string, method: string, parameters: Parameter[], 
-  gasPrice: BigNumber, gasLimit: BigNumber): Promise<void>
+function invoke(account: string, contract: string, method: string, parameters: Parameter[], 
+  gasPrice: BigNumber, gasLimit: BigNumber, addresses: string[]): Promise<void>
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code>.
-The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing.
+The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing. The <code>account</code> will be set as payer of the transaction. It '''must''' be one of the accounts returned by <code>getOwnAccounts</code>. <code>addresses</code> can specify additional accounts or identites whose signature will be required. Every element '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
 
 Smart code execution is two step process:
 
@@ -251,11 +251,11 @@ Initiates a <code>method</code> call to a smart <code>contract</code> with suppl
 
 ====deploy====
 <pre>
-function invokeRead(code: string, name: string, version: string, author: string, 
+function deploy(account: string, code: string, name: string, version: string, author: string, 
     email: string, description: string, needStorage: boolean, gasPrice: BigNumber, gasLimit: BigNumber): Promise<any>
 </pre>
 
-Initiates deployment of smart contract. The <code>code</code> parameter represents compiled code of smart contract for NEOVM. The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing.
+Initiates deployment of smart contract. The <code>code</code> parameter represents compiled code of smart contract for NEOVM. The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing. The <code>account</code> will be set as payer of the transaction. It '''must''' be one of the accounts returned by <code>getOwnAccounts</code>
 
 
 ====addEventListener====
