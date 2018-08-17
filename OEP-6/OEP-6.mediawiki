@@ -95,16 +95,22 @@ A primary focus of Asset API is to enumerate the addresses under user control an
 
 ====getOwnAccounts====
 <pre>
-function getOwnAccounts(): string[]
+function getOwnAccounts(): Promise<string[]>
 </pre>
 
 Returns all the accounts associated with logged in user.
 
 ====getDefaultAccount====
 <pre>
-function getDefaultAccount(): string | null
+function getDefaultAccount(): Promise<string>
 </pre>
 Returns currently selected account of logged in user or null if there is none.
+
+====getPublicKey====
+<pre>
+function getPublicKey(account: string): Promise<string>
+</pre>
+Returns public key corresponding to an <code>account</code>. The <code>account</code> must be one of the accounts returned by <code>getOwnAccounts</code>.
 
 ====makeTransfer====
 <pre>
@@ -119,17 +125,23 @@ A primary focus of Identity API is to enumerate the ONT ID identities under user
 
 ====getOwnIdentities====
 <pre>
-function getOwnIdentities(): string[]
+function getOwnIdentities(): Promise<string[]>
 </pre>
 
 Returns all the identities associated with logged in user.
 
 ====getDefaultIdentity====
 <pre>
-function getDefaultIdentity(): string | null
+function getDefaultIdentity(): Promise<string>
 </pre>
 
 Returns currently selected identity of logged in user or null if there is none.
+
+====getPublicKeys====
+<pre>
+function getPublicKeys(identity: string): Promise<string[]>
+</pre>
+Returns public keys corresponding to an <code>identity</code>. The <code>identity</code> must be one of the identities returned by <code>getOwnIdentities</code>. This call must query blockchain by contrast to <code>asset.getPublicKey</code>.
 
 ====getDDO====
 <pre>
@@ -184,16 +196,25 @@ Initiates signing of arbitrary <code>messageHash</code> by the account or identi
 This method does not require the dApp to disclose the message itself, only the hash. 
 
 Because malicious dApp can hash a real prepared transfer transaction and plant it for signing, that posses a risk to the user.
-Therefore the hash is prepended with known string '''Ontology message:''', hashed with '''SHA-256''' and only this hash is put for signing.
+Therefore the hash is prepended with known string '''Ontology message:''', and only this hash is put for signing.
 
 ====verifyMessageHash====
 <pre>
-function verifyMessageHash(messageHash: string, address: string, signature: string): Promise<boolean>
+function verifyMessageHash(address: string, messageHash: string, address: string, signature: string): Promise<boolean>
 </pre>
 
-Verifies that the <code>signature</code> is created by the account or identity over <code>messageHash</code>. The <code>address</code> '''does not''' need to be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
+Verifies that the <code>signature</code> is created by the account or identity over <code>messageHash</code>. The <code>address</code> '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
 
-This method does not require the dApp to disclose the message itself, only the hash. The hash is prepended with known string '''Ontology message:''', hashed with '''SHA-256''' and only this hash is put for verification.
+This method does not require the dApp to disclose the message itself, only the hash. The hash is prepended with known string '''Ontology message:''' and only this hash is put for verification.
+
+====verifyMessageHashPk====
+<pre>
+function verifyMessageHashPk(publicKey: string, messageHash: string, address: string, signature: string): Promise<boolean>
+</pre>
+
+Verifies that the <code>signature</code> is created by a private key corresponding to <code>publicKey</code> over <code>messageHash</code>.
+
+This method does not require the dApp to disclose the message itself, only the hash. The hash is prepended with known string '''Ontology message:''' and only this hash is put for verification.
 
 
 ====signMessage====
@@ -203,16 +224,22 @@ function signMessage(message: string, address: string): Promise<string>
 
 Initiates signing of text <code>message</code> by the account or identity. The <code>address</code> '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
 
-This method provide the dAPI provider with the message body, which it should display to the user prior to signing (e.g.: a contract to sign). Signing is done on '''SHA-256''' hash of the message.
+This method provide the dAPI provider with the message body, which it should display to the user prior to signing (e.g.: a contract to sign).
 
 ====verifyMessage====
 <pre>
-function verifyMessage(message: string, address: string, signature: string): Promise<boolean>
+function verifyMessage(address: string, message: string, address: string, signature: string): Promise<boolean>
 </pre>
 
-Verifies that the <code>signature</code> is created by the account or identity over text <code>message</code>. The <code>address</code> '''does not''' need to be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
+Verifies that the <code>signature</code> is created by the account or identity over text <code>message</code>. The <code>address</code> '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
 
-Verification is done on '''SHA-256''' hash of the message.
+====verifyMessagePk====
+<pre>
+function verifyMessage(publicKey: string, message: string, address: string, signature: string): Promise<boolean>
+</pre>
+
+Verifies that the <code>signature</code> is created by a private key corresponding to <code>publicKey</code> over text <code>message</code>. 
+
 
 ===SmartContract===
 The main functionality of this component is invocation of smart contract methods.
