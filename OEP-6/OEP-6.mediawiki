@@ -343,8 +343,8 @@ The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provi
 
 Smart code execution is two step process:
 
-1. The transaction is send to the network.
-2. The transaction is recorded to the blockchain at a later time.
+# The transaction is send to the network.
+# The transaction is recorded to the blockchain at a later time.
 
 The <code>invoke</code> function will finish as soon as the transaction is sent to the network. To receive useful data from <code>method</code> execution it is necessary to start listening for events using <code>addEventListener</code>.
 
