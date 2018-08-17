@@ -58,6 +58,11 @@ Although this proposal is bringing clear and simple API for the dApps, the indiv
 
 * '''Utils''', a group of utility function for encoding and decoding the data from/to blockchain.
 
+===Asynchronicity and error handling===
+All the functions except '''Utils''' component are communicating with extension through asynchronious message channel. Therefore all the methods are returning Promises. 
+
+The promises will be either resolved immediately if no interaction with user UI or blockchain is required or later when the user action takes place/blockchain responds. In case the call to method trigger an error, the error code is transmitted in rejected promise. Specific error codes are described with every method.
+
 ===Account/Identity management===
 Because dAPI shifts the issue of trust from dApp to dApp provider, all account and identity management is external to the dApp. Therefore there are no methods which directly handle private keys. The dApp won't need to sign the transaction itself. 
 
@@ -98,19 +103,27 @@ A primary focus of Asset API is to enumerate the addresses under user control an
 function getOwnAccounts(): Promise<string[]>
 </pre>
 
-Returns all the accounts associated with logged in user.
+Returns all the accounts associated with logged in user. 
+
+* Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
 
 ====getDefaultAccount====
 <pre>
 function getDefaultAccount(): Promise<string>
 </pre>
-Returns currently selected account of logged in user or null if there is none.
+Returns currently selected account of logged in user. 
+
+* Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
 
 ====getPublicKey====
 <pre>
 function getPublicKey(account: string): Promise<string>
 </pre>
-Returns public key corresponding to an <code>account</code>. The <code>account</code> must be one of the accounts returned by <code>getOwnAccounts</code>.
+Returns public key corresponding to an <code>account</code>. The <code>account</code> must be one of the accounts returned by <code>getOwnAccounts</code>. 
+
+* Rejects with '''MALFORMED_ACCOUNT''' in case the <code>account</code> is not a valid account
+* Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
+* Rejects with '''WRONG_ACCOUNT''' in case the <code>account</code> is not one of own accounts
 
 ====makeTransfer====
 <pre>
@@ -119,6 +132,10 @@ function makeTransfer(sender: string, recipient: string, asset: Asset, amount: B
 
 Initiates a transfer of <code>amount asset</code> from <code>sender</code> account to <code>recipient</code> account. The <code>sender</code> must be one of the accounts returned by <code>getOwnAccounts</code>.
 
+* Rejects with '''MALFORMED_ACCOUNT''' in case the <code>sender</code> or <code>recipient</code> is not a valid account
+* Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
+* Rejects with '''WRONG_ACCOUNT''' in case the <code>sender</code> is not one of own accounts
+* Rejects with '''CANCELED''' in case the user cancels the request
 
 ===Identity===
 A primary focus of Identity API is to enumerate the ONT ID identities under user control and initiate a process of adding/removing attribute from the identity. The request needs to be confirmed by the user. 
@@ -130,18 +147,24 @@ function getOwnIdentities(): Promise<string[]>
 
 Returns all the identities associated with logged in user.
 
+* Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
+
 ====getDefaultIdentity====
 <pre>
 function getDefaultIdentity(): Promise<string>
 </pre>
 
-Returns currently selected identity of logged in user or null if there is none.
+Returns currently selected identity of logged in user.
+
+* Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
 
 ====getPublicKeys====
 <pre>
 function getPublicKeys(identity: string): Promise<string[]>
 </pre>
-Returns public keys corresponding to an <code>identity</code>. The <code>identity</code> must be one of the identities returned by <code>getOwnIdentities</code>. This call must query blockchain by contrast to <code>asset.getPublicKey</code>.
+Returns public keys corresponding to an <code>identity</code>. The <code>identity</code> '''does not''' need to be one of the identities returned by <code>getOwnIdentities</code>. This call must query blockchain by contrast to <code>asset.getPublicKey</code>.
+
+* Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
 
 ====getDDO====
 <pre>
@@ -152,7 +175,9 @@ interface OntIdDDO {
 function getDDO(identity: string): Promise<OntIdDDO>
 </pre>
 
-Queries Description Object of the identity. This operation is not signed and therefore does not require user interaction.
+Queries Description Object of the <code>identity</code>. The <code>identity</code> '''does not''' need to be one of the identities returned by <code>getOwnIdentities</code>. This operation is not signed and therefore does not require user interaction.
+
+* Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
 
 ====getAttributes====
 <pre>
@@ -165,8 +190,9 @@ interface OntIdAttribute {
 function getAttributes(identity: string): Promise<OntIdAttribute[]>
 </pre>
 
-Queries attributes attached to the identity. This operation is not signed and therefore does not require user interaction.
+Queries attributes attached to the <code>identity</code>. The <code>identity</code> '''does not''' need to be one of the identities returned by <code>getOwnIdentities</code>. This operation is not signed and therefore does not require user interaction.
 
+* Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
 
 ====addAttributes====
 <pre>
@@ -175,13 +201,20 @@ function addAttributes(identity: string, attributes: OntIdAttribute[]): Promise<
 
 Adds attributes to the identity. The <code>identity</code> must be one of the identities returned by <code>getOwnIdentities</code>.
 
+* Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
+* Rejects with '''WRONG_IDENTITY''' in case the <code>identity</code> is not one of own identites
+* Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
+
 ====removeAttributes====
 <pre>
 function removeAttribute(identity: string, key: string): Promise<void>
 </pre>
 
-Removes attribute from the identity. The <code>identity</code> must be one of the identities returned by <code>getOwnIdentities</code>.
+Removes attribute from the <code>identity</code>. The <code>identity</code> must be one of the identities returned by <code>getOwnIdentities</code>.
 
+* Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
+* Rejects with '''WRONG_IDENTITY''' in case the <code>identity</code> is not one of own identites
+* Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
 
 ===Message===
 This API deals with arbitrary message signing and verification.
