@@ -104,14 +104,14 @@ function getNodeCount(): Promise<number>
 function getBlockHeight(): Promise<number>
 function getMerkleProof(txHash: string): Promise<MerkleProof>
 function getStorage(contract: string, key: string): Promise<string>
-function getAllowance(asset: Asset, fromAddress: string, toAddress: string): Promise<BigNumber>
+function getAllowance(asset: Asset, fromAddress: string, toAddress: string): Promise<number>
 function getBlock(block: number | string): Promise<Block>
 function getTransaction(txHash: string): Promise<Transaction>
 function getNetwork(): Network
 function getBalance(address: string): Promise<Balance>
 </pre>
 
-For further explanation about the wrapped method consult https://ontio.github.io/documentation/restful_api_en.html . The types '''Transaction''', '''Block''', '''MerkleProof''' and '''Balance''' corresponds to the exact object returned from Ontology blockchain. '''BigNumber''' corresponds to a implementation of BigNumbers.
+For further explanation about the wrapped method consult https://ontio.github.io/documentation/restful_api_en.html . The types '''Transaction''', '''Block''', '''MerkleProof''' and '''Balance''' corresponds to the exact object returned from Ontology blockchain.
 
 ===Asset===
 A primary focus of Asset API is to enumerate the addresses under user control and initiate a transfer. The request needs to be confirmed by the user.
@@ -145,7 +145,7 @@ Returns public key corresponding to an <code>account</code>. The <code>account</
 
 ====makeTransfer====
 <pre>
-function makeTransfer(sender: string, recipient: string, asset: Asset, amount: BigNumber): Promise<void>
+function makeTransfer(sender: string, recipient: string, asset: Asset, amount: number): Promise<void>
 </pre>
 
 Initiates a transfer of <code>amount asset</code> from <code>sender</code> account to <code>recipient</code> account. The <code>sender</code> must be one of the accounts returned by <code>getOwnAccounts</code>.
@@ -335,7 +335,7 @@ interface Parameter {
 }
 
 function invoke(account: string, contract: string, method: string, parameters: Parameter[], 
-  gasPrice: BigNumber, gasLimit: BigNumber, addresses: string[]): Promise<void>
+  gasPrice: number, gasLimit: number, addresses: string[]): Promise<void>
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code>.
@@ -368,7 +368,7 @@ Initiates a <code>method</code> call to a smart <code>contract</code> with suppl
 ====deploy====
 <pre>
 function deploy(account: string, code: string, name: string, version: string, author: string, 
-    email: string, description: string, needStorage: boolean, gasPrice: BigNumber, gasLimit: BigNumber): Promise<any>
+    email: string, description: string, needStorage: boolean, gasPrice: number, gasLimit: number): Promise<any>
 </pre>
 
 Initiates deployment of smart contract. The <code>code</code> parameter represents compiled code of smart contract for NEOVM. The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing. The <code>account</code> will be set as payer of the transaction. It '''must''' be one of the accounts returned by <code>getOwnAccounts</code>
