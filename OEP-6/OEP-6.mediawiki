@@ -30,8 +30,6 @@ This proposal makes use of the following functions and definitions:
 
 *'''SDK''', a software development kit implementing low level communication with the network and providing high level interface for dApps.
 
-*'''SHA256''', a well-known hashing algorithm that takes an arbitrary number of bytes as input and deterministically yields a 32-byte hash.
-
 *'''dApp''', an application with decentralised characteristics running in web environment. The application uses Ontology network for value transfers, contracts enforcing and identification between participants.
 
 *'''dAPI''', the API for dApps this OEP is proposing.
@@ -70,16 +68,36 @@ Any time dApp makes a call that requires a private key to sign something (makeTr
 
 dApp provider can even forward the request to external signing mechanism as part of the process. This way the dApp does not need to specifically integrate with such mechanism.
 
+===Encoding===
+The interaction with dAPI often requires specification of '''Address''', '''Identity''', '''Contract address''' or '''Public Key'''. Those concepts are represented by string representation with specific encodings.
+
+====Address====
+* 34 bytes long
+* using Base58 check encoding
+* starts with A letter
+
+====Contract address====
+* 40 bytes long
+* using Hex encoding
+
+====Identity====
+* 42 bytes long
+* using Base58 check encoding for 34 byte suffix
+* starts with 'did:ont:' prefix
+
+====Public Key=====
+* 33/35 bytes long
+* using Hex encoding
+
 ===Complex structures===
 API specification is a complex document. Every method has some inputs and outputs. Although we use the primitive types (numbers, strings, booleans) whenever possible, there are places where a complex object is required. To precisely describe the structure of those objects, we'd chosen Typescript syntax.
-
 
 ===Network===
 A network API consists of:
 
 <pre>
 type Network = 'MAIN' | 'TEST' | 'PRIVATE';
-type Asset = 'ont' | 'ong';
+type Asset = 'ONT' | 'ONG';
 
 function getGenerateBlockTime(): Promise<number | null>
 function getNodeCount(): Promise<number>
@@ -396,5 +414,8 @@ These components all belongs to concrete implementation of dAPI provider. The im
 
 ==Test Cases==
 
-==Implementation==
+==Implementation of dAPI.js==
+OntologyCommunityDevelopers/ontology-dapi - https://github.com/OntologyCommunityDevelopers/ontology-dapi
+
+==Implementation of dAPI provider==
 OntologyCommunityDevelopers/ontology-plugin-wallet - https://github.com/OntologyCommunityDevelopers/ontology-plugin-wallet
