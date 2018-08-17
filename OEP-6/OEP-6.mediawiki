@@ -85,7 +85,7 @@ The interaction with dAPI often requires specification of '''Address''', '''Iden
 * using Base58 check encoding for 34 byte suffix
 * starts with 'did:ont:' prefix
 
-====Public Key=====
+====Public Key====
 * 33/35 bytes long
 * using Hex encoding
 
