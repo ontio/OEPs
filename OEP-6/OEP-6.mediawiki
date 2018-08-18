@@ -40,22 +40,6 @@ This proposal makes use of the following functions and definitions:
 
 *'''NEOVM''', a lightweight virtual machine for execution of Neo/Ontology smart contracts.
 
-
-===Components===
-Although this proposal is bringing clear and simple API for the dApps, the individual functions can be divided into these components:
-
-* '''Network''', a thin wrapper around the Ontology Node API, masking the complexity of rpc/rest calls and web-sockets with Request-Response facade.
-
-* '''Asset''', functions for transferring assets between user account and others.
-
-* '''Identity''', functions for interacting with own ONT-ID identity.
-
-* '''SmartContract''', a high level wrapper around the Smart Contract invocation and deployment.
-
-* '''Message''', functions for signing arbitrary messages.
-
-* '''Utils''', a group of utility function for encoding and decoding the data from/to blockchain.
-
 ===Asynchronicity and error handling===
 All the functions except '''Utils''' component are communicating with extension through asynchronious message channel. Therefore all the methods are returning Promises. 
 
@@ -92,6 +76,23 @@ The interaction with dAPI often requires specification of '''Address''', '''Iden
 ===Complex structures===
 API specification is a complex document. Every method has some inputs and outputs. Although we use the primitive types (numbers, strings, booleans) whenever possible, there are places where a complex object is required. To precisely describe the structure of those objects, we'd chosen Typescript syntax.
 
+===Components===
+Although this proposal is bringing clear and simple API for the dApps, the individual functions can be divided into these components:
+
+* '''Network''', a thin wrapper around the Ontology Node API, masking the complexity of rpc/rest calls and web-sockets with Request-Response facade.
+
+* '''Provider''', functions for getting information about dAPI provider
+
+* '''Asset''', functions for transferring assets between user account and others.
+
+* '''Identity''', functions for interacting with own ONT-ID identity.
+
+* '''SmartContract''', a high level wrapper around the Smart Contract invocation and deployment.
+
+* '''Message''', functions for signing arbitrary messages.
+
+* '''Utils''', a group of utility function for encoding and decoding the data from/to blockchain.
+
 ===Network===
 A network API consists of:
 
@@ -112,6 +113,35 @@ function getBalance(address: string): Promise<Balance>
 </pre>
 
 For further explanation about the wrapped method consult https://ontio.github.io/documentation/restful_api_en.html . The types '''Transaction''', '''Block''', '''MerkleProof''' and '''Balance''' corresponds to the exact object returned from Ontology blockchain.
+
+===Provider===
+A primary focus of Provider API is to check if user has installed any dAPI provider and to get information about it.
+
+====isInstalled====
+<pre>
+function isInstalled(): Promise<boolean>
+</pre>
+
+Returns true if there is dAPI provider installed.
+
+====getName====
+<pre>
+function getName(): Promise<string>
+</pre>
+
+Returns the name of the installed dAPI provider. 
+
+* Rejects with '''NO_PROVIDER''' in case there is no dAPI provider installed.
+
+====getVersion====
+<pre>
+function getVersion(): Promise<string>
+</pre>
+
+Returns the version of the installed dAPI provider. 
+
+* Rejects with '''NO_PROVIDER''' in case there is no dAPI provider installed.
+
 
 ===Asset===
 A primary focus of Asset API is to enumerate the addresses under user control and initiate a transfer. The request needs to be confirmed by the user.
