@@ -328,16 +328,15 @@ The main functionality of this component is invocation of smart contract methods
 
 ====invoke====
 <pre>
-type ParameterType = 'Boolean' | 'Integer' | 'ByteArray' | 'Interface' | 'Array' | 'Struct' |
-  'Map' | 'String' | 'Int' | 'Long' | 'IntArray' | 'LongArray' | 'Address';
+type ParameterType = 'Boolean' | 'Integer' | 'ByteArray' | 'Struct' | 'Map' | 'String';
 
 interface Parameter {
     type: ParameterType;
-    value: string;
+    value: any;
 }
 
 function invoke(account: string, contract: string, method: string, parameters: Parameter[], 
-  gasPrice: number, gasLimit: number, addresses: string[]): Promise<void>
+  gasPrice: number, gasLimit: number, addresses: string[]): Promise<any>
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code>.
