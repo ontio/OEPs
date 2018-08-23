@@ -125,12 +125,23 @@ A primary focus of Provider API is to check if user has installed any dAPI provi
 interface Provider {
   name: string;
   version: string;
+  compatibility: string[];
 }
 
 function getProvider(): Promise<Provider>
 </pre>
 
-Returns the information about installed dAPI provider if there is one installed.
+Returns the information about installed dAPI provider if there is one installed. <code>compatibility</code> refers to all OEPs this dAPI provider supports. E.g.:
+
+<pre>
+compatability: [
+    'OEP-6',
+    'OEP-10',
+    'OEP-29'
+]
+</pre>
+
+dAPI provider does not need to support all future OEPs concerned with dAPI.
 
 * Rejects with '''NO_PROVIDER''' in case there is no dAPI provider installed.
 
