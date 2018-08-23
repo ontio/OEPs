@@ -374,8 +374,15 @@ interface Parameter {
     value: any;
 }
 
+type Result = string[];
+
+interface Response {
+    transaction: string;
+    results: Result[];
+}
+
 function invoke(account: string, contract: string, method: string, parameters: Parameter[], 
-  gasPrice: number, gasLimit: number, addresses: string[]): Promise<any>
+  gasPrice: number, gasLimit: number, addresses: string[]): Promise<Response>
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code>.
@@ -384,9 +391,13 @@ The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provi
 Smart code execution is two step process:
 
 # The transaction is send to the network.
-# The transaction is recorded to the blockchain at a later time.
+# The transaction is processed and recorded to the blockchain at a later time.
 
-The <code>invoke</code> function will finish as soon as the transaction is sent to the network. To receive useful data from <code>method</code> execution it is necessary to start listening for events using <code>addEventListener</code>.
+The <code>invoke</code> function will finish only after the transaction is processed by the network. 
+
+Returns <code>transaction</code> hash and array of <code>results</code>.
+
+To output a result from smart contract, call Runtime.Notify method. For every such a call, one result will be outputed.
 
 * Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
 * Rejects with '''WRONG_ACCOUNT''' in case the <code>sender</code> is not one of own accounts
@@ -401,6 +412,8 @@ function invokeRead(contract: string, method: string, parameters: Parameter[]): 
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code> in read only mode (preExec). This kind of method call does not write anything to blockchain and therefore does not need to be signed or paid for. It is processed without user interaction.
+
+Returns direct value returned by the smart contract execution. 
 
 * Rejects with '''MALFORMED_CONTRACT''' in case the <code>contract</code> is not hex encoded contract address
 
@@ -417,22 +430,6 @@ Initiates deployment of smart contract. The <code>code</code> parameter represen
 * Rejects with '''WRONG_ACCOUNT''' in case the <code>sender</code> is not one of own accounts
 * Rejects with '''MALFORMED_ACCOUNT''' in case the <code>account</code> is not a valid account
 
-
-====addEventListener====
-<pre>
-type EventListener = (data: any) => void;
-
-function addEventListener(listener: EventListener): void
-</pre>
-
-Starts listening for Notify events.
-
-====removeEventListener====
-<pre>
-function removeEventListener(listener: EventListener): void
-</pre>
-
-Stops listening for Notify events.
 
 ==Architecture==
 The interaction between dApp and Ontology network can be described with this diagram:
