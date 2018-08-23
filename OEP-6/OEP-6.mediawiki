@@ -238,7 +238,7 @@ Queries attributes attached to the <code>identity</code>. The <code>identity</co
 function addAttributes(identity: string, attributes: OntIdAttribute[]): Promise<void>
 </pre>
 
-Adds attributes to the <code>identity</code>. The <code>identity</code> must be one of the identities returned by <code>getOwnIdentities</code>.
+Adds attributes to the <code>identity</code>. The <code>identity</code> must be one of the identities returned by <code>getOwnIdentities</code>. Attributes with existing <code>key</code> will be overwritten.
 
 * Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
 * Rejects with '''WRONG_IDENTITY''' in case the <code>identity</code> is not one of own identites
