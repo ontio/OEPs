@@ -97,8 +97,13 @@ Although this proposal is bringing clear and simple API for the dApps, the indiv
 A network API consists of:
 
 <pre>
-type Network = 'MAIN' | 'TEST' | 'PRIVATE';
+type NetworkType = 'MAIN' | 'TEST' | 'PRIVATE';
 type Asset = 'ONT' | 'ONG';
+
+interface Network {
+  type: NetworkType;
+  address: string;
+}
 
 function getGenerateBlockTime(): Promise<number | null>
 function getNodeCount(): Promise<number>
