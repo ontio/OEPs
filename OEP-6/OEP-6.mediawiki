@@ -117,31 +117,20 @@ For further explanation about the wrapped method consult https://ontio.github.io
 ===Provider===
 A primary focus of Provider API is to check if user has installed any dAPI provider and to get information about it.
 
-====isInstalled====
+====getProvider====
 <pre>
-function isInstalled(): Promise<boolean>
+
+interface Provider {
+  name: string;
+  version: string;
+}
+
+function getProvider(): Promise<Provider>
 </pre>
 
-Returns true if there is dAPI provider installed.
-
-====getName====
-<pre>
-function getName(): Promise<string>
-</pre>
-
-Returns the name of the installed dAPI provider. 
+Returns the information about installed dAPI provider if there is one installed.
 
 * Rejects with '''NO_PROVIDER''' in case there is no dAPI provider installed.
-
-====getVersion====
-<pre>
-function getVersion(): Promise<string>
-</pre>
-
-Returns the version of the installed dAPI provider. 
-
-* Rejects with '''NO_PROVIDER''' in case there is no dAPI provider installed.
-
 
 ===Asset===
 A primary focus of Asset API is to enumerate the addresses under user control and initiate a transfer. The request needs to be confirmed by the user.
