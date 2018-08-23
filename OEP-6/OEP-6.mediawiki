@@ -187,6 +187,8 @@ function makeTransfer(sender: string, recipient: string, asset: Asset, amount: n
 
 Initiates a transfer of <code>amount asset</code> from <code>sender</code> account to <code>recipient</code> account. The <code>sender</code> must be one of the accounts returned by <code>getOwnAccounts</code>. 
 
+The amount should always be an integer value. Therefore is is represented in the smallest, further non divisible units for the asset. E.g.: If the <code>asset</code> is ONG then the value is multiplied by 1000000000.
+
 Returns transaction Id.
 
 * Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
