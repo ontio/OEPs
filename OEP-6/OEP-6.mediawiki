@@ -422,7 +422,7 @@ Starts listening for Notify events.
 
 ====removeEventListener====
 <pre>
-function addEventListener(listener: EventListener): void
+function removeEventListener(listener: EventListener): void
 </pre>
 
 Stops listening for Notify events.
