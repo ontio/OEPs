@@ -114,6 +114,8 @@ function getBalance(address: string): Promise<Balance>
 
 For further explanation about the wrapped method consult https://ontio.github.io/documentation/restful_api_en.html . The types '''Transaction''', '''Block''', '''MerkleProof''' and '''Balance''' corresponds to the exact object returned from Ontology blockchain.
 
+TODO: copy the definition of all network api calls with inputs and outputs from ontology documentation.
+
 ===Provider===
 A primary focus of Provider API is to check if user has installed any dAPI provider and to get information about it.
 
