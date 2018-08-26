@@ -165,77 +165,31 @@ dAPI provider does not need to support all future OEPs concerned with dAPI.
 * Rejects with '''NO_PROVIDER''' in case there is no dAPI provider installed.
 
 ===Asset===
-A primary focus of Asset API is to enumerate the addresses under user control and initiate a transfer. The request needs to be confirmed by the user.
-
-====getOwnAccounts====
-<pre>
-function getOwnAccounts(): Promise<string[]>
-</pre>
-
-Returns all the accounts associated with logged in user. 
-
-* Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
-
-====getDefaultAccount====
-<pre>
-function getDefaultAccount(): Promise<string>
-</pre>
-Returns currently selected account of logged in user. 
-
-* Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
-
-====getPublicKey====
-<pre>
-function getPublicKey(account: string): Promise<string>
-</pre>
-Returns public key corresponding to an <code>account</code>. The <code>account</code> must be one of the accounts returned by <code>getOwnAccounts</code>. 
-
-* Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
-* Rejects with '''WRONG_ACCOUNT''' in case the <code>account</code> is not one of own accounts
-* Rejects with '''MALFORMED_ACCOUNT''' in case the <code>account</code> is not a valid account
+A primary focus of Asset API is to initiate a transfer. The request needs to be confirmed by the user.
 
 ====makeTransfer====
 <pre>
-function makeTransfer(sender: string, recipient: string, asset: Asset, amount: number): Promise<string>
+function makeTransfer(recipient: string, asset: Asset, amount: number): Promise<string>
 </pre>
 
-Initiates a transfer of <code>amount asset</code> from <code>sender</code> account to <code>recipient</code> account. The <code>sender</code> must be one of the accounts returned by <code>getOwnAccounts</code>. 
+Initiates a transfer of <code>amount asset</code> to <code>recipient</code> account. 
 
 The amount should always be an integer value. Therefore is is represented in the smallest, further non divisible units for the asset. E.g.: If the <code>asset</code> is ONG then the value is multiplied by 1000000000.
 
 Returns transaction Id.
 
 * Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
-* Rejects with '''WRONG_ACCOUNT''' in case the <code>sender</code> is not one of own accounts
-* Rejects with '''MALFORMED_ACCOUNT''' in case the <code>sender</code> or <code>recipient</code> is not a valid account
+* Rejects with '''MALFORMED_ACCOUNT''' in case the <code>recipient</code> is not a valid account
 * Rejects with '''CANCELED''' in case the user cancels the request
 
 ===Identity===
-A primary focus of Identity API is to enumerate the ONT ID identities under user control and initiate a process of adding/removing attribute from the identity. The request needs to be confirmed by the user. 
-
-====getOwnIdentities====
-<pre>
-function getOwnIdentities(): Promise<string[]>
-</pre>
-
-Returns all the identities associated with logged in user.
-
-* Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
-
-====getDefaultIdentity====
-<pre>
-function getDefaultIdentity(): Promise<string>
-</pre>
-
-Returns currently selected identity of logged in user.
-
-* Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
+A primary focus of Identity API is to interact with ONT ID smart contract on the blockchain.
 
 ====getPublicKeys====
 <pre>
 function getPublicKeys(identity: string): Promise<string[]>
 </pre>
-Returns public keys corresponding to an <code>identity</code>. The <code>identity</code> '''does not''' need to be one of the identities returned by <code>getOwnIdentities</code>. This call must query blockchain by contrast to <code>asset.getPublicKey</code>.
+Returns public keys corresponding to an <code>identity</code>. This call must query the blockchain. This operation is not signed and therefore does not require user interaction.
 
 * Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
 
@@ -248,7 +202,7 @@ interface OntIdDDO {
 function getDDO(identity: string): Promise<OntIdDDO>
 </pre>
 
-Queries Description Object of the <code>identity</code>. The <code>identity</code> '''does not''' need to be one of the identities returned by <code>getOwnIdentities</code>. This operation is not signed and therefore does not require user interaction.
+Queries Description Object of the <code>identity</code>. This call must query the blockchain. This operation is not signed and therefore does not require user interaction.
 
 * Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
 
@@ -263,41 +217,45 @@ interface OntIdAttribute {
 function getAttributes(identity: string): Promise<OntIdAttribute[]>
 </pre>
 
-Queries attributes attached to the <code>identity</code>. The <code>identity</code> '''does not''' need to be one of the identities returned by <code>getOwnIdentities</code>. This operation is not signed and therefore does not require user interaction.
+Queries attributes attached to the <code>identity</code>. This call must query the blockchain. This operation is not signed and therefore does not require user interaction.
 
 * Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
 
 ====addAttributes====
 <pre>
-function addAttributes(identity: string, attributes: OntIdAttribute[]): Promise<void>
+function addAttributes(attributes: OntIdAttribute[]): Promise<void>
 </pre>
 
-Adds attributes to the <code>identity</code>. The <code>identity</code> must be one of the identities returned by <code>getOwnIdentities</code>. Attributes with existing <code>key</code> will be overwritten.
+Initiates adding of attributes to the user identity. This action needs to be confirmed by the user. Attributes with existing <code>key</code> will be overwritten.
 
 * Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
-* Rejects with '''WRONG_IDENTITY''' in case the <code>identity</code> is not one of own identites
-* Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
 
 ====removeAttributes====
 <pre>
-function removeAttribute(identity: string, key: string): Promise<void>
+function removeAttribute(key: string): Promise<void>
 </pre>
 
-Removes attribute from the <code>identity</code>. The <code>identity</code> must be one of the identities returned by <code>getOwnIdentities</code>.
+Initiates removing of attribute from the user identity. This action needs to be confirmed by the user.
 
 * Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
-* Rejects with '''WRONG_IDENTITY''' in case the <code>identity</code> is not one of own identites
-* Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
 
 ===Message===
 This API deals with arbitrary message signing and verification.
 
 ====signMessageHash====
 <pre>
-function signMessageHash(messageHash: string, address: string): Promise<string>
+
+interface Signature {
+  publicKey: string;
+  data: string;
+}
+
+function signMessageHash(messageHash: string): Promise<Signature>
 </pre>
 
-Initiates signing of arbitrary <code>messageHash</code> by the account or identity. The <code>address</code> '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
+Initiates signing of arbitrary <code>messageHash</code> by the user account or identity. dAPI provider should provide the user with a way for selecting which account or identity will sign the message.
+
+Returns the <code>Signature</code> object containing both the <code>publicKey</code> and signature <code>data</code> needed for signature validation.
 
 This method does not require the dApp to disclose the message itself, only the hash. 
 
@@ -305,75 +263,42 @@ Because malicious dApp can hash a real prepared transfer transaction and plant i
 Therefore the hash is prepended with known string '''Ontology message:''', and only this hash is put for signing.
 
 * Rejects with '''NO_ADDRESS''' in case the user is not signed in or has no account or identity
-* Rejects with '''WRONG_ADDRESS''' in case the <code>address</code> is not one of own accounts or identites
-* Rejects with '''MALFORMED_ADDRESS''' in case the <code>address</code> is not a valid account or identity
 * Rejects with '''MALFORMED_MESSAGE''' in case the <code>message</code> is not hex encoded
 
 ====verifyMessageHash====
 <pre>
-function verifyMessageHash(address: string, messageHash: string, address: string, signature: string): Promise<boolean>
+function verifyMessageHash(messageHash: string, signature: Signature): Promise<boolean>
 </pre>
 
-Verifies that the <code>signature</code> is created by the account or identity over <code>messageHash</code>. The <code>address</code> '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
+Verifies that the <code>signature</code> is valid signature of <code>messageHash</code>. 
 
 This method does not require the dApp to disclose the message itself, only the hash. The hash is prepended with known string '''Ontology message:''' and only this hash is put for verification.
 
-* Rejects with '''NO_ADDRESS''' in case the user is not signed in or has no account or identity
-* Rejects with '''WRONG_ADDRESS''' in case the <code>address</code> is not one of own accounts or identites
-* Rejects with '''MALFORMED_ADDRESS''' in case the <code>address</code> is not a valid account or identity
 * Rejects with '''MALFORMED_MESSAGE''' in case the <code>message</code> is not hex encoded
-* Rejects with '''MALFORMED_SIGNATURE''' in case the <code>signature</code> is not hex encoded
-
-====verifyMessageHashPk====
-<pre>
-function verifyMessageHashPk(publicKey: string, messageHash: string, address: string, signature: string): Promise<boolean>
-</pre>
-
-Verifies that the <code>signature</code> is created by a private key corresponding to <code>publicKey</code> over <code>messageHash</code>.
-
-This method does not require the dApp to disclose the message itself, only the hash. The hash is prepended with known string '''Ontology message:''' and only this hash is put for verification.
-
-* Rejects with '''MALFORMED_PUBLIC_KEY''' in case the <code>public key</code> is not hex encoded
-* Rejects with '''MALFORMED_MESSAGE''' in case the <code>message</code> is not hex encoded
-* Rejects with '''MALFORMED_SIGNATURE''' in case the <code>signature</code> is not hex encoded
-
+* Rejects with '''MALFORMED_SIGNATURE''' in case the <code>signature</code> is not in valid format
 
 ====signMessage====
 <pre>
-function signMessage(address: string, message: string): Promise<string>
+function signMessage(message: string): Promise<Signature>
 </pre>
 
-Initiates signing of text <code>message</code> by the account or identity. The <code>address</code> '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
+Initiates signing of arbitrary <code>message</code> by the user account or identity. dAPI provider should provide the user with a way for selecting which account or identity will sign the message.
+
+Returns the <code>Signature</code> object containing both the <code>publicKey</code> and signature <code>data</code> needed for signature validation.
 
 This method provide the dAPI provider with the message body, which it should display to the user prior to signing (e.g.: a contract to sign).
 
 * Rejects with '''NO_ADDRESS''' in case the user is not signed in or has no account or identity
-* Rejects with '''WRONG_ADDRESS''' in case the <code>address</code> is not one of own accounts or identites
-* Rejects with '''MALFORMED_ADDRESS''' in case the <code>address</code> is not a valid account or identity
-
 
 ====verifyMessage====
 <pre>
-function verifyMessage(address: string, message: string, address: string, signature: string): Promise<boolean>
+function verifyMessage(message: string, signature: Signature): Promise<boolean>
 </pre>
 
-Verifies that the <code>signature</code> is created by the account or identity over text <code>message</code>. The <code>address</code> '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
+Verifies that the <code>signature</code> is valid signature of <code>message</code>. 
 
-* Rejects with '''NO_ADDRESS''' in case the user is not signed in or has no account or identity
-* Rejects with '''WRONG_ADDRESS''' in case the <code>address</code> is not one of own accounts or identites
-* Rejects with '''MALFORMED_ADDRESS''' in case the <code>address</code> is not a valid account or identity
 * Rejects with '''MALFORMED_MESSAGE''' in case the <code>message</code> is not hex encoded
-
-
-====verifyMessagePk====
-<pre>
-function verifyMessage(publicKey: string, message: string, address: string, signature: string): Promise<boolean>
-</pre>
-
-Verifies that the <code>signature</code> is created by a private key corresponding to <code>publicKey</code> over text <code>message</code>. 
-
-* Rejects with '''MALFORMED_PUBLIC_KEY''' in case the <code>public key</code> is not hex encoded
-* Rejects with '''MALFORMED_SIGNATURE''' in case the <code>signature</code> is not hex encoded
+* Rejects with '''MALFORMED_SIGNATURE''' in case the <code>signature</code> is not in valid format
 
 
 ===SmartContract===
@@ -395,12 +320,14 @@ interface Response {
     results: Result[];
 }
 
-function invoke(account: string, contract: string, method: string, parameters: Parameter[], 
-  gasPrice: number, gasLimit: number, addresses: string[]): Promise<Response>
+function invoke(contract: string, method: string, parameters: Parameter[], 
+  gasPrice: number, gasLimit: number, requireIdentity: boolean): Promise<Response>
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code>.
-The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing. The <code>account</code> will be set as payer of the transaction. It '''must''' be one of the accounts returned by <code>getOwnAccounts</code>. <code>addresses</code> can specify additional accounts or identites whose signature will be required. Every element '''must''' be one of the accounts returned by <code>getOwnAccounts</code> or identities returned by <code>getOwnIdentities</code>.
+The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing. It is upto the dAPI provide to allow user select the payer's account.
+
+In case the smart contract requires the call to be signed also by an identity, parameter <code>requireIdentity</code> should be set to true.
 
 Smart code execution is two step process:
 
@@ -414,11 +341,7 @@ Returns <code>transaction</code> hash and array of <code>results</code>.
 To output a result from smart contract, call Runtime.Notify method. For every such a call, one result will be outputed.
 
 * Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
-* Rejects with '''WRONG_ACCOUNT''' in case the <code>sender</code> is not one of own accounts
-* Rejects with '''MALFORMED_ACCOUNT''' in case the <code>account</code> is not a valid account
 * Rejects with '''MALFORMED_CONTRACT''' in case the <code>contract</code> is not hex encoded contract address
-* Rejects with '''MALFORMED_ADDRESS''' in case the <code>addresses</code> contains at least one address which is not a valid account nor identity
-
 
 ====invokeRead====
 <pre>
@@ -434,15 +357,13 @@ Returns direct value returned by the smart contract execution.
 
 ====deploy====
 <pre>
-function deploy(account: string, code: string, name: string, version: string, author: string, 
+function deploy(code: string, name: string, version: string, author: string, 
     email: string, description: string, needStorage: boolean, gasPrice: number, gasLimit: number): Promise<any>
 </pre>
 
-Initiates deployment of smart contract. The <code>code</code> parameter represents compiled code of smart contract for NEOVM. The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing. The <code>account</code> will be set as payer of the transaction. It '''must''' be one of the accounts returned by <code>getOwnAccounts</code>
+Initiates deployment of smart contract. The <code>code</code> parameter represents compiled code of smart contract for NEOVM. The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing. It is upto the dAPI provide to allow user select the payer's account.
 
 * Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
-* Rejects with '''WRONG_ACCOUNT''' in case the <code>sender</code> is not one of own accounts
-* Rejects with '''MALFORMED_ACCOUNT''' in case the <code>account</code> is not a valid account
 
 
 ==Architecture==
