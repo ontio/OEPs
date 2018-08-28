@@ -167,9 +167,9 @@ dAPI provider does not need to support all future OEPs concerned with dAPI.
 ===Asset===
 A primary focus of Asset API is to initiate a transfer. The request needs to be confirmed by the user.
 
-====getDefaultAccount====	
+====getAccount====	
 <pre>	
-function getDefaultAccount(): Promise<string>	
+function getAccount(): Promise<string>	
 </pre>	
 Returns currently selected account of logged in user. 	
  * Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
@@ -192,9 +192,9 @@ Returns transaction Id.
 ===Identity===
 A primary focus of Identity API is to interact with ONT ID smart contract on the blockchain.
 
-====getDefaultIdentity====	
+====getIdentity====	
 <pre>	
-function getDefaultIdentity(): Promise<string>	
+function getIdentity(): Promise<string>	
 </pre>	
  Returns currently selected identity of logged in user.	
  * Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
@@ -223,7 +223,7 @@ Initiates adding of attributes to the user identity. This action needs to be con
 
 * Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
 
-====removeAttributes====
+====removeAttribute====
 <pre>
 function removeAttribute(key: string): Promise<void>
 </pre>
