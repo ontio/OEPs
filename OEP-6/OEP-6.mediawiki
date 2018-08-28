@@ -1,7 +1,7 @@
 <pre>
   OEP: 6
   Title: API for dApps (dAPI) and communication protocol for dAPI providers
-  Author: Matus Zamborsky <zamborsky@gmail.com>
+  Author: Matus Zamborsky <zamborsky@gmail.com>, Nick Fujita <nickfujita@gmail.com>
   Type: Standard
   Status: Draft
   Created: 2018-08-03
@@ -199,14 +199,6 @@ function getDefaultIdentity(): Promise<string>
  Returns currently selected identity of logged in user.	
  * Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
 
-====getPublicKeys====
-<pre>
-function getPublicKeys(identity: string): Promise<string[]>
-</pre>
-Returns public keys corresponding to an <code>identity</code>. This call must query the blockchain. This operation is not signed and therefore does not require user interaction.
-
-* Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
-
 ====getDDO====
 <pre>
 interface OntIdDDO {
@@ -218,20 +210,7 @@ function getDDO(identity: string): Promise<OntIdDDO>
 
 Queries Description Object of the <code>identity</code>. This call must query the blockchain. This operation is not signed and therefore does not require user interaction.
 
-* Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
-
-====getAttributes====
-<pre>
-interface OntIdAttribute {
-    key: string;
-    type: string;
-    value: string;
-}
-
-function getAttributes(identity: string): Promise<OntIdAttribute[]>
-</pre>
-
-Queries attributes attached to the <code>identity</code>. This call must query the blockchain. This operation is not signed and therefore does not require user interaction.
+Returns Description object of the <code>identity</code>. This object contains public keys and attributes of the identity.
 
 * Rejects with '''MALFORMED_IDENTITY''' in case the <code>identity</code> is not a valid identity
 
@@ -252,6 +231,7 @@ function removeAttribute(key: string): Promise<void>
 Initiates removing of attribute from the user identity. This action needs to be confirmed by the user.
 
 * Rejects with '''NO_IDENTITY''' in case the user is not signed in or has no identity
+
 
 ===Message===
 This API deals with arbitrary message signing and verification.
