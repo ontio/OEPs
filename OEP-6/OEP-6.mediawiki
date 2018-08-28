@@ -88,7 +88,9 @@ The interaction with dAPI often requires specification of '''Address''', '''Iden
 * using Hex encoding
 
 ===Complex structures===
-API specification is a complex document. Every method has some inputs and outputs. Although we use the primitive types (numbers, strings, booleans) whenever possible, there are places where a complex object is required. To precisely describe the structure of those objects, we'd chosen Typescript syntax.
+All the functions of this dAPI, which requires arguments are using one typed argument instead of many. The reasons are better readability and future extensibility. 
+
+API specification is a complex document. Every method has some inputs and outputs. Although we use the primitive types (numbers, strings, booleans) whenever possible, there are places where a complex object is required. To precisely describe the structure of those objects, we'd chosen Typescript-like syntax.
 
 ===Components===
 Although this proposal is bringing clear and simple API for the dApps, the individual functions can be divided into these components:
@@ -122,13 +124,13 @@ interface Network {
 function getGenerateBlockTime(): Promise<number | null>
 function getNodeCount(): Promise<number>
 function getBlockHeight(): Promise<number>
-function getMerkleProof(txHash: string): Promise<MerkleProof>
-function getStorage(contract: string, key: string): Promise<string>
-function getAllowance(asset: Asset, fromAddress: string, toAddress: string): Promise<number>
-function getBlock(block: number | string): Promise<Block>
-function getTransaction(txHash: string): Promise<Transaction>
+function getMerkleProof({ txHash: string }): Promise<MerkleProof>
+function getStorage({ contract: string, key: string }): Promise<string>
+function getAllowance({ asset: Asset, fromAddress: string, toAddress: string }): Promise<number>
+function getBlock({ block: number | string }): Promise<Block>
+function getTransaction({ txHash: string }): Promise<Transaction>
 function getNetwork(): Network
-function getBalance(address: string): Promise<Balance>
+function getBalance({ address: string }): Promise<Balance>
 </pre>
 
 For further explanation about the wrapped method consult https://ontio.github.io/documentation/restful_api_en.html . The types '''Transaction''', '''Block''', '''MerkleProof''' and '''Balance''' corresponds to the exact object returned from Ontology blockchain.
@@ -176,7 +178,7 @@ Returns currently selected account of logged in user.
 
 ====makeTransfer====
 <pre>
-function makeTransfer(recipient: string, asset: Asset, amount: number): Promise<string>
+function makeTransfer({ recipient: string, asset: Asset, amount: number }): Promise<string>
 </pre>
 
 Initiates a transfer of <code>amount asset</code> to <code>recipient</code> account. 
@@ -205,7 +207,7 @@ interface OntIdDDO {
     ...
 }
 
-function getDDO(identity: string): Promise<OntIdDDO>
+function getDDO({ identity: string }): Promise<OntIdDDO>
 </pre>
 
 Queries Description Object of the <code>identity</code>. This call must query the blockchain. This operation is not signed and therefore does not require user interaction.
@@ -216,7 +218,7 @@ Returns Description object of the <code>identity</code>. This object contains pu
 
 ====addAttributes====
 <pre>
-function addAttributes(attributes: OntIdAttribute[]): Promise<void>
+function addAttributes({ attributes: OntIdAttribute[] }): Promise<void>
 </pre>
 
 Initiates adding of attributes to the user identity. This action needs to be confirmed by the user. Attributes with existing <code>key</code> will be overwritten.
@@ -225,7 +227,7 @@ Initiates adding of attributes to the user identity. This action needs to be con
 
 ====removeAttribute====
 <pre>
-function removeAttribute(key: string): Promise<void>
+function removeAttribute({ key: string }): Promise<void>
 </pre>
 
 Initiates removing of attribute from the user identity. This action needs to be confirmed by the user.
@@ -244,7 +246,7 @@ interface Signature {
   data: string;
 }
 
-function signMessageHash(messageHash: string): Promise<Signature>
+function signMessageHash({ messageHash: string }): Promise<Signature>
 </pre>
 
 Initiates signing of arbitrary <code>messageHash</code> by the user account or identity. dAPI provider should provide the user with a way for selecting which account or identity will sign the message.
@@ -261,7 +263,7 @@ Therefore the hash is prepended with known string '''Ontology message:''', and o
 
 ====verifyMessageHash====
 <pre>
-function verifyMessageHash(messageHash: string, signature: Signature): Promise<boolean>
+function verifyMessageHash({ messageHash: string, signature: Signature }): Promise<boolean>
 </pre>
 
 Verifies that the <code>signature</code> is valid signature of <code>messageHash</code>. 
@@ -273,7 +275,7 @@ This method does not require the dApp to disclose the message itself, only the h
 
 ====signMessage====
 <pre>
-function signMessage(message: string): Promise<Signature>
+function signMessage({ message: string }): Promise<Signature>
 </pre>
 
 Initiates signing of arbitrary <code>message</code> by the user account or identity. dAPI provider should provide the user with a way for selecting which account or identity will sign the message.
@@ -286,7 +288,7 @@ This method provide the dAPI provider with the message body, which it should dis
 
 ====verifyMessage====
 <pre>
-function verifyMessage(message: string, signature: Signature): Promise<boolean>
+function verifyMessage({ message: string, signature: Signature }): Promise<boolean>
 </pre>
 
 Verifies that the <code>signature</code> is valid signature of <code>message</code>. 
@@ -314,8 +316,8 @@ interface Response {
     results: Result[];
 }
 
-function invoke(contract: string, method: string, parameters: Parameter[], 
-  gasPrice: number, gasLimit: number, requireIdentity: boolean): Promise<Response>
+function invoke({ contract: string, method: string, parameters?: Parameter[], 
+  gasPrice?: number, gasLimit?: number, requireIdentity?: boolean }): Promise<Response>
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code>.
@@ -339,7 +341,7 @@ To output a result from smart contract, call Runtime.Notify method. For every su
 
 ====invokeRead====
 <pre>
-function invokeRead(contract: string, method: string, parameters: Parameter[]): Promise<any>
+function invokeRead({ contract: string, method: string, parameters?: Parameter[] }): Promise<any>
 </pre>
 
 Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code> in read only mode (preExec). This kind of method call does not write anything to blockchain and therefore does not need to be signed or paid for. It is processed without user interaction.
@@ -351,8 +353,8 @@ Returns direct value returned by the smart contract execution.
 
 ====deploy====
 <pre>
-function deploy(code: string, name: string, version: string, author: string, 
-    email: string, description: string, needStorage: boolean, gasPrice: number, gasLimit: number): Promise<any>
+function deploy({ code: string, name?: string, version?: string, author?: string, 
+    email?: string, description?: string, needStorage?: boolean, gasPrice?: number, gasLimit?: number }): Promise<any>
 </pre>
 
 Initiates deployment of smart contract. The <code>code</code> parameter represents compiled code of smart contract for NEOVM. The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing. It is upto the dAPI provide to allow user select the payer's account.
