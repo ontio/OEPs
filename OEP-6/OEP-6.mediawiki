@@ -367,14 +367,14 @@ The interaction between dApp and Ontology network can be described with this dia
 
 [[Image:OEP-6-1.svg|Architecture]]
 
-===Yellow parts===
-These components are external to this proposal.
+===External components===
+Yellow colored components are external to this proposal.
 
-===Green parts===
-'''dAPI.js''' is universal implementation of this proposal for direct use by dApp developers.
+===dAPI.js===
+Green colored components represent '''dAPI.js'''. It is universal implementation of communication channel for direct use by dApp developers in web browsers.
 
-===Blue parts===
-These components all belongs to concrete implementation of dAPI provider. The implementation is out of scope of this proposal, but the implementator must adhere to the protocol used by dAPI.js.
+===dAPI provider===
+Blue colored components belong to specific implementation of dAPI provider. The implementation is out of scope of this proposal, but the implementator must adhere to the protocol used by dAPI.js.
 
 ==Rationale==
 
