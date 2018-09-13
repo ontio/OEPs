@@ -48,14 +48,14 @@ The promises will be either resolved immediately if no interaction with user UI 
 ===Account/Identity management===
 Because dAPI shifts the issue of trust from dApp to dApp provider, all account and identity management is external to the dApp. Therefore there are no methods which directly handle private keys. The dApp won't need to sign the transaction itself. 
 
-Any time dApp makes a call that requires a private key to sign something (makeTransfer, sign), dApp provider will inform user about the action and prompt him for permission.
+Any time dApp makes a call that requires a private key to sign something (send, sign), dApp provider will inform user about the action and prompt him for permission.
 
 dApp provider can even forward the request to external signing mechanism as part of the process. This way the dApp does not need to specifically integrate with such mechanism.
 
 dAPI providers can choose to support multiple accounts and identities. Account and identity switching is part of dAPI provider implementation. dAPI provider should share with dApp as little information about user accounts and identities as possible, because it posses a security risk. Otherwise malicious dApp can list all user accounts with balances and identities.
 
 ====dAPI access restriction====
-Using dAPI any dApp is able to call the dAPI provider and initiate an interaction with the user (e.g.: <code>makeTransfer</code>). Only prerequisite is, that the user visits the dApp page. Although the user will need to confirm such an action, bothering him with this action, if he has no intention to confirm it, will hinder the experience.
+Using dAPI any dApp is able to call the dAPI provider and initiate an interaction with the user (e.g.: <code>send</code>). Only prerequisite is, that the user visits the dApp page. Although the user will need to confirm such an action, bothering him with this action, if he has no intention to confirm it, will hinder the experience.
 
 Therefore the dAPI will forward with every request the <code>Caller</code> object containing the <code>url</code> of the dApp page or <code>id</code> of another extension trying to communicate with dAPI provider. It is upto the dAPI provider to implement custom permission granting workflow or automatic blacklisting.
 
@@ -176,19 +176,19 @@ function getAccount(): Promise<string>
 Returns currently selected account of logged in user. 	
  * Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
 
-====makeTransfer====
+====send====
 <pre>
-function makeTransfer({ recipient: string, asset: Asset, amount: number }): Promise<string>
+function send({ to: string, asset: Asset, amount: number }): Promise<string>
 </pre>
 
-Initiates a transfer of <code>amount asset</code> to <code>recipient</code> account. 
+Initiates a transfer of <code>amount asset</code> to <code>to</code> account. 
 
 The amount should always be an integer value. Therefore is is represented in the smallest, further non divisible units for the asset. E.g.: If the <code>asset</code> is ONG then the value is multiplied by 1000000000.
 
 Returns transaction Id.
 
 * Rejects with '''NO_ACCOUNT''' in case the user is not signed in or has no accounts
-* Rejects with '''MALFORMED_ACCOUNT''' in case the <code>recipient</code> is not a valid account
+* Rejects with '''MALFORMED_ACCOUNT''' in case the <code>to</code> is not a valid account
 * Rejects with '''CANCELED''' in case the user cancels the request
 
 ===Identity===
@@ -316,11 +316,11 @@ interface Response {
     results: Result[];
 }
 
-function invoke({ contract: string, method: string, parameters?: Parameter[], 
+function invoke({ scriptHash: string, operation: string, args?: Parameter[], 
   gasPrice?: number, gasLimit?: number, requireIdentity?: boolean }): Promise<Response>
 </pre>
 
-Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code>.
+Initiates a <code>operation</code> call to a smart contract on <code>scriptHash</code> address with supplied <code>args</code>.
 The <code>gasPrice</code> and <code>gasLimit</code> are hints for the dAPI provider and it should allow user to override those values before signing. It is upto the dAPI provide to allow user select the payer's account.
 
 In case the smart contract requires the call to be signed also by an identity, parameter <code>requireIdentity</code> should be set to true.
@@ -341,10 +341,10 @@ To output a result from smart contract, call Runtime.Notify method. For every su
 
 ====invokeRead====
 <pre>
-function invokeRead({ contract: string, method: string, parameters?: Parameter[] }): Promise<any>
+function invokeRead({ scriptHash: string, operation: string, args?: Parameter[] }): Promise<any>
 </pre>
 
-Initiates a <code>method</code> call to a smart <code>contract</code> with supplied <code>parameters</code> in read only mode (preExec). This kind of method call does not write anything to blockchain and therefore does not need to be signed or paid for. It is processed without user interaction.
+Initiates a <code>operation</code> call to a smart contract on <code>scriptHash</code> with supplied <code>args</code> in read only mode (preExec). This kind of operation call does not write anything to blockchain and therefore does not need to be signed or paid for. It is processed without user interaction.
 
 Returns direct value returned by the smart contract execution. 
 
