@@ -1,0 +1,326 @@
+<pre>
+  OEP: <to be assigned>
+  Title: ONT-ID Website Interaction Standards
+  Author: Andrew Sudbury and Kiran Kumar
+  Type: Standard
+  Status: Draft
+  Created: 2018-10-04
+  Requires (*optional): n/a
+  Replaces (*optional): n/a
+</pre>
+
+==Abstract==  
+
+This OEP describes a standard that allows users to use their Ontology ONT-IDs when interacting with websites. Now, people will be able to use their ONT-IDs to identify themselves at traditional websites in place of usernames and passwords. This includes authentication for "logins", using their identity information for registering, or even for transactions.
+
+Websites will be able to define their information requirements as attributes on their ONT-IDs, and define their endpoints for standard functions that will be used in these interactions, and generate QR code challenges.
+
+Websites will use use these challenges for key-based authentication with users, and be able to enhance the authentication challenge with additional data for the interaction, such as what pieces of identity information are required to create an account at a website.
+
+These interactions with traditional websits can also be expanded beyond pure authentication to handle the user of verifiable claims, as well as traditional fiat or token transactions.
+
+==Motivation==
+
+The motivation for this OEP is to create a way for people to use their ONT-IDs are their identities for interactions with traditional websites, and not just for "blockchain" operations. Today users are overwhelmed with usernames and oasswords for all the websites and services that they use.  Now they have the ability to have self-sovereign ONT-ID identities on the Ontology blockchin.  People should be able to use their ONT-IDs to authenticate with traditional websites as well as for blockchain operations.
+
+This will have several benefits for both users and websites:
+* '''Improved Security'''.  The use of private keys for blockchain transactions provide strong authentication, solving some of the problems of weak passwords and end-user password reuse.
+
+* '''Account Attribution'''.  Users can attache traditional website accounts or actions to their self-sovereign blockchain identity. Like wise users can assert their blockchain identity *to* websites as needed or desired.
+
+* '''Decentralization'''.  This OEP provides the benefits to the user of a federated authentication system while remaining decentralized.  Authentication interactions occurr only betweem the user and the website, with the blockchain providing a source of public key and identity attribute storage.  
+
+In additon to authentication, this type of client and website interaction is needed to make easy use of verififable claims about a user's identity as well as allow users to "attach" other aspects of their online lives, such as traditional website accounts to their ONT-IDs as either attributes of via verifiable claims.
+
+''Note: Verifiable Claims are included in the initial implementation but are not directly handled by this OEP''
+
+==Specification==
+
+The interaction flow covered in this OEP occurs between a user's Ontology client (an implementation example has been created) and a website exposing a standard interface (an implementation ruby gem has been created).  This is the expected flows:
+
+[[File:./challenge-flow-diagram.png|250px|Challenge Flow Diagram]]
+
+The data flows for authentication are:
+
+# The website uses the bridge to create a QR code containing:
+#* Blockchain type,
+#* Website identity (ethereum address, ONT-ID, etc.),
+#* Operation (login, register, checkout), session challenge
+# The client app will read the QR code, and read the following data from the blockchain:
+#* Website public key,
+#* data requirements for operation,
+#* websiteendpoint URL
+# The client Application will the create a signed response encrypted with the websites public key and the user’s private key for their identity:
+#* User identity (ONT-ID, ethereum address, etc.)
+#* Operation data elements (email, address, etc.)
+#* Session challenge
+# The Website then uses the bridge to look up the user’s identity on the blockchain and verify the user’s signature with their on-chain public key.
+
+The data requirements defined by the website's identity will determine what is requested of the user by the BrIDge client. For example, here is a QR code for a checkout form. The BrIDge client has parsed the QR code, looked up the website identity on the blockchain, and is presenting choices to the user based on the data filed requirements for the specific operation.
+
+This OEP requires the clients and websites adhere to the following standard behaviors:
+
+===Website ONT-ID Attributes===  
+ONT-ID data will be stored on the blockchain.  Both users and websites will look up ONT-IDs in order to verify public keys and signatures.  
+
+* '''Users''' will have their public keys and signatures verified.  This will happen with the existing ONT-ID formats.
+* '''Websites''' will also store information about each of the operations that it supports, along with it's data requirements for each operation, and the endpoint on the website that should be used for that operation.  Websites will store the information for supported operations as ONT-ID attributes.
+
+The proposed format is:  
+  {
+    "operation": one of: signon, subscribe, purchase, register, issue_claim,
+      {
+        "name": the name of the website,
+        "description": the description of the operation,
+        "operation": one of: signon, subscribe, purchase, register, issue_claim,
+        "required": ,
+        "url": the url of the endpoint for this interaction
+      }
+  }
+
+'''Example'''
+
+  {
+    "subscribe":
+    {
+      "name": "DeleteMe",
+      "description": "Paid Subscription Requirements",
+      "operation": "subscribe"
+      "required":
+        [   "email",
+            "first_name",
+            "last_name",
+            "address",
+            "phone",
+            "credit_card"
+        ], 
+    "verifications":
+        [
+            {  "type": "ageOver18",
+                "issuer":
+                [
+                    "Abine",
+                    "DMV"
+                ]
+            }
+        ], 
+    "url": "https://test-deleteme-api.abine.com/api/blur_subscribe"
+    }
+  }
+
+[[File:./site-identity.png|250px|Site Identity]]
+
+'''To-Dos'''
+* <nowiki>[ ]</nowiki> Add versioning to the attribute data as well as api calls
+* <nowiki>[ ]</nowiki> Expand operation and data element taxonomy
+
+====Operations====
+
+While the full taxonomy of operations is still being constructed. Current operations in the implementation include:
+* '''signon''' - used for both registration and authentication.  Once this operation is complete the website needs to only store the ONT-ID of the user. For future authentication they will simply verify the signature on the encrypted challenge in order to strongly authenticate the user.
+* '''purchase''' - used for a transaction, there are additional steps to a transaction to pass price and payment information.  There will be a separate OEP for transactions.  Currently after the client verifies the website's signature the client app will make an additional call to obtain pricing and information on the payment methods accecpted before presenting approvals to the user's client.
+* '''subscribe''' - used for transaction (subscribe is presumed to be a combined registration and transaction).  
+* '''issue_claim''' - used to issue a verifiable claim from a website. An additional OEP for verifiable claim handling will be released. The current implementation includes the issue_claim operation for providing a verifiable claim for an ONT-ID.
+* '''verify_claim''' - used to present a verifiable claim to a website.  Claims provided to a website can be verified using the ONT-ID and signature of the claim issuer.  Using a hashed merkle tree structure only specific portions of a verifiable claim need to be disclosed to the receiving website.
+
+====Data Elements====
+While the full taxonomy of data elemetns is still being constructed, current data elements in the implemenatation include:
+
+{|
+|email || user selected contact info
+|-
+|first_name || user selected name, or taken from ONT-ID attributes
+|-
+|last_name || user selected name, or taken from ONT-ID attributes
+|-
+|company || user selected contact info
+|-
+|address1 || user selected address info
+|-
+|address2 || user selected address info
+|-
+|city || user selected address info
+|-
+|state || user selected address info
+|-
+|zip || user selected address info
+|-
+|country || user selected address info
+|-
+|phone_number || user selected contact info
+|-
+|fax_number || user selected contact info
+|-
+|credit card || This is an object with {cc_number, expiry_month, expiry_year, cvv, name}.  Payment handling is out of the scope of this OEP but is part of the implementation. This will be included in another OEP.
+|-
+|verifications || These are identity requirements that must be met by a verifiable claim. This is currently out of scope of this OEP, but is in the current implementation. Examples include: country = US or min_age = 18.  A verificable claim will need to be provided for these. This will be discussed in another OEP.
+|}
+
+
+Since this data is written to the blockchain it can be trusted. Modifications can only be made by the owners of the private keys for the identities and contracts. Messages and data passed to and from users and websites will be encrypted with these public keys, ensuring that only the correct website can access the data and by verifying signatures, only the user or website could have sent the message.
+
+===Session Challenges and Challenge Response===   
+For each operation involving the user's ONT-ID, there will be a key-based session challenge generated by the website. This provides a way to do both strong authentication as well as transmit information about the interaction itself.
+
+The session challenge consists of:
+
+# A random session identifier
+# The ONT-ID of the website
+# The operation to be preformed
+
+This challenge is then signed by the website (using a keypair attached with their ONT-ID)
+
+{chain:challenge:signature:operation:ont-id}
+
+''Example''
+ <nowiki>{ont:wvar5n6sebxtis6o:1580f753374e864786adc47ae91626117c657722b3946b31faa1dcf64aeaa16f7f61165a5918b785bb6f47dc2ae73ebfc7930f8ef88820825cd2a34ade245bb0:signon:AV9QqzA3q8kJHXvWpUtG1VXYT6YPmAcQc3}
+
+After signing, there are different ways this challenge can be presented to the user:
+* '''QR Code''' The challenge can be encoded as a QR code. This makes it easy to interact with an ontolgoy client on a separte device, such as a mobile phone.  
+* '''Session Challenge'''  If the user is using a browser extension as their ontology client then there is no need to use a visual QR code and the challenge can be presented as a object in the webpage.   
+
+This challenge code needs to be consumed to prevent replay attacks, eiher once used or via a timeout.
+
+===Client Functions===
+An ontology client will need to be able to:  
+# Scan a challenge QR code
+# Parse the challenge
+# Look up the website's ONT-ID on the Ontology blockchain
+# Verify the website's signature
+# Read the data requirements for the operation from the attributes of the website's ONT-ID
+# Allow the user to verify what information they want to provide back to the website.
+# Create the response: challenge, ONT-ID plus any additional identity data (name, email, etc.)
+# Encrypt the reponse with the website's public key
+# Sign the encrypted response.
+# Return the signed challenge response to the endpoint specified in the website's ONT-ID attribute for the operation
+
+====Displaying Approval to the User====
+After the client application has verified the websites signature and read the ONT-ID attributes this information needs to be displayed to the user.  The user should be able to see the website domain, as well as the data fields requested by the website that are either required or optional. The user should then have the option of filling their default information or selecting what they want to provide for each data element.
+
+''Example Presentation''
+Here is an example of presentation of data selection to the user in a client application.
+[[File:./approve.jpg|250px|Site Identity]]
+
+
+
+====Challenge Response Format====
+The challenge is PUT back to the endpoint defined in the website's ONT-ID attributed for the specific operation.  The format used is:
+
+ <nowiki>{blockchain:challenge:operation:publicykey:signature}</nowiki>
+
+Where '''blockchain:challenge:operation:publickey''' are encrypted with the website's public key and then signed by the user.
+
+''Example''  
+''To be added''
+
+===Website Endpoint Functions===  
+Each website will need to provide an endpoint for the operations that it wants to support.   
+
+'''Interaction with a webpage'''
+
+These operations will primarily be happening as users make use of traditional websites.  Therefore the webpage loaded into the user's browser will have to poll the website for changes after it has displayed the QR code challenge.
+
+
+====API Structure====  
+The API structure proposed uses a POST from the webpage in the user's browser to initiate the action, the webpage will then poll the website with a GET request, and the user's client will return the challenge with at PUT request.  At that point the GET request from the webpage will indicate the updated state to the webpage.
+
+The current implementation has the operation in the call, e.g. https://website.com/blockchain_login/''endpoint/operation''
+A rdoc description of the API can be found here https://bridge.abine.com
+
+=====POST endpoint/operation=====  
+This call will be made from the webpage in the user's browser (e.g. from a blockchain login button). It will create the challenge and QR code for the event and return the QR code for display to the user. This is the starting point for both Login (signon) and Registration events. The only parameter to the post is *blockchain*, the blockchain to be used.
+
+The return value is the challenge to be presented to the user.  The challenge consists of:
+
+ {
+   "blockchain": "eth",
+   "challenge": "string",
+   "signature": "string",
+   "operation": "signon",
+   "publickey": "string"
+ }
+
+=====GET endpoint/operation=====  
+The web application page will poll the webserver for the status of the blockchain login object. This is also used by the app to get any additional parameters not needed by login but that might be used by the application.
+ 
+ {
+    "blockchain": "string",
+    "challenge": "string",
+    "status": "pending",
+    "params": {
+      "name": "string",
+      "address": "string"
+    }
+ }
+
+{| class="wikitable"
+!Parameter
+!Description
+|-
+|''blockchain'' 
+|The blockchain to be used. The default is ont for the ontology mainnet.  
+|-
+|''challenge'' 
+|The challenge string.  
+|-
+|''status''
+|The status as defined by the website (internal to the website/web application).   
+|-
+|''params''
+|Internal parameters to be passed between the website and the webpage.  
+|}
+
+=====PUT endpoint/{challenge}=====  
+ {
+   "blockchain": "ont",  
+   "challenge": "string",  
+   "signature": "string",  
+   "operation": "signon",  
+   "publickey": "string"  
+ }
+
+{| class="wikitable"
+!Parameter
+!Description
+|-
+|''blockchain'' 
+|The blockchain to be used. The default is ont for the ontology mainnet.  
+|-
+|''challenge'' 
+|The challenge for which this response is generated.  
+|-
+|''signature''
+|The signature of the user (signing the response).   
+|-
+|''operation''
+|The operation to be preformed.   
+|-
+|''publickey''
+|ONT-ID in case of ontology.  It will loop through all public keys under ont-id to verify signature.  
+|}
+
+
+A full rdoc implementation can be viewed here: https://bridge.abine.com/docs/blur_login.html
+
+==Rationale==
+
+The rationale may also provide evidence of consensus within the community, and should discuss important objections or concerns raised during discussion.
+
+==Backwards Compatibility==
+
+There are no current backwards compatibility issues as this OEP provides a new way to use ONT-IDs, rather than changing the existing Ontology protocol. However, going forward, the version of the Ontology Login system that is expected by the website or the client or any ONT-ID attributes should be included in the meta data of the entity. 
+
+The version of this standard should be included in each call or dataset.
+
+==Test Cases==
+
+There are no consensus changes, however tests in the implementation example can be made available.
+
+==Implementation==
+
+An example implementation of this system has been shared with the Ontology team, documented here: https://bridge.abine.com 
+
+To-date the following has been implemented:
+* Android client that can handle traditional password management as well as blockchain accounts, including ONT-ID
+* Reference website implementation on a TEST version of a production website
+* Implementation of all required website functions (including blockchain operations) as a Ruby Gem and a Node.js server.
