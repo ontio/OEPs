@@ -102,14 +102,14 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 |-
 | 9.1
 | Token Exchange Standard
-| community
+| 
 | Standard
 | Stub
 | na
 |-
 | 9.2
 | Data-Token Exchange Standard
-| community
+| 
 | Standard
 | Stub
 | na
@@ -151,14 +151,14 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 |-
 | 12
 | Ontology Tokenomics Meta
-| 
+| ontology team
 | Meta
 | Stub
 | na
 |-
 | 12.1
 | Ontology Gas Standard
-| 
+| ontology team
 | Standard
 | Stub
 | na
