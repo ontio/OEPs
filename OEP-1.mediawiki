@@ -7,7 +7,7 @@
   Created: 2018-3-29
 </pre>
 
-==What is a OEP?==
+==What is an OEP?==
 
 OEP stands for ONT Enhancement Proposal. An OEP is a design document providing information to the ONT community, or describing a new feature for ONT or its processes or environment. The OEP should provide a concise technical specification of the feature and a rationale for the feature. The OEP author is responsible for building consensus within the community and documenting dissenting opinions.
 
@@ -29,7 +29,7 @@ There are three types of OEP:
 
 ==OEP Work Flow==
 
-The OEP process begins with a new idea for ONT. It is highly recommended that a single OEP contain a single key proposal or new idea. The more focused the OEP, the more successful it tends to be. A change to one client doesn't require a OEP; a change that affects multiple clients, or defines a standard for multiple apps to use, does. The OEP editor reserves the right to reject OEP proposals if they appear too unfocused or too broad. If in doubt, split your OEP into several well-focused ones.
+The OEP process begins with a new idea for ONT. It is highly recommended that a single OEP contain a single key proposal or new idea. The more focused the OEP, the more successful it tends to be. A change to one client doesn't require an OEP; a change that affects multiple clients, or defines a standard for multiple apps to use, does. The OEP editor reserves the right to reject OEP proposals if they appear too unfocused or too broad. If in doubt, split your OEP into several well-focused ones.
 
 Each OEP must have a champion - someone who writes the OEP using the style and format described below, shepherds the discussions in the appropriate forums, and attempts to build community consensus around the idea.
 
@@ -39,17 +39,17 @@ Once the champion has asked the ONT community whether an idea has any chance of 
 
 If the OEP collaborators approve, the OEP editor will assign the OEP a number, label it as Standards Track, Informational, or Meta, give it status "Draft", and add it to the git repository. The OEP editor will not unreasonably deny an OEP. Reasons for denying OEP status include duplication of effort, being technically unsound, not providing proper motivation or addressing backwards compatibility, or not in keeping with the ONT philosophy.
 
-Standards Track OEPs consist of three parts, a design document, implementation, and finally if warranted an update to the formal specification. The OEP should be reviewed and accepted before an implementation is begun, unless an implementation will aid people in studying the OEP. Standards Track OEPs must include an implementation -- in the form of code, a patch, or a URL to same -- before it can be considered Final.
+Standards Track OEPs consist of three parts, a design document, implementation, and finally if warranted an update to the formal specification. The OEP should be reviewed and accepted along with the implementation. Further more, a standard OEP is targeting to enhance all ONT implementations, an ACCEPTED status of Standard OEP shall also be verified by real project. Standards Track OEPs must include an implementation -- in the form of code, a patch, or a URL to same -- before it can be considered Final.
 
 For an OEP to be accepted it must meet certain minimum criteria. It must be a clear and complete description of the proposed enhancement. The enhancement must represent a net improvement. The proposed implementation, if applicable, must be solid and must not complicate the protocol unduly.
 
-Once a OEP has been accepted, the implementations must be completed. When the implementation is complete and accepted by the community, the status will be changed to "Final".
+Once an OEP has been accepted, the implementations must be completed. When the implementation is complete and accepted by the community, the status will be changed to "Final".
 
-A OEP can also be assigned status "Deferred". The OEP author or editor can assign the OEP this status when no progress is being made on the OEP. Once a OEP is deferred, the OEP editor can re-assign it to draft status.
+An OEP can also be assigned status "Deferred". The OEP author or editor can assign the OEP this status when no progress is being made on the OEP. Once an OEP is deferred, the OEP editor can re-assign it to draft status.
 
-A OEP can also be "Rejected". Perhaps after all is said and done it was not a good idea. It is still important to have a record of this fact.
+An OEP can also be "Rejected". Perhaps after all is said and done it was not a good idea. It is still important to have a record of this fact.
 
-OEPs can also be superseded by a different OEP, rendering the original obsolete.
+OEPs can also be superseded(replaced) by a different OEP, rendering the original obsolete.
 
 The possible paths of the status of OEPs are as follows:
 
@@ -90,7 +90,7 @@ Each OEP must begin with an [https://tools.ietf.org/html/rfc822 RFC 822] style h
   Title: <OEP title>
   Author: <list of authors' real names and optionally, email address>
  *Discussions-To: <email address>
-  Status: <Draft | Active | Accepted | Deferred | Rejected | Withdrawn | Final | Superseded>
+  Status: <Draft | Active | Accepted | Deferred | Rejected | Withdrawn | Final | Replaced>
   Type: <Standard | Informational | Meta>
   Created: <date created on, in ISO 8601 (yyyy-mm-dd) format>
  *Replaces: <OEP numbers>
@@ -116,7 +116,7 @@ If there are multiple authors, each should be on a separate line following RFC 2
 
 Note: The Resolution header is required for Standards Track OEPs only. It contains a URL that should point to an email message or other web resource where the pronouncement about the OEP is made.
 
-While a OEP is in private discussions (usually during the initial Draft phase), a Discussions-To header will indicate the mailing list or URL where the OEP is being discussed. No Discussions-To header is necessary if the OEP is being discussed privately with the author.
+While an OEP is in private discussions (usually during the initial Draft phase), a Discussions-To header will indicate the mailing list or URL where the OEP is being discussed. No Discussions-To header is necessary if the OEP is being discussed privately with the author.
 
 The Type header specifies the type of OEP: Standard, Informational, or Meta.
 
@@ -124,7 +124,7 @@ The Created header records the date that the OEP was assigned a number. It shoul
 
 OEPs may have a Requires header, indicating the OEP numbers that this OEP depends on.
 
-OEPs may also have a Superseded-By header indicating that a OEP has been rendered obsolete by a later document; the value is the number of the OEP that replaces the current document. The newer OEP must have a Replaces header containing the number of the OEP that it rendered obsolete.
+OEPs may also have a Superseded-By header indicating that an OEP has been rendered obsolete by a later document; the value is the number of the OEP that replaces the current document. The newer OEP must have a Replaces header containing the number of the OEP that it rendered obsolete.
 
 ===Auxiliary Files===
 
@@ -132,15 +132,16 @@ OEPs may include auxiliary files such as diagrams. Such files must be included i
 
 ==Transferring OEP Ownership==
 
-It occasionally becomes necessary to transfer ownership of OEPs to a new champion. In general, we'd like to retain the original author as a co-author of the transferred OEP, but that's really up to the original author. A good reason to transfer ownership is because the original author no longer has the time or interest in updating it or following through with the OEP process, or has fallen off the face of the 'net (i.e. is unreachable or not responding to email). A bad reason to transfer ownership is because you don't agree with the direction of the OEP. We try to build consensus around a OEP, but if that's not possible, you can always submit a competing OEP.
+It occasionally becomes necessary to transfer ownership of OEPs to a new champion. In general, we'd like to retain the original author as a co-author of the transferred OEP, but that's really up to the original author. A good reason to transfer ownership is because the original author no longer has the time or interest in updating it or following through with the OEP process, or has fallen off the face of the 'net (i.e. is unreachable or not responding to email). A bad reason to transfer ownership is because you don't agree with the direction of the OEP. We try to build consensus around an OEP, but if that's not possible, you can always submit a competing OEP.
 
-If you are interested in assuming ownership of a OEP, send a message asking to take over, addressed to both the original author and the OEP editor. If the original author doesn't respond to email in a timely manner, the OEP editor will make a unilateral decision (it's not like such decisions can't be reversed :).
+If you are interested in assuming ownership of an OEP, send a message asking to take over, addressed to both the original author and the OEP editor. If the original author doesn't respond to email in a timely manner, the OEP editor will make a unilateral decision (it's not like such decisions can't be reversed :).
 
 ==OEP Editors==
 
-The current OEP editor is
+The current OEP editors are
 
-*Erik Zhang (@erikzhang)
+*Ning Hu (@javajoker)
+*Edmond (@Honglei-Cong)
 
 ==OEP Editor Responsibilities & Workflow==
 
@@ -156,7 +157,7 @@ If the OEP isn't ready, the editor will send it back to the author for revision,
 
 Once the OEP is ready for the repository, the OEP editor will:
 
-*Assign a OEP number (almost always just the next available number, but sometimes it's a special/joke number, like 666 or 3141) in the pull request comments.
+*Assign an OEP number (almost always just the next available number, but sometimes it's a special/joke number, like 666 or 3141) in the pull request comments.
 
 *Merge the pull request when the author is ready (allowing some time for further peer review).
 
