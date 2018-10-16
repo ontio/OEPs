@@ -1,0 +1,123 @@
+<pre>
+  OEP: 8
+  Title: Crypto Item Standard
+  Author: tanyuan <tanyuan666@gmail.com>, zhoupw <zhoupw@gmail.com>, tonyclarking<tonyclarking@gmail.com>, blckchan<1258176714@qq.com>
+  Type: Standard
+  Status: Draft
+  Created: 2018-10-16
+</pre>
+
+==Abstract==
+The OEP-8 Proposal is a standard interface for Crypto Item, this standard allows for difference Crypto Item transfer any amount token from one address to other address.
+It combine the advantage of OEP-4 and OEP-5, it is very convenient to transfer different types of Crypto Item.
+
+==Motivation==
+With the development of smart contract DApp, the requirement of transfer difference token and amount is more and more intense. if you want to transfer difference amount and token from one address to other address or batch transfer, it is very difficult now.
+The OEP-8 Proposal can perfectly to solve this problem. It is easy to do it.
+
+===Basic Methods===
+====name====
+<pre>
+public static string name(byte[] tokenId)
+</pre>
+Returns the name of the Crypto Item <code>tokenId</code> - e.g. "My Crypto Item".
+
+====symbol====
+<pre>
+public static string symbol(byte[] tokenId)
+</pre>
+Returns a short string symbol of Crypto Item <code>tokenId</code> - e.g. <code>"MCI"</code>.
+This symbol SHOULD be short (3-8 characters is recommended), with no whitespace characters or new-lines and SHOULD be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
+
+====totalSupply====
+<pre>
+public static BigInteger symbol(byte[] tokenId)
+</pre>
+Returns the total number of Crypto Item <code>tokenId</code>.
+
+====balanceOf====
+<pre>
+public static BigInteger balanceOf(byte[] address, byte[] tokenId)
+</pre>
+Returns the number of Crypto Item <code>tokenId</code> assigned to <code>address</code>.
+The parameter <code>address</code> SHOULD be a 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+
+====transfer====
+<pre>
+public static bool transfer(byte[] from, byte[] to, byte[] tokenId, BigInteger value)
+</pre>
+Transfers <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
+The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+<code>tokenId</code> is the id of Crypto Item. <code>value</code> is the amount of Crypto Item.
+
+====transferMulti====
+<pre>
+public static bool transferMulti(object[] args)
+public struct State
+{
+    public byte[] From;
+    public byte[] To;
+    public byte[] TokenId;
+    public BigInteger Value;
+}
+</pre>
+The transferMulti method allows transfer multiple <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
+The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+<code>tokenId</code> is the id of Crypto Item. <code>value</code> is the amount of Crypto Item.
+
+====approve====
+<pre>
+public static bool approve(byte[] from, byte[] to, byte[] tokenId, BigInteger value)
+</pre>
+The approve allows to grant the amount <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
+If this function is called again it overwrites to, tokenId or value.
+The Parameters <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD throw an exception.
+
+====transferFrom====
+<pre>
+public static bool transferFrom(byte[] spender, byte[] from, byte[] to, byte[] tokenId, BigInteger value)
+</pre>
+The transferFrom method is used for a withdraw workflow, allowing <code>spender</code> to withdraw <code>amount</code> of Crypto Item <code>tokenId</code>  from <code>from</code> account to <code>to</code> account.
+The parameters <code>spender</code> <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
+
+====approveMulti====
+<pre>
+public static bool approveMulti(object[] args)
+public struct State
+{
+    public byte[] From;
+    public byte[] To;
+    public byte[] TokenId;
+    public BigInteger Value;
+}
+</pre>
+
+====transferFromMulti====
+public static bool approveMulti(object[] args)
+public struct State
+{
+    public byte[] Spender;
+    public byte[] From;
+    public byte[] To;
+    public byte[] TokenId;
+    public BigInteger Value;
+}
+</pre>
+
+==Event==
+====transfer====
+<pre>
+public static bool transfer(byte[] from, byte[] to, byte[] tokenId, BigInteger value)
+</pre>
+MUST trigger when tokens are transferred, including zero value transfers.
+
+====approval====
+<pre>
+public static bool approve(byte[] from, byte[] to, byte[] tokenId, BigInteger value)
+</pre>
+MUST trigger on any successful call to approve.
+
+==Implementation==
+====Example implementations are available at====
+OEP-8 Template:
+
