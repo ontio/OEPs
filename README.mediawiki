@@ -14,22 +14,152 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 !Author
 !Type
 !Status
+!Ref.
 |-
 | [[OEP-1.mediawiki|1]]
 | OEP Purpose and Guidelines
-| ontology Team
+| ontology team
 | Meta
 | Active
+| -
 |-
-| [[OEP-2|2]]
-| Ontology DID enhancements
-| ontology Team & community
-| Meta
-| Active
+| 2
+| Ontology ID Standard
+| 
+| Standard
+| Stub
+| -
 |-
-| [[OEP-3|3]]
+| [[OEP-2/OEP-2.1.mediawiki|2.1]]
+| ONT-ID Website Interaction Standard
+| community
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/9 pull request]
+|-
+| 3
 | Ontology SDK extension
+| ontology team & community
+| Meta
+| Active
+| [[OEP-3/OEP-CSharp-SDK.mediawiki|CSharp-SDK]]
+|-
+| 4
+| Token Standard
+| community
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/7 pull request]
+|-
+| 5
+| Special Token Meta
+| 
+| Meta
+| Stub
+| na
+|-
+| 5.1
+| Non-Fungible Token Standard
+| community
+| Standard
+| Stub
+| [https://github.com/ontio/OEPs/pull/10 pull request]
+|-
+| 5.2
+| Time-limited Token Standard
+| 
+| Standard
+| Stub
+| na
+|-
+| 6
+| dApp extension
 | community
 | Meta
-| Active
+| Draft
+| [https://github.com/ontio/OEPs/pull/8 pull request]
+|-
+| 7
+| URI Schema
+| 
+| Standard
+| Stub
+| na
+|-
+| 8
+| Data Token Standard
+| 
+| Standard
+| Stub
+| [https://github.com/ontio/OEPs/pull/11 pull request]
+|-
+| 9
+| Decentralized Data Exchange Meta
+| 
+| Meta
+| Stub
+| na
+|-
+| 9.1
+| Token Exchange Standard
+| 
+| Standard
+| Stub
+| na
+|-
+| 9.2
+| Data-Token Exchange Standard
+| 
+| Standard
+| Stub
+| na
+|-
+| 10
+| Ontology Data Encryption extension
+| 
+| Meta
+| Stub
+| na
+|-
+| 10.1
+| Zero-knowledge proof
+| 
+| Standard
+| Stub
+| na
+|-
+| 10.2
+| Homomorphic Encryption
+| 
+| Standard
+| Stub
+| na
+|-
+| 11
+| Ontology Ecosystem Governance Meta
+| ontology team
+| Meta
+| Stub
+| na
+|-
+| 11.1
+| Ontology Governance Standard
+| 
+| Standard
+| Stub
+| na
+|-
+| 12
+| Ontology Tokenomics Meta
+| ontology team
+| Meta
+| Stub
+| na
+|-
+| 12.1
+| Ontology Gas Standard
+| ontology team
+| Standard
+| Stub
+| na
 |}
