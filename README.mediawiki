@@ -49,7 +49,7 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 | community
 | Standard
 | Draft
-| [https://github.com/ontio/OEPs/pull/7 pull request]
+| [[OEP-4/OEP-Token-Standard.mediawiki | pull request]]
 |-
 | 5
 | Special Token Meta
