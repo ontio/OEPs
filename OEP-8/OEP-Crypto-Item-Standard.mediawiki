@@ -15,7 +15,8 @@ It combines the advantage of OEP-4 and OEP-5, it is very convenient to transfer 
 With the development of smart contract DApp, the requirement of transferring different amount of different tokens is more and more intense. If you want to transfer difference amount of different tokens from one address to other address or do batch transfer, it is very difficult now.
 The OEP-8 Proposal can perfectly solve this problem. It is easy to do it.
 
-===Basic Methods===
+==Specification==
+===Method===
 ====name====
 <pre>
 public static string name(byte[] tokenId)
