@@ -44,12 +44,12 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 | Active
 | [[OEP-3/OEP-CSharp-SDK.mediawiki|CSharp-SDK]]
 |-
-| 4
+| [[OEP-4/OEP-Token-Standard.mediawiki|4]]
 | Token Standard
-| community
+| luodanwg <luodan.wg@gmail.com>, tanyuan <tanyuan666@gmail.com>, zhoupw <zhoupw@gmail.com>
 | Standard
-| Draft
-| [[OEP-4/OEP-Token-Standard.mediawiki | pull request]]
+| Accepted
+| -
 |-
 | 5
 | Special Token Meta
