@@ -8,12 +8,12 @@
 </pre>
 
 ==Abstract==
-The OEP-8 Proposal is a standard interface for Crypto Item, this standard allows for difference Crypto Item transfer any amount token from one address to other address.
-It combine the advantage of OEP-4 and OEP-5, it is very convenient to transfer different types of Crypto Item.
+The OEP-8 Proposal is a standard interface for Crypto Item, this standard allows you to transfer any amount of tokens for difference Crypto Item from one address to other address.
+It combines the advantage of OEP-4 and OEP-5, it is very convenient to transfer different types of Crypto Item.
 
 ==Motivation==
-With the development of smart contract DApp, the requirement of transfer difference token and amount is more and more intense. if you want to transfer difference amount and token from one address to other address or batch transfer, it is very difficult now.
-The OEP-8 Proposal can perfectly to solve this problem. It is easy to do it.
+With the development of smart contract DApp, the requirement of transferring different amount of different tokens is more and more intense. If you want to transfer difference amount of different tokens from one address to other address or do batch transfer, it is very difficult now.
+The OEP-8 Proposal can perfectly solve this problem. It is easy to do it.
 
 ===Basic Methods===
 ====name====
@@ -61,7 +61,7 @@ public struct State
     public BigInteger Value;
 }
 </pre>
-The transferMulti method allows transfer multiple <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
+The transferMulti method allows to transfer multiple <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
 The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
 <code>tokenId</code> is the id of Crypto Item. <code>value</code> is the amount of Crypto Item.
 
@@ -69,8 +69,8 @@ The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. 
 <pre>
 public static bool approve(byte[] from, byte[] to, byte[] tokenId, BigInteger value)
 </pre>
-The approve allows to grant the amount <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
-If this function is called again it overwrites to, tokenId or value.
+The approve method allows to grant the amount <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
+If this function is called again it overwrites tokenId or value.
 The Parameters <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD throw an exception.
 
 ====transferFrom====
@@ -84,7 +84,7 @@ The parameters <code>spender</code> <code>from</code> and <code>to</code> SHOULD
 <pre>
 public static BigInteger allowance(byte[] owner, byte[] spender, byte[] tokenId)
 </pre>
-Returns the amount of Crypto Item <code>tokenId</code> which <code>spender</code> is still allowed to withdraw from <code>owner</code>
+Returns the amount of Crypto Item <code>tokenId</code> which <code>spender</code> is still allowed to withdraw from <code>owner</code>.
 
 ====approveMulti====
 <pre>
@@ -98,8 +98,8 @@ public struct State
 }
 </pre>
 
-The approveMulti method allows to grant multiple amount <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
-The Parameters <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD throw an exception.
+The approveMulti method allows to grant multiple amount <code>Value</code> of Crypto Item <code>TokenId</code> from <code>From</code> account to <code>To</code> account.
+The Parameters <code>From</code> and <code>To</code> SHOULD be 20-byte addresses. If not, this method SHOULD throw an exception.
 
 ====transferFromMulti====
 <pre>
@@ -113,8 +113,8 @@ public struct State
     public BigInteger Value;
 }
 </pre>
-The transferFromMulti method is used for a withdraw workflow, allowing multiple <code>spender</code> to withdraw <code>amount</code> of Crypto Item <code>tokenId</code>  from <code>from</code> account to <code>to</code> account.
-The Parameters <code>Spender</code> <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD throw an exception.
+The transferFromMulti method is used for a withdraw workflow, allowing multiple <code>Spender</code> to withdraw <code>Value</code> of Crypto Item <code>TokenId</code>  from <code>From</code> account to <code>To</code> account.
+The Parameters <code>Spender</code> <code>From</code> and <code>To</code> SHOULD be 20-byte addresses. If not, this method SHOULD throw an exception.
 
 ==Event==
 ====transfer====
@@ -125,7 +125,7 @@ MUST trigger when tokens are transferred, including zero value transfers.
 
 ====approval====
 <pre>
-public static bool approve(byte[] from, byte[] to, byte[] tokenId, BigInteger value)
+public static bool approval(byte[] from, byte[] to, byte[] tokenId, BigInteger value)
 </pre>
 MUST trigger on any successful call to approve.
 
