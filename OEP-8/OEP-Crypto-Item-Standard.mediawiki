@@ -80,6 +80,12 @@ public static bool transferFrom(byte[] spender, byte[] from, byte[] to, byte[] t
 The transferFrom method is used for a withdraw workflow, allowing <code>spender</code> to withdraw <code>amount</code> of Crypto Item <code>tokenId</code>  from <code>from</code> account to <code>to</code> account.
 The parameters <code>spender</code> <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
 
+====allowance====
+<pre>
+public static BigInteger allowance(byte[] owner, byte[] spender, byte[] tokenId)
+</pre>
+Returns the amount of Crypto Item <code>tokenId</code> which <code>spender</code> is still allowed to withdraw from <code>owner</code>
+
 ====approveMulti====
 <pre>
 public static bool approveMulti(object[] args)
