@@ -60,10 +60,10 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 |-
 | 5.1
 | Non-Fungible Token Standard
-| 
+| community
 | Standard
 | Stub
-| na
+| [https://github.com/ontio/OEPs/pull/10 pull request]
 |-
 | 5.2
 | Time-limited Token Standard
@@ -91,7 +91,7 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 | 
 | Standard
 | Stub
-| na
+| [https://github.com/ontio/OEPs/pull/11 pull request]
 |-
 | 9
 | Decentralized Data Exchange Meta
