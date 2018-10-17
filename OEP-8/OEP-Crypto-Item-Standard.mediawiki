@@ -92,8 +92,12 @@ public struct State
 }
 </pre>
 
+The approveMulti method allows to grant multiple amount <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
+The Parameters <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD throw an exception.
+
 ====transferFromMulti====
-public static bool approveMulti(object[] args)
+<pre>
+public static bool transferFromMulti(object[] args)
 public struct State
 {
     public byte[] Spender;
@@ -103,6 +107,8 @@ public struct State
     public BigInteger Value;
 }
 </pre>
+The transferFromMulti method is used for a withdraw workflow, allowing multiple <code>spender</code> to withdraw <code>amount</code> of Crypto Item <code>tokenId</code>  from <code>from</code> account to <code>to</code> account.
+The Parameters <code>Spender</code> <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD throw an exception.
 
 ==Event==
 ====transfer====
