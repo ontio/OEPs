@@ -62,7 +62,7 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 | Non-Fungible Token Standard
 | community
 | Standard
-| Stub
+| Draft
 | [https://github.com/ontio/OEPs/pull/10 pull request]
 |-
 | 5.2
@@ -83,14 +83,14 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 | URI Schema
 | 
 | Standard
-| Stub
-| na
+| Draft
+| [https://github.com/ontio/OEPs/pull/19 pull request]
 |-
 | 8
 | Data Token Standard
 | 
 | Standard
-| Stub
+| Draft
 | [https://github.com/ontio/OEPs/pull/11 pull request]
 |-
 | 9
