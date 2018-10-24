@@ -131,4 +131,4 @@ MUST trigger on any successful call to approve.
 ===Implementation===
 ====Example implementations are available at====
 
-OEP-4 Python Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP4Sample_raise_Exception/OEP4Sample_raiseException.py | Python Template]]
+OEP-4 Python Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP4Sample/OEP4Sample.py | Python Template]]
