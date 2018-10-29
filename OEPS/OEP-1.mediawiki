@@ -53,7 +53,7 @@ OEPs can also be superseded(replaced) by a different OEP, rendering the original
 
 The possible paths of the status of OEPs are as follows:
 
-[[Image:OEP-1/process.png|OEP Process]]
+[[Image:/resource/OEP-1/process.png|OEP Process]]
 
 Some Informational and Meta OEPs may also have a status of "Active" if they are never meant to be completed. E.g. OEP 1 (this OEP).
 
@@ -79,14 +79,14 @@ Each OEP should have the following parts:
 
 ==OEP Formats and Templates==
 
-OEPs should be written in [https://www.mediawiki.org/wiki/Help:Contents mediawiki] or [https://help.github.com/articles/basic-writing-and-formatting-syntax/ markdown] format. Image files should be included in a subdirectory for that OEP.
+OEPs should be written in [https://www.mediawiki.org/wiki/Help:Contents mediawiki] or [https://help.github.com/articles/basic-writing-and-formatting-syntax/ markdown] format. Image files should be included in a subdirectory of resource, with a folder of OEP-x.
 
 ===OEP Header Preamble===
 
 Each OEP must begin with an [https://tools.ietf.org/html/rfc822 RFC 822] style header preamble. The headers must appear in the following order. Headers marked with "*" are optional and are described below. All other headers are required.
 
 <pre>
-  OEP: <OEP number>(this is determined by the OEP editor)
+  OEP: <OEP number>(this is determined by the OEP editor, reuse issue id in most cases)
   Title: <OEP title>
   Author: <list of authors' real names and optionally, email address>
  *Discussions-To: <email address>
@@ -128,7 +128,7 @@ OEPs may also have a Superseded-By header indicating that an OEP has been render
 
 ===Auxiliary Files===
 
-OEPs may include auxiliary files such as diagrams. Such files must be included in a subdirectory for that OEP and be named OEP-x-y.ext, where "x" is the OEP number, "y" is a serial number (starting at 1), and "ext" is replaced by the actual file extension (e.g. "png").
+OEPs may include auxiliary files such as diagrams. Such files must be included in a subdirectory for /resource/OEP-x, where "x" is the OEP number.
 
 ==Transferring OEP Ownership==
 
