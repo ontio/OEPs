@@ -51,12 +51,19 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 | Draft
 | [https://github.com/ontio/OEPs/pull/10 pull request]
 |-
+| 23
+| Security Token Offering (STO) Standard
 | 
+| Standard
+| Stub
+| [https://github.com/ontio/OEPs/issues/23 issue ref]
+|-
+| 24
 | Time-limited Token Standard
 | 
 | Standard
 | Stub
-| na
+| [https://github.com/ontio/OEPs/issues/24 issue ref]
 |-
 | 6
 | dApp extension
