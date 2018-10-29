@@ -4,7 +4,7 @@ ONT Enhancement Proposals (OEPs) describe standards for the ONT platform, includ
 
 ==Contributing==
 
-First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your OEP to it. There is a [[OEP-X.mediawiki|template OEP here]]. Then submit a [https://github.com/ontio/OEPs/pulls Pull Request] to this repository.
+First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your OEP to it. There is a [[OEP-X.mediawiki|template OEP here]]. Then submit a [https://github.com/ontio/OEPs/pulls Pull Request] to this repository.
 
 ==Table of Contents==
 
@@ -16,7 +16,7 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 !Status
 !Ref.
 |-
-| [[OEP-1.mediawiki|1]]
+| [[OEPS/OEP-1.mediawiki|1]]
 | OEP Purpose and Guidelines
 | ontology team
 | Meta
@@ -28,23 +28,16 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 | 
 | Standard
 | Stub
-| -
-|-
-| [[OEP-2/OEP-2.1.mediawiki|2.1]]
-| ONT-ID Website Interaction Standard
-| community
-| Standard
-| Draft
-| [https://github.com/ontio/OEPs/pull/9 pull request]
+| [[meta-backup/OEP-Authentication process of user in off-chain communication.mediawiki|OEP-Authentication process]], [https://github.com/ontio/OEPs/pull/9 ONT-ID Website Interaction Standard pull request]
 |-
 | 3
 | Ontology SDK extension
 | ontology team & community
 | Meta
-| Active
-| [[OEP-3/OEP-CSharp-SDK.mediawiki|CSharp-SDK]]
+| Stub
+| [[meta-backup/OEP-CSharp-SDK.mediawiki|CSharp-SDK]]
 |-
-| [[OEP-4/OEP-Token-Standard.mediawiki|4]]
+| [[OEPS/OEP-4.mediawiki|4]]
 | Token Standard
 | luodanwg, tanyuan, zhoupw
 | Standard
@@ -52,25 +45,25 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 | -
 |-
 | 5
-| Special Token Meta
-| 
-| Meta
-| Stub
-| na
-|-
-| 5.1
 | Non-Fungible Token Standard
 | community
 | Standard
 | Draft
 | [https://github.com/ontio/OEPs/pull/10 pull request]
 |-
-| 5.2
+| 23
+| Security Token Offering (STO) Standard
+| 
+| Standard
+| Stub
+| [https://github.com/ontio/OEPs/issues/23 issue ref]
+|-
+| 24
 | Time-limited Token Standard
 | 
 | Standard
 | Stub
-| na
+| [https://github.com/ontio/OEPs/issues/24 issue ref]
 |-
 | 6
 | dApp extension
@@ -94,72 +87,30 @@ First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your O
 | [https://github.com/ontio/OEPs/pull/11 pull request]
 |-
 | 9
-| Decentralized Data Exchange Meta
-| 
-| Meta
-| Stub
-| na
-|-
-| 9.1
 | Token Exchange Standard
 | 
 | Standard
 | Stub
-| na
-|-
-| 9.2
-| Data-Token Exchange Standard
-| 
-| Standard
-| Stub
-| na
+| Data-Token Exchange Standard, etc.
 |-
 | 10
 | Ontology Data Encryption extension
 | 
 | Meta
 | Stub
-| na
-|-
-| 10.1
-| Zero-knowledge proof
-| 
-| Standard
-| Stub
-| na
-|-
-| 10.2
-| Homomorphic Encryption
-| 
-| Standard
-| Stub
-| na
+| Zero-knowledge proof, Homomorphic Encryption, etc.
 |-
 | 11
 | Ontology Ecosystem Governance Meta
 | ontology team
 | Meta
 | Stub
-| na
-|-
-| 11.1
 | Ontology Governance Standard
-| 
-| Standard
-| Stub
-| na
 |-
 | 12
 | Ontology Tokenomics Meta
 | ontology team
 | Meta
 | Stub
-| na
-|-
-| 12.1
 | Ontology Gas Standard
-| ontology team
-| Standard
-| Stub
-| na
 |}
