@@ -53,7 +53,7 @@ OEPs can also be superseded(replaced) by a different OEP, rendering the original
 
 The possible paths of the status of OEPs are as follows:
 
-[[Image:resource/OEP-1/process.png|OEP Process]]
+[[Image:/resource/OEP-1/process.png|OEP Process]]
 
 Some Informational and Meta OEPs may also have a status of "Active" if they are never meant to be completed. E.g. OEP 1 (this OEP).
 
@@ -128,7 +128,7 @@ OEPs may also have a Superseded-By header indicating that an OEP has been render
 
 ===Auxiliary Files===
 
-OEPs may include auxiliary files such as diagrams. Such files must be included in a subdirectory for resource/OEP-x, where "x" is the OEP number.
+OEPs may include auxiliary files such as diagrams. Such files must be included in a subdirectory for /resource/OEP-x, where "x" is the OEP number.
 
 ==Transferring OEP Ownership==
 

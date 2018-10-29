@@ -4,7 +4,7 @@ ONT Enhancement Proposals (OEPs) describe standards for the ONT platform, includ
 
 ==Contributing==
 
-First review [[OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your OEP to it. There is a [[OEP-X.mediawiki|template OEP here]]. Then submit a [https://github.com/ontio/OEPs/pulls Pull Request] to this repository.
+First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add your OEP to it. There is a [[OEP-X.mediawiki|template OEP here]]. Then submit a [https://github.com/ontio/OEPs/pulls Pull Request] to this repository.
 
 ==Table of Contents==
 
