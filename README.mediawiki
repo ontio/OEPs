@@ -51,6 +51,13 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Draft
 | [https://github.com/ontio/OEPs/pull/10 pull request]
 |-
+| [[OEPS/OEP-8.mediawiki|8]]
+| Crypto Item Standard
+| tanyuan, zhoupw, tonyclarking, blckchan
+| Standard
+| Accepted
+| -
+|-
 | 23
 | Security Token Offering (STO) Standard
 | 
@@ -79,35 +86,35 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Draft
 | [https://github.com/ontio/OEPs/pull/19 pull request]
 |-
-| 8
+| 
 | Data Token Standard
 | 
 | Standard
 | Draft
-| [https://github.com/ontio/OEPs/pull/11 pull request]
+| Data Tokenization Standard, etc.
 |-
-| 9
+| 
 | Token Exchange Standard
 | 
 | Standard
 | Stub
 | Data-Token Exchange Standard, etc.
 |-
-| 10
+| 
 | Ontology Data Encryption extension
 | 
 | Meta
 | Stub
 | Zero-knowledge proof, Homomorphic Encryption, etc.
 |-
-| 11
+| 
 | Ontology Ecosystem Governance Meta
 | ontology team
 | Meta
 | Stub
 | Ontology Governance Standard
 |-
-| 12
+| 
 | Ontology Tokenomics Meta
 | ontology team
 | Meta
