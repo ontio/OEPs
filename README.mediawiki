@@ -28,14 +28,14 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | 
 | Standard
 | Stub
-| [[meta-backup/OEP-Authentication process of user in off-chain communication.mediawiki|OEP-Authentication process]], [https://github.com/ontio/OEPs/pull/9 ONT-ID Website Interaction Standard pull request]
+| [[meta-backup/Auth-process.mediawiki|Authentication process]], [https://github.com/ontio/OEPs/pull/9 Website Interaction Standard pull request]
 |-
 | 3
 | Ontology SDK extension
 | ontology team & community
 | Meta
 | Stub
-| [[meta-backup/OEP-CSharp-SDK.mediawiki|CSharp-SDK]]
+| [[meta-backup/CSharp-SDK.mediawiki|CSharp-SDK]]
 |-
 | [[OEPS/OEP-4.mediawiki|4]]
 | Token Standard
