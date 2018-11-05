@@ -131,6 +131,17 @@ function getBlock({ block: number | string }): Promise<Block>
 function getTransaction({ txHash: string }): Promise<Transaction>
 function getNetwork(): Network
 function getBalance({ address: string }): Promise<Balance>
+function getUnboundOng({ address: string }): Promise<string>
+function getContract({ hash: string }): Promise<Contract>
+function getSmartCodeEvent({ value: string | number }): Promise<any>
+function getBlockHeightByTxHash({ hash: string }): Promise<number>
+function getBlockHash({ height: number }): Promise<string>
+function getBlockTxsByHeight({ height: number }): Promise<BlockWithTxList>
+function getGasPrice(): Promise<GasPrice>
+function getGrantOng({ address: string }): Promise<string>
+function getMempoolTxCount(): Promise<number[]>
+function getMempoolTxState({ hash: string }): Promise<any>
+function getVersion(): Promise<string>
 </pre>
 
 For further explanation about the wrapped method consult https://ontio.github.io/documentation/restful_api_en.html . The types '''Transaction''', '''Block''', '''MerkleProof''' and '''Balance''' corresponds to the exact object returned from Ontology blockchain.
