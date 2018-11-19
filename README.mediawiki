@@ -58,12 +58,12 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Accepted
 | -
 |-
-| 23
+| 506
 | Security Token Offering (STO) Standard
 | 
 | Standard
 | Stub
-| [https://github.com/ontio/OEPs/issues/23 issue ref]
+| ref., [https://www.sec.gov/smallbusiness/exemptofferings/rule506c Regulation D 506(c)], etc. [https://github.com/ontio/OEPs/issues/23 issue ref]
 |-
 | 24
 | Time-limited Token Standard
