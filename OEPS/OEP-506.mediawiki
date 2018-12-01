@@ -577,7 +577,7 @@ Returns the <code>description</code>,<code>supply</code>and<code>lockUntil</code
 func setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64) bool
 event setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64)
 </pre>
-Operator set some necessary information according to tranche.
+Operator set some necessary information about this tranche.
 
 ===== getTrancheExtraMeta =====
 <pre>
@@ -587,6 +587,7 @@ Returns the <code>key</code>and<code>val</code> for the given tranche
 
 ===== setTrancheExtraMeta =====
 <pre>
-func setTrancheExtraMeta(tranche uint64, key string, val interface{}) bool
+func setTrancheExtraMeta(operator []byte, tranche uint64, key string, val interface{}) bool
 event setTrancheExtraMeta(operator []byte, tranche uint64, key string, val interface{})
 </pre>
+Operator set some necessary extra meta about this tranche.
