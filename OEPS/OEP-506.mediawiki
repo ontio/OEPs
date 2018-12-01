@@ -1,0 +1,592 @@
+<pre>OEP: 506
+Title: Security Token Offering Standard
+Author: javajoker < hehehu@gmail.com>, tanyuan < tanyuan666@gmail.com>, Honglei-Cong< conghonglei@gmail.com>
+Type: Standard
+Status: Draft
+Created: 2018-11-29
+</pre>
+
+== Abstract ==
+This OEP Proposal standardizes a series of integral standard interfaces for Security Token Offering and captures other requirements such as KYC in additional to the token interface . It will facilitate the implementation of security token, which is considered to be a subclass of partially fungible token here, with smart contracts and already existing standard services on Ontology platform.
+
+== Motivation ==
+A related set of standard interfaces are defined here, not just the interface for token, to capture the whole life-cycle requirements of STO. Existing standard services of Ontology platform are leveraged to make this proposal an integral part of the ecosystem.
+
+== Specification ==
+=== Related standard services ===
+Several already existing services are reused here, which makes the proposal an integral part of the eco-system and ease the development of smart contracts.
+
+ONT ID, which defines the format and CRUD operations for digital identity(ONT ID)
+https://github.com/ontio/ontology-DID/blob/master/docs/en/DID-ONT-method.md
+
+ONT ID Claim, which defines the format of ONT ID claims and related services.
+https://github.com/ontio/ontology-DID/blob/master/docs/en/claim_spec.md
+
+Auth Contract, which defines a basic means of ACL for function calls of smart contracts, based on ONT ID. https://github.com/ontio/ontology-smartcontract/blob/master/smartcontract/native/auth/auth.md
+
+== List of Interfaces ==
+Several related interfaces are defined here, that is, KYC Service, Security Token.
+
+This proposal contains more than what you can find in the ERC-1400 specification or so. We do so since we recognize that KYC constitutes an important and indispensable part of STO.
+
+Though several different interfaces are defined here, one can still choose to implement them in one smart contract or so. Since the regulation rules are prone to change often, it is possible to delegate some of the regulation compliance checking to another smart contract, which can be upgraded independently.
+
+We admit that those given interfaces can’t cover every possible business scenarios in themselves. But used as the basic building blocks, more functionality could be built upon them, in separate smart contracts. For example, dividend distribution or stock splits could easily be implemented in a higher level.
+
+=== Interface KYC Service ===
+This interface provides the operations on KYC related information. When implementing this services, it is recommended that ONT ID and ONT CLAIM services are fully utilized. This interface defines the necessary enhancement to those basic services according to the requirements of STO business.
+
+==== Basic Data Model ====
+The prototypes of function calls in interface are always the CRUD operations on some data model. So the really essential things are the data model. For KYCServices, the data models are described in detail through table 1 to table 4.
+
+<table>
+    <tr>
+        <td>name</td>
+        <td>type</td>
+        <td>description</td>
+    </tr>
+    <tr>
+        <td>address</td>
+        <td>[]byte</td>
+        <td>primary key</td>
+    </tr>
+    <tr>
+        <td>ontId</td>
+        <td>string</td>
+        <td>the corresponding ONT ID of the address</td>
+    </tr>
+    <tr>
+        <td>pubKeyId</td>
+        <td>int</td>
+        <td>the public key id in the ONT ID document</td>
+    </tr>
+    <tr>
+        <td>privkeyOwnerId</td>
+        <td>string</td>
+        <td>usuallyit should be the same as ontId. But in some case the private key may be ownedby an Exchange. Then it should be the ontId of the exchange</td>
+    </tr>
+    <tr>
+        <td colspan="3">Only the ontId owner can CRUD. All rolescan Read.</td>
+    </tr>
+</table>
+<div align="center">table 1 address to OntID mapping</div><br/>
+
+Basic ONT ID service just provide a means for one to control his own ONT ID via a list of public/private key pairs. Since a public key can not be directly calculated from an ontology address, and the latter is more commonly used in token smart contracts, it is necessary to keep a mapping between address and {ontId, pubKeyId} to ease the use of ONT ID service and ONT CLAIM services. In this way, an address is related to an ontId, which can further be attested via the ONT CLAIM service. In this way, KYC can be conducted and KYC information can be retrieved by the regulatory authorities.
+
+Only ontId owner can change his/her ONT ID document. Entries to this address to ontId mapping can also be added/removed/modified by ontId owner. When doing so, one should demonstrate that he/she owns one of the PK listed in the associated DID Document, just like the case of the modification to the DID document. The relationship between the pubKey and the address should always be checked before addition/modification.
+
+In some case, the address is generated by an Exchange and the ontId owner does not have the private key of the address. The exchange can tell the ontId owner the associated public key and the ontId of the exchange. The ontId owner can then add the address to the mapping.
+
+<table>
+    <tr>
+        <td>name</td>
+        <td>type</td>
+        <td>description</td>
+    </tr>
+    <tr>
+        <td>ontId</td>
+        <td>string</td>
+        <td rowspan="3">primary key</td>
+    </tr>
+    <tr>
+        <td>roleName</td>
+        <td>string</td>
+    </tr>
+    <tr>
+        <td>claimId</td>
+        <td>string</td>
+    </tr>
+     <tr>
+        <td>claimAttestTime</td>
+        <td>uint64</td>
+        <td>claim attest time in unix format</td>
+    </tr>
+    <tr>
+        <td>claimExpireTime</td>
+        <td>uint64</td>
+        <td>claim expiration time in unix format</td>
+    </tr>
+    <tr>
+        <td>claimAttesterOntId</td>
+        <td>string</td>
+        <td>the attester of the claim</td>
+    </tr>
+    <tr>
+        <td>extraClaimInfo</td>
+        <td>string</td>
+        <td>extra claim information can be put into this field when necessary. </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+        <p>Only user with Regulator role can CRUD. All roles can Read. Normally, just being a common accredited investor is not sufficient to be a KYC provider. <p/>
+        <p>The enum value of roleName is left to the choice of token implementer. Possible values are {“TokenIssuer”, “KYC_Provider”, “Exchange”, “Qualified_Investor”, “Regulator”, “Auditor”}<p/>
+        <p>It may be implemented as a cascade of mappings: {ontId →{roleName →{claimiD → claim attributes}}}<p/>
+        </td>
+    </tr>
+</table>
+<div align="center">table 2  basic claim information</div><br/>
+
+This data structure records the claims supporting the ontId to take up a specific role named by roleName. For example, to become accredited investor, one should pass necessary KYC and investment qualification tests, and be attested by some ontId with required role.
+
+Each ontid can have multiple roles, each supported by several attested claims. For example, being accredited investor, one could have obtained different qualifications from different Exchanges.
+
+Auth services does records the {ontId, roleName} mapping, but does not expose a query interface for a list of roles one can take. So the information in table 4 should be maintained and used carefully together with the Auth service.
+
+Since auth service is provided at the smart contract level, it is recommended to introduce a proxy smart contract which exposes all the token related interfaces and concentrates all the ACL control.
+
+In order to keep the privacy, the ONT CLAIM service does not store the detail of the claim on the blockchain. In the runtime, the presence of just one attested record with an un-expired state, along with the supporting result returned from the ONT CLAIM service will be enough to support an ontId to have a role.
+
+In brief, from an address one can map it to an ontId, and then to a list of possible roles taken by that address. And one can further find out whether this role is supported by valid claims or not.
+
+The following two pieces of information are introduced for regulatory purpose.
+
+<table>
+    <tr>
+        <td>name</td>
+        <td>type</td>
+        <td>description</td>
+    </tr>
+    <tr>
+        <td>address</td>
+        <td>[]byte</td>
+        <td>primary key</td>
+    </tr>
+    <tr>
+        <td>operatorOntId</td>
+        <td>string</td>
+        <td>string suspended by whom</td>
+    </tr>
+    <tr>
+        <td>memo</td>
+        <td>string</td>
+        <td>anything worth mention, for example, it can describes the start time of the suspension and the reason for that. A suspended address should cease to behave actively as normal. According to the punishment actions taken, it may or may not be able to maintain its original token positions further.</td>
+    </tr>
+     <tr>
+        <td colspan="3">Only regulator can CRUD. All roles can Read.</td>
+    </tr>
+</table>
+<div align="center">table 3  address suspension</div><br/>
+
+<table>
+    <tr>
+        <td>name</td>
+        <td>type</td>
+        <td>description</td>
+    </tr>
+    <tr>
+        <td>ontId</td>
+        <td>string</td>
+        <td>primary key</td>
+    </tr>
+    <tr>
+        <td>operatorOntId</td>
+        <td>string</td>
+        <td>string suspended by whom</td>
+    </tr>
+    <tr>
+        <td>memo</td>
+        <td>string</td>
+        <td>anything worth mention, for example, it can describes the start time of the suspension and the reason for that. A suspended ontId should cease to behave actively as normal. According to the punishment actions taken, it may or may not be able to maintain its original token positions furthur.</td>
+    </tr>
+     <tr>
+        <td colspan="3">Only regulator can CRUD. All roles can Read.</td>
+    </tr>
+</table>
+<div align="center">table 4  ontId suspension</div><br/>
+
+A regulator may choose to suspend the use of an address or even an ontId due to illegal actions found in that address. The presence of a record in this kind of data structure means a still effective suspension. The primary key field presented here may not have a corresponding record in table 1 or in other services, due to the possible delete operation taken. But such record still exists to serve as a reminder of the punishment actions taken by the regulator.
+
+==== Methods ====
+===== setAddrToOntId =====
+```golang
+func setAddrToOntId(operator []byte, address []byte, pubKeyId int, privKeyOwnerId string) bool
+event setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId string, privKeyOwnerId string)
+```
+Operator set the mapping from <code>address</code> to <code>ontId</code>, specify <code>pubKeyId</code> as the corresponding public key id for that <code>address</code> and <code>privKeyOwnerId</code> as the ONT ID of the real private key owner of the address. The <code>ontId</code> and <code>pubKeyId</code> should already exists in the ONT ID service. Throw an exception when anything goes wrong, for example, when the format of the parameters is not correct, or the </code>pubKeyId</code> does not match the given address, or the roles of the caller are not allowed to make this call.
+The parameters <code>operator</code> and <code>address</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
+
+===== getAddrToOntId =====
+```golang
+func getAddrToOntId(address []byte) (ontId string, pubKeyId string, privKeyOwnerId string)
+```
+Retrieve the ontId, pubKeyId and privKeyOwnerId for the given address.
+
+===== setClaimInfo =====
+```golang
+type claimInfo struct {
+    claimAttestTime uint64
+    claimExpireTime uint64
+    claimAttesterOntId string
+    extraClaimInfo string
+}
+func setClaimInfo(operator []byte, ontId string, roleName string, claimId string, info claimInfo) bool
+event setClaimInfo(operator []byte, ontId string, roleName string, claimId string, info claimInfo)
+```
+After the investors pass the KYC review，the operator will grant the qualified investors some permissions to allow them to invoke some methods according to the rules. But the permissions have expiration time, which means the investors can't invoke the methods if the current time is beyond the expiration date.
+The parameters <code>operator</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
+
+===== getClaimInfo =====
+
+```golang
+func getClaimInfo(ontId string, roleName string, claimId string) (info claimInfo)
+```
+Returns the claimInfo
+
+===== isValidClaim =====
+
+```golang
+func isValidClaim(ontId string, roleName string, claimId string) bool
+```
+A claim identified by claimId for ontId and supporting role roleName is only valid when it is attested and has not expired or revoked.
+
+===== getOntIdSuspendStatus =====
+```golang
+func getOntIdSuspendStatus(ontId string) (yes bool, operatorOntId string, memo string)
+```
+
+===== setAddressSuspendStatus =====
+
+```golang
+ func setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string) bool
+ event setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string)
+```
+The operatorOntId should be deduced from the operator’s address. So do not have to pass it as a parameter. When suspend is set true, it is a suspend operation. One can issue a suspend opeation again and again when the target has already been suspended. When suspend is set to false, it always deletes the record for suspension, or just ignore the operation when no matching records could be found. One can use memo to pass in description. The target of operation is denoted by address.
+
+===== getOntIdSuspendStatus =====
+```golang
+func getOntIdSuspendStatus(ontId string) (yes bool, operatorOntId string, memo string)
+```
+
+===== setOntIdSuspendStatus =====
+```golang
+func setOntIdSuspendStatus(operator []byte, ontId string, suspend bool, memo string) bool
+event setOntIdSuspendStatus(operator []byte, ontId string, suspend bool, memo string)
+```
+The operatorOntId should be deduced from the operator’s address. So do not have to pass it as a parameter. When suspend is set to true, it is a suspend operation. One can issue a suspend opeation again and again when the target has already been suspended. When suspend is set to false, it always deletes the record for suspension, or just ignore the operation when no matching records could be found. One can use memo to pass in description. The target of operation is denoted by ontId.
+
+=== Interface SecurityToken ===
+This interface provides the basic operations on token definition, token transferation and investor position management, and is roughly comparable to the ERC 1400 specification found iin Ethereum.
+
+==== Basic Data Model ====
+The SecurityToken interface manages several pieces of information. One is for the basic information of tokens, and one is the token positions for each address, organized into different tranches. The interface also defines a basic description for tranches.
+
+Tranche is a very important feature for partially fungible tokens, which is a super class of security token. Tranche can be viewed as a sub-account for address, so (address, tranche) combines to uniquely determines a record of token position. Tranche can also be viewed as a sub-class of security token, in this case, {address} alone is the owner’s account, and {tranche} just stands for the owned property.
+
+Stocks issued can be classified as preferred stocks or common stocks. For preferred stocks, a bunch of sub-types can be defined and may be restricted only by the creativity of the issuer. Most preferred stocks may have fix dividend rate, whereas most common stocks may not have a fixed dividend rate. The voting privileges for different types of stocks may also vary quite differently. So the real meaning of different tranche is left for the implementer. In this specification, tranche is uniquely defined by an uint64. It is recommended to implement the tranche as a combination of bit masks, but it is not a must.
+
+<table>
+    <tr>
+        <td>name</td>
+        <td>type</td>
+        <td>description</td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>string</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>symbol</td>
+        <td>string</td>
+        <td></td>
+    </tr>
+     <tr>
+        <td>decimals</td>
+        <td>uint8</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>totalSupply</td>
+        <td>big.Int</td>
+        <td>sum of supplies of all tranches. </td>
+    </tr>
+    <tr>
+        <td>defaultTranche</td>
+        <td>uint64</td>
+        <td>A default tranche can be defined globally to simplify the function calls and make them looks like that of fungible tokens. </td>
+    </tr>
+    <tr>
+        <td>documents</td>
+        <td>
+            map[string]DocInfo
+            type DocInfo struct{
+                uri string
+                hashType uint8
+                hash []byte
+                validTime uint64
+            }
+        </td>
+        <td>
+        fingerprint and uri of supporting documents for the token         document name should contain version information in it.
+        validTime is the time when this document becomes legal and effective.
+        </td>
+    </tr>
+    <tr>
+        <td>extraTokenInfo</td>
+        <td>map[string]string</td>
+        <td>extra token information can be kept in this mapping and can be used for different purpose, such as mere display or referenced in the smart contract. Its interpretation is left for the token implementer</td>
+    </tr>
+    <tr>
+        <td>tokenStatus</td>
+        <td>uint8</td>
+        <td>it may (but not forced) be modeled as a series of bit masks, with one mask stands for legal approval/dis-approval, and with one mask stands for suspend/unspspend.But its real  interpretation is left for the token implementer
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">The issuer can modify the information. Regulators can change the status too.
+        </td>
+    </tr>
+</table>
+<div align="center">table 5 basic token information</div><br/>
+
+<table>
+    <tr>
+        <td>name</td>
+        <td>type</td>
+        <td>description</td>
+    </tr>
+    <tr>
+        <td>tranche</td>
+        <td>uint64</td>
+        <td>primary key</td>
+    </tr>
+    <tr>
+        <td>description</td>
+        <td>string</td>
+        <td>descriptions for display purpose</td>
+    </tr>
+    <tr>
+        <td>trancheSupply</td>
+        <td>big.Int</td>
+        <td>supply of this tranche. May vary over time. </td>
+    </tr>
+    <tr>
+        <td>lockUntil</td>
+        <td>uint64</td>
+        <td>unix timestamp. The tokens in this tranche cannot be transferred out before that time. It is the default setting for this tranche, can be override by the meta data associated with a specific position.
+        sufficiently small number(1, for example) means not locked.
+        0xFFFFFFFFFFFFFFFF means lock until unlocked manually
+        </td>
+    </tr>
+    <tr>
+        <td>extraMeta</td>
+        <td>map[string]interface{}</td>
+        <td>
+            Other meta data. Defined and interpreted by impementer. May contain the callable/non-callable feature, fixed dividend rate, conversion rate to common stocks or so. Since not all features are commonly used, so they are put here for extension purpose only.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">Only the issurer can modify this information.</td>
+    </tr>
+</table>
+<div align="center">table 6 tranche information</div><br/>
+
+
+<table>
+    <tr>
+        <td>name</td>
+        <td>type</td>
+        <td>description</td>
+    </tr>
+    <tr>
+        <td>address</td>
+        <td>[]byte</td>
+        <td rowspan="2">primary key</td>
+    </tr>
+    <tr>
+        <td>tranche</td>
+        <td>uint64</td>
+    </tr>
+    <tr>
+        <td>balance</td>
+        <td>balance</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>lockUntil</td>
+        <td>uint64</td>
+        <td>unix timestamp. The tokens in this position cannot be transferred out before that time.
+        Normally it will be 0, which means just see the lockUntil setting of the tranche. Other values will take precedence of the setting of the tranche. Not affected by transfer in operations, but restrict the behavior of transfer out operations. This field should be explictly tagged by regulator or so to explicitly lockup one’s special position.
+        </td>
+    </tr>
+     <tr>
+        <td>allowance</td>
+        <td>map[address] big.Int</td>
+        <td>
+            allows other address to transfer no more than this amount of tokens on behalf of the owner.
+        </td>
+    </tr>
+</table>
+<div align="center">table 7 positions detail </div><br/>
+
+
+==== Methods ====
+===== name =====
+```golang
+func name() (string)
+```
+Returns the name of the token - e.g. "MyToken".
+
+===== symbol =====
+```golang
+func symbol() (string)
+```
+Returns a short string symbol of the token - e.g. "MYT".
+This symbol SHOULD be short (3-8 characters is recommended), with no whitespace characters or new-lines and SHOULD be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
+
+
+===== decimals =====
+```golang
+func decimals() (uint8)
+```
+Returns the number of decimals used by the token - e.g. 8, means to divide the token amount by 100,000,000 to get its user representation.
+
+===== totalSupply =====
+```golang
+func totalSupply() (big.Int)
+```
+Returns the total number of token. It is the sum of the supplies of all tranches, thus may bear no much real meanings.
+
+===== getDefaultTranche =====
+```golang
+func totalSupply() (big.Int)
+```
+Returns the global default tranche. Default tranche is read-only and cannot be changed later in order to avoid chaos.
+
+===== getDocument =====
+```golang
+type DocInfo struct {
+    uri string
+    hashType uint8
+    hash []byte
+    validTime uint64
+}
+func getDocument(doc string) (info DocInfo)
+```
+Returns the DocInfo for doc, if document doc not found, return err != nil.
+
+===== setDocument =====
+```golang
+func setDocument(doc string, info DocInfo) bool
+event setDocuent(operator []byte, doc string, info DocInfo)
+```
+Set the document info info for doc.
+
+===== getExtraTokenInfo =====
+```golang
+func getExtraTokenInfo(key string) string
+```
+Returns the val for key contained in the extra token info.
+
+===== setExtraTokenInfo =====
+```golang
+func setExtraTokenInfo(key string, val string) bool
+event setExtraTokenInfo(operator []byte, key string, val string)
+```
+Set the key and val pair in the extra token info.
+
+===== getTokenStatus =====
+```golang
+func getTokenStatus() uint8
+```
+Returns the current token status
+
+===== setTokenStatus =====
+```golang
+func setTokenStatus(newState uint8) bool
+event setTokenStatus(operator []byte, newState uint8)
+```
+Set the current token status to newState. Returns true when success, otherwise when fail. This is a very powerful operation so it should only be authorized to special roles.
+
+===== transfer =====
+```golang
+func transfer(fromTranche uint64, from []byte, to[]byte, toTranche uint64, srcAmount big.Int, byte[] data) bool
+func transfer(form []byte, to[]byte, srcAmount big.Int, byte[] data) bool
+event transfer(from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int)
+```
+Normally, to should be a valid investor or issuer. As a special case, an all 0 black hole address which can be controlled by nobody can be used in this function as a means to burn token. So we do not introduce a separate burn() function here.
+
+The succinct form of transfer is just an abbreviation of the extensive form without explicit fromTranche and toTranche. Those two parameters are implicitly set to the global default tranche.
+
+===== approve =====
+
+```golang
+func approve(approver []byte, spender []byte, tranche uint64, value big.Int, byte[] data) bool
+func approve(approver []byte, spender []byte,value big.Int, byte[] data) bool
+event approve(approver []byte, spender []byte, tranche uint64, value big.Int)
+```
+The succinct form of approve is just an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche.
+
+The parameters <code>approver</code> and <code>spender</code>SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
+
+===== transferFrom =====
+```golang
+func transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int) bool
+func transferFrom(tranferer []byte, from []byte, to[]byte, srcAmount big.Int) bool
+event transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int)
+```
+
+Normally, to should be a valid investor or issuer. As a special case, an all 0 black hole address which can be controlled by nobody can be used in this function as a means to burn token. So we do not introduce a separate burn() function here.
+
+The succinct form of transferFrom is just an abbreviation of the extensive form without explicit fromTranche and toTranche. Those two parameters are implicitly set to the global default tranche.
+
+The parameters <code>tranferer</code>, <code>from</code> and <code>to</code>SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
+
+===== allowance =====
+```golang
+func allowance(owner []byte, tranche uint64, spender []byte) (remaining big.Int)
+func allowance(owner []byte,spender []byte) (remaining big.Int)
+```
+The succinct form of allowance is just an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche.
+
+===== balanceOf =====
+
+```golang
+func balanceOf(owner []byte, tranche uint64) (balance big.Int)
+func balanceOf (owner []byte) (balance big.Int)
+```
+The succinct form of balanceOf is just an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche. For invalid investors, the function can return a 0.
+
+===== lockPosition =====
+```golang
+func lockPosition(address []byte, tranche uint64, lockUntil uint64) bool
+func lockPosition(address []byte, lockUntil uint64) bool
+event lockPosition(address []byte, tranche uint64, lockUntil uint64)
+```
+Lock operator’s own position in tranche until lockUntil. The succinct form of this function will use the global default tranche. Locked position cannot be unlocked by himself. One can only wait until the expire time comes. Or one can refer to the privileged user to clear this flag using setBalanceOf() function described below.
+
+The parameters <code>address</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
+
+===== canTransfer =====
+```golang
+func canTransfer(from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int) bool
+func canTransfer(from []byte, to[]byte, srcAmount big.Int) bool
+```
+Check whether it will be ok to transfer srcAmount tokens from the fromTranche of address from to toTranche of address to. The operator’s address can be the same as from, or it can be different. When they are different, allowance should be taken into consideration. Return true when success. Always throw and exception when the input parameters are in mal-formed format.
+
+The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
+
+===== getTrancheInfo =====
+
+```golang
+func getTrancheInfo(tranche uint64) (description string, supply big.Int, lockUntil uint64)
+```
+Returns the <code>description</code>,<code>supply</code>and<code>lockUntil</code> for the given tranche
+
+===== setTrancheInfo =====
+```golang
+func setTrancheInfo(tranche uint64,description string, supply big.Int, lockUntil uint64) bool
+event setTrancheInfo(operator []byte, tranche uint64,description string, supply big.Int, lockUntil uint64)
+```
+
+===== getTrancheExtraMeta =====
+```golang
+func getTrancheExtraMeta(tranche uint64) (key []string, val []interface{} )
+```
+Returns the <code>key</code>and<code>val</code> for the given tranche
+
+===== setTrancheExtraMeta =====
+```golang
+func setTrancheExtraMeta(tranche uint64, key string, val interface{}) bool
+event setTrancheExtraMeta(operator []byte, tranche uint64, key string, val interface{})
+```
