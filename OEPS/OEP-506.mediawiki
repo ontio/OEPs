@@ -521,8 +521,8 @@ The parameters <code>approver</code> and <code>spender</code>SHOULD be 20-byte a
 
 ===== transferFrom =====
 <pre>
-func transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int) bool
-func transferFrom(tranferer []byte, from []byte, to[]byte, srcAmount big.Int) bool
+func transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int, byte[] data) bool
+func transferFrom(tranferer []byte, from []byte, to[]byte, srcAmount big.Int, byte[] data) bool
 event transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int)
 </pre>
 
