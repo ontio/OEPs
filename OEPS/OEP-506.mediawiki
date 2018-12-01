@@ -227,11 +227,10 @@ After the investors pass the KYC review，the operator will grant the qualified 
 The parameters <code>operator</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
 
 ===== getClaimInfo =====
-
 <pre>
 func getClaimInfo(ontId string, roleName string, claimId string) (info claimInfo)
 </pre>
-Returns the claimInfo
+Returns the claimInfo for the given ontId, roleName and claimId.
 
 ===== isValidClaim =====
 
@@ -240,13 +239,13 @@ func isValidClaim(ontId string, roleName string, claimId string) bool
 </pre>
 A claim identified by claimId for ontId and supporting role roleName is only valid when it is attested and has not expired or revoked.
 
-===== getOntIdSuspendStatus =====
+===== getAddressSuspendStatus =====
 <pre>
-func getOntIdSuspendStatus(ontId string) (yes bool, operatorOntId string, memo string)
+func getAddressSuspendStatus(address []byte) (yes bool, operatorOntId string, memo string)
 </pre>
+Returns whether the address was suspended, operatorOntId, memo for the given address.
 
 ===== setAddressSuspendStatus =====
-
 <pre>
  func setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string) bool
  event setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string)
@@ -257,6 +256,7 @@ The operatorOntId should be deduced from the operator’s address. So do not hav
 <pre>
 func getOntIdSuspendStatus(ontId string) (yes bool, operatorOntId string, memo string)
 </pre>
+Returns whether the ontId was suspended, operatorOntId, memo for the given ontId.
 
 ===== setOntIdSuspendStatus =====
 <pre>
@@ -490,7 +490,7 @@ Set the key and val pair in the extra token info.
 <pre>
 func getTokenStatus() uint8
 </pre>
-Returns the current token status
+Returns the current token status.
 
 ===== setTokenStatus =====
 <pre>
@@ -510,7 +510,6 @@ Normally, to should be a valid investor or issuer. As a special case, an all 0 b
 The succinct form of transfer is just an abbreviation of the extensive form without explicit fromTranche and toTranche. Those two parameters are implicitly set to the global default tranche.
 
 ===== approve =====
-
 <pre>
 func approve(approver []byte, spender []byte, tranche uint64, value big.Int, byte[] data) bool
 func approve(approver []byte, spender []byte,value big.Int, byte[] data) bool
@@ -536,12 +535,11 @@ The parameters <code>tranferer</code>, <code>from</code> and <code>to</code>SHOU
 ===== allowance =====
 <pre>
 func allowance(owner []byte, tranche uint64, spender []byte) (remaining big.Int)
-func allowance(owner []byte,spender []byte) (remaining big.Int)
+func allowance(owner []byte, spender []byte) (remaining big.Int)
 </pre>
 The succinct form of allowance is just an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche.
 
 ===== balanceOf =====
-
 <pre>
 func balanceOf(owner []byte, tranche uint64) (balance big.Int)
 func balanceOf (owner []byte) (balance big.Int)
@@ -576,9 +574,10 @@ Returns the <code>description</code>,<code>supply</code>and<code>lockUntil</code
 
 ===== setTrancheInfo =====
 <pre>
-func setTrancheInfo(tranche uint64,description string, supply big.Int, lockUntil uint64) bool
-event setTrancheInfo(operator []byte, tranche uint64,description string, supply big.Int, lockUntil uint64)
+func setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64) bool
+event setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64)
 </pre>
+Operator set some necessary information according to tranche.
 
 ===== getTrancheExtraMeta =====
 <pre>
