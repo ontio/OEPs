@@ -200,7 +200,7 @@ A regulator may choose to suspend an address or an ontId due to illegal actions 
 ===== setAddrToOntId =====
 <source lang="golang">
 func setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId int, privKeyOwnerId string) bool {}
-event setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId int, privKeyOwnerId string)
+event setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId int, privKeyOwnerId string, error string)
 </source>
 
 Operators set the mapping from <code>address</code> to <code>ontId</code>, specify <code>pubKeyId</code> as the corresponding public key id for that <code>address</code> and <code>privKeyOwnerId</code> as the ONT ID of the real private key owner of the address. The <code>ontId</code> and <code>pubKeyId</code> should already exists in the ONT ID service. Exception should be thrown when anything goes wrong, for example, format of the parameters is not correct, or </code>pubKeyId</code> does not match the given address, or roles of the caller are not allowed to make this call.
@@ -221,7 +221,7 @@ type claimInfo struct {
     extraClaimInfo string
 }
 func setClaimInfo(operator []byte, ontId string, roleName string, claimId string, info claimInfo) bool {}
-event setClaimInfo(operator []byte, ontId string, roleName string, claimId string, info claimInfo)
+event setClaimInfo(operator []byte, ontId string, roleName string, claimId string, info claimInfo, error string)
 </source>
 After the investors pass the KYC review，the operator will grant the qualified investors permissions to invoke some methods according to the rules. But permission SHOULD have expiration time associated, which means the investor will not be permitted to invoke the methods after the expiration time.
 The parameters <code>operator</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
@@ -259,7 +259,7 @@ Returns whether the address was suspended, operatorOntId, memo for the given add
 ===== setAddressSuspendStatus =====
 <source lang="golang">
  func setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string) bool {}
- event setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string)
+ event setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string, error string)
 </source>
 The operator OntId should be deduced from the operator’s address. When <code>suspend</code> is set to true, it is a suspend operation. Suspending a suspended address should be supported. When suspend is set to false, it always deletes the record for suspension, or just ignore the operation when no matching records could be found. One can use memo to pass in description. The target of operation is denoted by address.
 
@@ -272,7 +272,7 @@ Returns whether the ontId was suspended, operatorOntId, memo for the given ontId
 ===== setOntIdSuspendStatus =====
 <source lang="golang">
 func setOntIdSuspendStatus(operator []byte, ontId string, suspend bool, memo string) bool {}
-event setOntIdSuspendStatus(operator []byte, ontId string, suspend bool, memo string)
+event setOntIdSuspendStatus(operator []byte, ontId string, suspend bool, memo string, error string)
 </source>
 The operator OntId should be deduced from the operator’s address. When <code>suspend</code> is set to true, it is a suspend operation. Suspending a suspended address should be supported. When suspend is set to false, it always deletes the record for suspension, or just ignore the operation when no matching records could be found. One can use memo to pass in description. The target of operation is denoted by ontId.
 
@@ -481,7 +481,7 @@ Returns the DocInfo for doc. If document doc is not found, return err != nil.
 ===== setDocument =====
 <source lang="golang">
 func setDocument(doc string, info DocInfo) bool {}
-event setDocuent(operator []byte, doc string, info DocInfo)
+event setDocuent(operator []byte, doc string, info DocInfo, error string)
 </source>
 Set <code>info</code> for document <code>doc</code>.
 
@@ -494,7 +494,7 @@ Returns value for <code>key</code> which contained in the extra token info.
 ===== setExtraTokenInfo =====
 <source lang="golang">
 func setExtraTokenInfo(key string, val string) bool {}
-event setExtraTokenInfo(operator []byte, key string, val string)
+event setExtraTokenInfo(operator []byte, key string, val string, error string)
 </source>
 Set the <code>key</code> and <code>val</code> pair in the extra token info.
 
@@ -507,7 +507,7 @@ Returns the current token status.
 ===== setTokenStatus =====
 <source lang="golang">
 func setTokenStatus(newState uint8) bool {}
-event setTokenStatus(operator []byte, newState uint8)
+event setTokenStatus(operator []byte, newState uint8, error string)
 </source>
 Set the current token status to newState. Returns true when success, otherwise when fail. This is a powerful operation, and should only be authorized to special operators or role.
 
@@ -515,7 +515,7 @@ Set the current token status to newState. Returns true when success, otherwise w
 <source lang="golang">
 func transfer(fromTranche uint64, from []byte, to[]byte, toTranche uint64, srcAmount big.Int, byte[] data) bool {}
 func transfer(from []byte, to[]byte, srcAmount big.Int, byte[] data) bool {}
-event transfer(from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int)
+event transfer(from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int, error string)
 </source>
 Normally, <code>to</code> should be a valid investor or token issuer. As a special case, an all 0 black hole address which is controlled by nobody can be used in this function as a means to burn token. So we do not introduce a separate burn() function in proposal.
 
@@ -525,7 +525,7 @@ The succinct form of transfer is just an abbreviation of the extensive form with
 <source lang="golang">
 func approve(approver []byte, spender []byte, tranche uint64, value big.Int, byte[] data) bool {}
 func approve(approver []byte, spender []byte,value big.Int, byte[] data) bool {}
-event approve(approver []byte, spender []byte, tranche uint64, value big.Int)
+event approve(approver []byte, spender []byte, tranche uint64, value big.Int, error string)
 </source>
 The succinct form of approve is an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche.
 
@@ -535,7 +535,7 @@ The parameters <code>approver</code> and <code>spender</code> SHOULD be 20-byte 
 <source lang="golang">
 func transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int, byte[] data) bool {}
 func transferFrom(tranferer []byte, from []byte, to[]byte, srcAmount big.Int, byte[] data) bool {}
-event transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int)
+event transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int, error string)
 </source>
 
 Normally, <code>to</code> should be a valid investor or token issuer. As a special case, an all 0 black hole address which is controlled by nobody can be used in this function as a means to burn token. So we do not introduce a separate burn() function in proposal.
@@ -562,7 +562,7 @@ The succinct form of balanceOf is an abbreviation of the extensive form without 
 <source lang="golang">
 func lockPosition(address []byte, tranche uint64, lockUntil uint64) bool {}
 func lockPosition(address []byte, lockUntil uint64) bool {}
-event lockPosition(address []byte, tranche uint64, lockUntil uint64) {}
+event lockPosition(address []byte, tranche uint64, lockUntil uint64, error string)
 </source>
 Lock operator’s own position in tranche until lockUntil. The succinct form of this function will use the global default tranche. Locked position cannot be unlocked by himself. Token owner can only wait until expired, or can refer to the privileged user to clear this flag using setBalanceOf() function described below.
 
@@ -587,7 +587,7 @@ Returns the <code>description</code>,<code>supply</code>and<code>lockUntil</code
 ===== setTrancheInfo =====
 <source lang="golang">
 func setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64) bool {}
-event setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64)
+event setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64, error string)
 </source>
 Operators set information about this tranche.
 
@@ -600,6 +600,6 @@ Returns the <code>key</code>and<code>val</code> for the given tranche.
 ===== setTrancheExtraMeta =====
 <source lang="golang">
 func setTrancheExtraMeta(operator []byte, tranche uint64, key string, val interface{}) bool {}
-event setTrancheExtraMeta(operator []byte, tranche uint64, key string, val interface{})
+event setTrancheExtraMeta(operator []byte, tranche uint64, key string, val interface{}, error string)
 </source>
 Operators set necessary extra meta about this tranche.
