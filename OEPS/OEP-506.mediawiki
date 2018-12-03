@@ -199,8 +199,8 @@ A regulator may choose to suspend the use of an address or even an ontId due to 
 ==== Methods ====
 ===== setAddrToOntId =====
 <source lang="golang">
-func setAddrToOntId(operator []byte, address []byte, pubKeyId int, privKeyOwnerId string) bool {}
-event setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId string, privKeyOwnerId string)
+func setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId int, privKeyOwnerId string) bool {}
+event setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId int, privKeyOwnerId string)
 </source>
 
 Operator set the mapping from <code>address</code> to <code>ontId</code>, specify <code>pubKeyId</code> as the corresponding public key id for that <code>address</code> and <code>privKeyOwnerId</code> as the ONT ID of the real private key owner of the address. The <code>ontId</code> and <code>pubKeyId</code> should already exists in the ONT ID service. Throw an exception when anything goes wrong, for example, when the format of the parameters is not correct, or the </code>pubKeyId</code> does not match the given address, or the roles of the caller are not allowed to make this call.
