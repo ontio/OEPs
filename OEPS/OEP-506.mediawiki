@@ -199,7 +199,7 @@ A regulator may choose to suspend the use of an address or even an ontId due to 
 ==== Methods ====
 ===== setAddrToOntId =====
 <source lang="golang">
-func setAddrToOntId(operator []byte, address []byte, pubKeyId int, privKeyOwnerId string) bool
+func setAddrToOntId(operator []byte, address []byte, pubKeyId int, privKeyOwnerId string) bool {}
 event setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId string, privKeyOwnerId string)
 </source>
 
@@ -208,7 +208,7 @@ The parameters <code>operator</code> and <code>address</code> SHOULD be 20-byte 
 
 ===== getAddrToOntId =====
 <source lang="golang">
-func getAddrToOntId(address []byte) (ontId string, pubKeyId string, privKeyOwnerId string)
+func getAddrToOntId(address []byte) (ontId string, pubKeyId string, privKeyOwnerId string) {}
 </source>
 Retrieve the ontId, pubKeyId and privKeyOwnerId for the given address.
 
@@ -220,7 +220,7 @@ type claimInfo struct {
     claimAttesterOntId string
     extraClaimInfo string
 }
-func setClaimInfo(operator []byte, ontId string, roleName string, claimId string, info claimInfo) bool
+func setClaimInfo(operator []byte, ontId string, roleName string, claimId string, info claimInfo) bool {}
 event setClaimInfo(operator []byte, ontId string, roleName string, claimId string, info claimInfo)
 </source>
 After the investors pass the KYC review，the operator will grant the qualified investors some permissions to allow them to invoke some methods according to the rules. But the permissions have expiration time, which means the investors can't invoke the methods if the current time is beyond the expiration date.
@@ -228,39 +228,39 @@ The parameters <code>operator</code> SHOULD be 20-byte address. If not, this met
 
 ===== getClaimInfo =====
 <source lang="golang">
-func getClaimInfo(ontId string, roleName string, claimId string) (info claimInfo)
+func getClaimInfo(ontId string, roleName string, claimId string) (info claimInfo) {}
 </source>
 Returns the claimInfo for the given ontId, roleName and claimId.
 
 ===== isValidClaim =====
 
 <source lang="golang">
-func isValidClaim(ontId string, roleName string, claimId string) bool
+func isValidClaim(ontId string, roleName string, claimId string) bool {}
 </source>
 A claim identified by claimId for ontId and supporting role roleName is only valid when it is attested and has not expired or revoked.
 
 ===== getAddressSuspendStatus =====
 <source lang="golang">
-func getAddressSuspendStatus(address []byte) (yes bool, operatorOntId string, memo string)
+func getAddressSuspendStatus(address []byte) (yes bool, operatorOntId string, memo string) {}
 </source>
 Returns whether the address was suspended, operatorOntId, memo for the given address.
 
 ===== setAddressSuspendStatus =====
 <source lang="golang">
- func setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string) bool
+ func setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string) bool {}
  event setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string)
 </source>
 The operatorOntId should be deduced from the operator’s address. So do not have to pass it as a parameter. When suspend is set true, it is a suspend operation. One can issue a suspend opeation again and again when the target has already been suspended. When suspend is set to false, it always deletes the record for suspension, or just ignore the operation when no matching records could be found. One can use memo to pass in description. The target of operation is denoted by address.
 
 ===== getOntIdSuspendStatus =====
 <source lang="golang">
-func getOntIdSuspendStatus(ontId string) (yes bool, operatorOntId string, memo string)
+func getOntIdSuspendStatus(ontId string) (yes bool, operatorOntId string, memo string) {}
 </source>
 Returns whether the ontId was suspended, operatorOntId, memo for the given ontId.
 
 ===== setOntIdSuspendStatus =====
 <source lang="golang">
-func setOntIdSuspendStatus(operator []byte, ontId string, suspend bool, memo string) bool
+func setOntIdSuspendStatus(operator []byte, ontId string, suspend bool, memo string) bool {}
 event setOntIdSuspendStatus(operator []byte, ontId string, suspend bool, memo string)
 </source>
 The operatorOntId should be deduced from the operator’s address. So do not have to pass it as a parameter. When suspend is set to true, it is a suspend operation. One can issue a suspend opeation again and again when the target has already been suspended. When suspend is set to false, it always deletes the record for suspension, or just ignore the operation when no matching records could be found. One can use memo to pass in description. The target of operation is denoted by ontId.
@@ -424,13 +424,13 @@ Stocks issued can be classified as preferred stocks or common stocks. For prefer
 ==== Methods ====
 ===== name =====
 <source lang="golang">
-func name() (string)
+func name() (string) {}
 </source>
 Returns the name of the token - e.g. "MyToken".
 
 ===== symbol =====
 <source lang="golang">
-func symbol() (string)
+func symbol() (string) {}
 </source>
 Returns a short string symbol of the token - e.g. "MYT".
 This symbol SHOULD be short (3-8 characters is recommended), with no whitespace characters or new-lines and SHOULD be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
@@ -438,19 +438,19 @@ This symbol SHOULD be short (3-8 characters is recommended), with no whitespace 
 
 ===== decimals =====
 <source lang="golang">
-func decimals() (uint8)
+func decimals() (uint8) {}
 </source>
 Returns the number of decimals used by the token - e.g. 8, means to divide the token amount by 100,000,000 to get its user representation.
 
 ===== totalSupply =====
 <source lang="golang">
-func totalSupply() (big.Int)
+func totalSupply() (big.Int) {}
 </source>
 Returns the total number of token. It is the sum of the supplies of all tranches, thus may bear no much real meanings.
 
 ===== getDefaultTranche =====
 <source lang="golang">
-func totalSupply() (big.Int)
+func totalSupply() (big.Int) {}
 </source>
 Returns the global default tranche. Default tranche is read-only and cannot be changed later in order to avoid chaos.
 
@@ -462,47 +462,47 @@ type DocInfo struct {
     hash []byte
     validTime uint64
 }
-func getDocument(doc string) (info DocInfo)
+func getDocument(doc string) (info DocInfo) {}
 </source>
 Returns the DocInfo for doc, if document doc not found, return err != nil.
 
 ===== setDocument =====
 <source lang="golang">
-func setDocument(doc string, info DocInfo) bool
+func setDocument(doc string, info DocInfo) bool {}
 event setDocuent(operator []byte, doc string, info DocInfo)
 </source>
 Set the document info info for doc.
 
 ===== getExtraTokenInfo =====
 <source lang="golang">
-func getExtraTokenInfo(key string) string
+func getExtraTokenInfo(key string) string {}
 </source>
 Returns the val for key contained in the extra token info.
 
 ===== setExtraTokenInfo =====
 <source lang="golang">
-func setExtraTokenInfo(key string, val string) bool
+func setExtraTokenInfo(key string, val string) bool {}
 event setExtraTokenInfo(operator []byte, key string, val string)
 </source>
 Set the key and val pair in the extra token info.
 
 ===== getTokenStatus =====
 <source lang="golang">
-func getTokenStatus() uint8
+func getTokenStatus() uint8 {}
 </source>
 Returns the current token status.
 
 ===== setTokenStatus =====
 <source lang="golang">
-func setTokenStatus(newState uint8) bool
+func setTokenStatus(newState uint8) bool {}
 event setTokenStatus(operator []byte, newState uint8)
 </source>
 Set the current token status to newState. Returns true when success, otherwise when fail. This is a very powerful operation so it should only be authorized to special roles.
 
 ===== transfer =====
 <source lang="golang">
-func transfer(fromTranche uint64, from []byte, to[]byte, toTranche uint64, srcAmount big.Int, byte[] data) bool
-func transfer(form []byte, to[]byte, srcAmount big.Int, byte[] data) bool
+func transfer(fromTranche uint64, from []byte, to[]byte, toTranche uint64, srcAmount big.Int, byte[] data) bool {}
+func transfer(form []byte, to[]byte, srcAmount big.Int, byte[] data) bool {}
 event transfer(from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int)
 </source>
 Normally, to should be a valid investor or issuer. As a special case, an all 0 black hole address which can be controlled by nobody can be used in this function as a means to burn token. So we do not introduce a separate burn() function here.
@@ -511,8 +511,8 @@ The succinct form of transfer is just an abbreviation of the extensive form with
 
 ===== approve =====
 <source lang="golang">
-func approve(approver []byte, spender []byte, tranche uint64, value big.Int, byte[] data) bool
-func approve(approver []byte, spender []byte,value big.Int, byte[] data) bool
+func approve(approver []byte, spender []byte, tranche uint64, value big.Int, byte[] data) bool {}
+func approve(approver []byte, spender []byte,value big.Int, byte[] data) bool {}
 event approve(approver []byte, spender []byte, tranche uint64, value big.Int)
 </source>
 The succinct form of approve is just an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche.
@@ -521,8 +521,8 @@ The parameters <code>approver</code> and <code>spender</code>SHOULD be 20-byte a
 
 ===== transferFrom =====
 <source lang="golang">
-func transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int, byte[] data) bool
-func transferFrom(tranferer []byte, from []byte, to[]byte, srcAmount big.Int, byte[] data) bool
+func transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int, byte[] data) bool {}
+func transferFrom(tranferer []byte, from []byte, to[]byte, srcAmount big.Int, byte[] data) bool {}
 event transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int)
 </source>
 
@@ -534,23 +534,23 @@ The parameters <code>tranferer</code>, <code>from</code> and <code>to</code>SHOU
 
 ===== allowance =====
 <source lang="golang">
-func allowance(owner []byte, tranche uint64, spender []byte) (remaining big.Int)
-func allowance(owner []byte, spender []byte) (remaining big.Int)
+func allowance(owner []byte, tranche uint64, spender []byte) (remaining big.Int) {}
+func allowance(owner []byte, spender []byte) (remaining big.Int) {}
 </source>
 The succinct form of allowance is just an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche.
 
 ===== balanceOf =====
 <source lang="golang">
-func balanceOf(owner []byte, tranche uint64) (balance big.Int)
-func balanceOf (owner []byte) (balance big.Int)
+func balanceOf(owner []byte, tranche uint64) (balance big.Int) {}
+func balanceOf (owner []byte) (balance big.Int) {}
 </source>
 The succinct form of balanceOf is just an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche. For invalid investors, the function can return a 0.
 
 ===== lockPosition =====
 <source lang="golang">
-func lockPosition(address []byte, tranche uint64, lockUntil uint64) bool
-func lockPosition(address []byte, lockUntil uint64) bool
-event lockPosition(address []byte, tranche uint64, lockUntil uint64)
+func lockPosition(address []byte, tranche uint64, lockUntil uint64) bool {}
+func lockPosition(address []byte, lockUntil uint64) bool {}
+event lockPosition(address []byte, tranche uint64, lockUntil uint64) {}
 </source>
 Lock operator’s own position in tranche until lockUntil. The succinct form of this function will use the global default tranche. Locked position cannot be unlocked by himself. One can only wait until the expire time comes. Or one can refer to the privileged user to clear this flag using setBalanceOf() function described below.
 
@@ -558,8 +558,8 @@ The parameters <code>address</code> SHOULD be 20-byte address. If not, this meth
 
 ===== canTransfer =====
 <source lang="golang">
-func canTransfer(from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int) bool
-func canTransfer(from []byte, to[]byte, srcAmount big.Int) bool
+func canTransfer(from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int) bool {}
+func canTransfer(from []byte, to[]byte, srcAmount big.Int) bool {}
 </source>
 Check whether it will be ok to transfer srcAmount tokens from the fromTranche of address from to toTranche of address to. The operator’s address can be the same as from, or it can be different. When they are different, allowance should be taken into consideration. Return true when success. Always throw and exception when the input parameters are in mal-formed format.
 
@@ -568,26 +568,26 @@ The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. 
 ===== getTrancheInfo =====
 
 <source lang="golang">
-func getTrancheInfo(tranche uint64) (description string, supply big.Int, lockUntil uint64)
+func getTrancheInfo(tranche uint64) (description string, supply big.Int, lockUntil uint64) {}
 </source>
 Returns the <code>description</code>,<code>supply</code>and<code>lockUntil</code> for the given tranche
 
 ===== setTrancheInfo =====
 <source lang="golang">
-func setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64) bool
+func setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64) bool {}
 event setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64)
 </source>
 Operator set some necessary information about this tranche.
 
 ===== getTrancheExtraMeta =====
 <source lang="golang">
-func getTrancheExtraMeta(tranche uint64) (key []string, val []interface{} )
+func getTrancheExtraMeta(tranche uint64) (key []string, val []interface{} ) {}
 </source>
 Returns the <code>key</code>and<code>val</code> for the given tranche
 
 ===== setTrancheExtraMeta =====
 <source lang="golang">
-func setTrancheExtraMeta(operator []byte, tranche uint64, key string, val interface{}) bool
+func setTrancheExtraMeta(operator []byte, tranche uint64, key string, val interface{}) bool {}
 event setTrancheExtraMeta(operator []byte, tranche uint64, key string, val interface{})
 </source>
 Operator set some necessary extra meta about this tranche.
