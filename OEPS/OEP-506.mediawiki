@@ -1,20 +1,20 @@
 <source lang="golang">OEP: 506
 Title: Security Token Offering Standard
-Author: javajoker < hehehu@gmail.com>, tanyuan < tanyuan666@gmail.com>, Honglei-Cong< conghonglei@gmail.com>
+Author: javajoker <hehehu@gmail.com>, tanyuan <tanyuan666@gmail.com>, Honglei-Cong <conghonglei@gmail.com>
 Type: Standard
 Status: Draft
 Created: 2018-11-29
 </source>
 
 == Abstract ==
-This OEP Proposal standardizes a series of integral standard interfaces for Security Token Offering and captures other requirements such as KYC in additional to the token interface . It will facilitate the implementation of security token, which is considered to be a subclass of partially fungible token here, with smart contracts and already existing standard services on Ontology platform.
+This OEP Proposal standardizes a series of integral standard interfaces for Security Token Offering and captures other requirements such as KYC in additional to the token interface . It will facilitate the implementation of security token, which is considered to be a subclass of partially fungible token, with smart contracts and related standard services on Ontology platform.
 
 == Motivation ==
 A related set of standard interfaces are defined here, not just the interface for token, to capture the whole life-cycle requirements of STO. Existing standard services of Ontology platform are leveraged to make this proposal an integral part of the ecosystem.
 
 == Specification ==
 === Related standard services ===
-Several already existing services are reused here, which makes the proposal an integral part of the eco-system and ease the development of smart contracts.
+To ease the development of smart contracts, the following Ontology services are reused. This also makes the proposal an integral part of Ontology service eco-system.
 
 ONT ID, which defines the format and CRUD operations for digital identity(ONT ID)
 https://github.com/ontio/ontology-DID/blob/master/docs/en/DID-ONT-method.md
@@ -25,19 +25,19 @@ https://github.com/ontio/ontology-DID/blob/master/docs/en/claim_spec.md
 Auth Contract, which defines a basic means of ACL for function calls of smart contracts, based on ONT ID. https://github.com/ontio/ontology-smartcontract/blob/master/smartcontract/native/auth/auth.md
 
 == List of Interfaces ==
-Several related interfaces are defined here, that is, KYC Service, Security Token.
+Several related interfaces are defined in the proposal, include KYC Service and Security Token.
 
-This proposal contains more than what you can find in the ERC-1400 specification or so. We do so since we recognize that KYC constitutes an important and indispensable part of STO.
+This proposal contains more interfaces than most other STO proposals, such as the ERC-1400 specification, because we recognize that KYC constitutes an important and indispensable part of STO.
 
-Though several different interfaces are defined here, one can still choose to implement them in one smart contract or so. Since the regulation rules are prone to change often, it is possible to delegate some of the regulation compliance checking to another smart contract, which can be upgraded independently.
+Though several different interfaces are defined here and one can implement them in one smart contract, it is sugguested to implement different interface with different smart contract. Since the regulation rules are prone to change often, it is recommended to delegate the regulation compliance checking to separated smart contract, which can be independently upgraded.
 
-We admit that those given interfaces can’t cover every possible business scenarios in themselves. But used as the basic building blocks, more functionality could be built upon them, in separate smart contracts. For example, dividend distribution or stock splits could easily be implemented in a higher level.
+We admit that these given interfaces can’t cover all possible business scenarios in themselves. But as basic building blocks, more functionality can be built upon them, in separated smart contracts. For example, dividend distribution or stock splits could easily be implemented in a higher level.
 
 === Interface KYC Service ===
-This interface provides the operations on KYC related information. When implementing this services, it is recommended that ONT ID and ONT CLAIM services are fully utilized. This interface defines the necessary enhancement to those basic services according to the requirements of STO business.
+This interface provides the operations on KYC related information. When implementing this services, it is recommended that ONT ID and ONT CLAIM services are fully utilized. This interface defines the necessary enhancements to those basic services according to the requirements of STO business.
 
 ==== Basic Data Model ====
-The prototypes of function calls in interface are always the CRUD operations on some data model. So the really essential things are the data model. For KYCServices, the data models are described in detail through table 1 to table 4.
+The prototypes of function calls in interface are always the CRUD operations on data model. So the data model is essential. For KYCServices, the data models are described in detail through table 1 to table 4.
 
 <table>
     <tr>
@@ -66,16 +66,16 @@ The prototypes of function calls in interface are always the CRUD operations on 
         <td>usuallyit should be the same as ontId. But in some case the private key may be ownedby an Exchange. Then it should be the ontId of the exchange</td>
     </tr>
     <tr>
-        <td colspan="3">Only the ontId owner can CRUD. All rolescan Read.</td>
+        <td colspan="3">Only the ontId owner can CRUD. All roles can Read.</td>
     </tr>
 </table>
-<div align="center">table 1 address to OntID mapping</div><br/>
+<div align="center">table 1 - address to OntID mapping</div><br/>
 
-Basic ONT ID service just provide a means for one to control his own ONT ID via a list of public/private key pairs. Since a public key can not be directly calculated from an ontology address, and the latter is more commonly used in token smart contracts, it is necessary to keep a mapping between address and {ontId, pubKeyId} to ease the use of ONT ID service and ONT CLAIM services. In this way, an address is related to an ontId, which can further be attested via the ONT CLAIM service. In this way, KYC can be conducted and KYC information can be retrieved by the regulatory authorities.
+ONT ID service provides a means for one to control his own ONT ID via a list of public/private key pairs. But public key can not be directly calculated from ontology address, and ontology address is more commonly used in token smart contracts, it is necessary to keep a mapping between address and {ontId, pubKeyId} to ease the use of ONT ID service and ONT CLAIM services. In this way, an address is related to an ontId, which can further be attested via the ONT CLAIM service. In this way, KYC can be conducted and KYC information can be retrieved by the regulatory authorities.
 
-Only ontId owner can change his/her ONT ID document. Entries to this address to ontId mapping can also be added/removed/modified by ontId owner. When doing so, one should demonstrate that he/she owns one of the PK listed in the associated DID Document, just like the case of the modification to the DID document. The relationship between the pubKey and the address should always be checked before addition/modification.
+ONT ID document can only be changed by it ontId owner. Entries of address to ontId mapping can also be added/removed/modified by ontId owner. When makeing the change, ontId owner have to demonstrate that he/she owns one of the pubkeys listed in the associated DID Document, just like the case of the modification to DID document. The relationship between pubKey and address should always be verified before creation/modification.
 
-In some case, the address is generated by an Exchange and the ontId owner does not have the private key of the address. The exchange can tell the ontId owner the associated public key and the ontId of the exchange. The ontId owner can then add the address to the mapping.
+In some case, ontology address is generated by STO exchange and the ontId owner does not have the private key of the address. The exchange must provide the ontId owner the associated public key and the ontId of the exchange. The ontId owner can then add the address to the mapping.
 
 <table>
     <tr>
@@ -124,19 +124,19 @@ In some case, the address is generated by an Exchange and the ontId owner does n
         </td>
     </tr>
 </table>
-<div align="center">table 2  basic claim information</div><br/>
+<div align="center">table 2 - basic claim information</div><br/>
 
 This data structure records the claims supporting the ontId to take up a specific role named by roleName. For example, to become accredited investor, one should pass necessary KYC and investment qualification tests, and be attested by some ontId with required role.
 
-Each ontid can have multiple roles, each supported by several attested claims. For example, being accredited investor, one could have obtained different qualifications from different Exchanges.
+One ontid can have multiple roles, each supported by several attested claims. For example, accredited investor can have different qualifications from different Exchanges.
 
-Auth services does records the {ontId, roleName} mapping, but does not expose a query interface for a list of roles one can take. So the information in table 4 should be maintained and used carefully together with the Auth service.
+Auth service records the {ontId, roleName} mapping, but does not privide query interface for a list of roles one can take. So the information in table 4 should be maintained and used together with Auth service.
 
-Since auth service is provided at the smart contract level, it is recommended to introduce a proxy smart contract which exposes all the token related interfaces and concentrates all the ACL control.
+Since Auth service is provided at the smart contract level, it is recommended to introduce a proxy smart contract which exposes all the token related interfaces and concentrates all the ACL control.
 
-In order to keep the privacy, the ONT CLAIM service does not store the detail of the claim on the blockchain. In the runtime, the presence of just one attested record with an un-expired state, along with the supporting result returned from the ONT CLAIM service will be enough to support an ontId to have a role.
+In order to keeping privacy, ONT CLAIM service does not store the detail of claim on the blockchain. In the runtime, the presence of just one attested record with an un-expired state, along with the supporting result returned from the ONT CLAIM service will be enough to support an ontId to have a role.
 
-In brief, from an address one can map it to an ontId, and then to a list of possible roles taken by that address. And one can further find out whether this role is supported by valid claims or not.
+In brief, ontology address can be mapped to an ontId, and then to a list of possible roles taken by the address. And one can further find out whether this role is supported by valid claims.
 
 The following two pieces of information are introduced for regulatory purpose.
 
@@ -159,13 +159,13 @@ The following two pieces of information are introduced for regulatory purpose.
     <tr>
         <td>memo</td>
         <td>string</td>
-        <td>anything worth mention, for example, it can describes the start time of the suspension and the reason for that. A suspended address should cease to behave actively as normal. According to the punishment actions taken, it may or may not be able to maintain its original token positions further.</td>
+        <td>anything worth mention, for example, start time of the suspension and the reason for that. Suspended address should cease to behave actively as normal. According to the punishment actions taken, it may or may not be able to maintain its original token positions further.</td>
     </tr>
      <tr>
         <td colspan="3">Only regulator can CRUD. All roles can Read.</td>
     </tr>
 </table>
-<div align="center">table 3  address suspension</div><br/>
+<div align="center">table 3 - address suspension</div><br/>
 
 <table>
     <tr>
@@ -186,15 +186,15 @@ The following two pieces of information are introduced for regulatory purpose.
     <tr>
         <td>memo</td>
         <td>string</td>
-        <td>anything worth mention, for example, it can describes the start time of the suspension and the reason for that. A suspended ontId should cease to behave actively as normal. According to the punishment actions taken, it may or may not be able to maintain its original token positions furthur.</td>
+        <td>anything worth mention, for example, start time of the suspension and the reason for that. Suspended ontId should cease to behave actively as normal. According to the punishment actions taken, it may or may not be able to maintain its original token positions furthur.</td>
     </tr>
      <tr>
         <td colspan="3">Only regulator can CRUD. All roles can Read.</td>
     </tr>
 </table>
-<div align="center">table 4  ontId suspension</div><br/>
+<div align="center">table 4 - ontId suspension</div><br/>
 
-A regulator may choose to suspend the use of an address or even an ontId due to illegal actions found in that address. The presence of a record in this kind of data structure means a still effective suspension. The primary key field presented here may not have a corresponding record in table 1 or in other services, due to the possible delete operation taken. But such record still exists to serve as a reminder of the punishment actions taken by the regulator.
+A regulator may choose to suspend an address or an ontId due to illegal actions found in that address/ontId. The presence of a record means a still effective suspension. The primary key field presented here may not have a corresponding record in table 1 or in other services, due to the possible delete operation taken. But the existed record still serve as a reminder of the punishment actions taken by the regulator.
 
 ==== Methods ====
 ===== setAddrToOntId =====
@@ -203,7 +203,7 @@ func setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId int,
 event setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId int, privKeyOwnerId string)
 </source>
 
-Operator set the mapping from <code>address</code> to <code>ontId</code>, specify <code>pubKeyId</code> as the corresponding public key id for that <code>address</code> and <code>privKeyOwnerId</code> as the ONT ID of the real private key owner of the address. The <code>ontId</code> and <code>pubKeyId</code> should already exists in the ONT ID service. Throw an exception when anything goes wrong, for example, when the format of the parameters is not correct, or the </code>pubKeyId</code> does not match the given address, or the roles of the caller are not allowed to make this call.
+Operator set the mapping from <code>address</code> to <code>ontId</code>, specify <code>pubKeyId</code> as the corresponding public key id for that <code>address</code> and <code>privKeyOwnerId</code> as the ONT ID of the real private key owner of the address. The <code>ontId</code> and <code>pubKeyId</code> should already exists in the ONT ID service. Exception should be thrown when anything goes wrong, for example, format of the parameters is not correct, or </code>pubKeyId</code> does not match the given address, or roles of the caller are not allowed to make this call.
 The parameters <code>operator</code> and <code>address</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
 
 ===== getAddrToOntId =====
@@ -223,7 +223,7 @@ type claimInfo struct {
 func setClaimInfo(operator []byte, ontId string, roleName string, claimId string, info claimInfo) bool {}
 event setClaimInfo(operator []byte, ontId string, roleName string, claimId string, info claimInfo)
 </source>
-After the investors pass the KYC review，the operator will grant the qualified investors some permissions to allow them to invoke some methods according to the rules. But the permissions have expiration time, which means the investors can't invoke the methods if the current time is beyond the expiration date.
+After the investors pass the KYC review，the operator will grant the qualified investors permissions to invoke some methods according to the rules. But permission SHOULD have expiration time associated, which means the investor will not be permitted to invoke the methods after the expiration time.
 The parameters <code>operator</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
 
 ===== getClaimInfo =====
@@ -261,7 +261,7 @@ Returns whether the address was suspended, operatorOntId, memo for the given add
  func setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string) bool {}
  event setAddressSuspendStatus(operator []byte, address []byte, suspend bool, memo string)
 </source>
-The operatorOntId should be deduced from the operator’s address. So do not have to pass it as a parameter. When suspend is set true, it is a suspend operation. One can issue a suspend opeation again and again when the target has already been suspended. When suspend is set to false, it always deletes the record for suspension, or just ignore the operation when no matching records could be found. One can use memo to pass in description. The target of operation is denoted by address.
+The operator OntId should be deduced from the operator’s address. When <code>suspend</code> is set to true, it is a suspend operation. Suspending a suspended address should be supported. When suspend is set to false, it always deletes the record for suspension, or just ignore the operation when no matching records could be found. One can use memo to pass in description. The target of operation is denoted by address.
 
 ===== getOntIdSuspendStatus =====
 <source lang="golang">
@@ -274,7 +274,7 @@ Returns whether the ontId was suspended, operatorOntId, memo for the given ontId
 func setOntIdSuspendStatus(operator []byte, ontId string, suspend bool, memo string) bool {}
 event setOntIdSuspendStatus(operator []byte, ontId string, suspend bool, memo string)
 </source>
-The operatorOntId should be deduced from the operator’s address. So do not have to pass it as a parameter. When suspend is set to true, it is a suspend operation. One can issue a suspend opeation again and again when the target has already been suspended. When suspend is set to false, it always deletes the record for suspension, or just ignore the operation when no matching records could be found. One can use memo to pass in description. The target of operation is denoted by ontId.
+The operator OntId should be deduced from the operator’s address. When <code>suspend</code> is set to true, it is a suspend operation. Suspending a suspended address should be supported. When suspend is set to false, it always deletes the record for suspension, or just ignore the operation when no matching records could be found. One can use memo to pass in description. The target of operation is denoted by ontId.
 
 === Interface SecurityToken ===
 This interface provides the basic operations on token definition, token transferation and investor position management, and is roughly comparable to the ERC 1400 specification found iin Ethereum.
@@ -349,7 +349,7 @@ Stocks issued can be classified as preferred stocks or common stocks. For prefer
         </td>
     </tr>
 </table>
-<div align="center">table 5 basic token information</div><br/>
+<div align="center">table 5 - basic token information</div><br/>
 
 <table>
     <tr>
@@ -391,7 +391,7 @@ Stocks issued can be classified as preferred stocks or common stocks. For prefer
         <td colspan="3">Only the issurer can modify this information.</td>
     </tr>
 </table>
-<div align="center">table 6 tranche information</div><br/>
+<div align="center">table 6 - tranche information</div><br/>
 
 
 <table>
@@ -429,7 +429,7 @@ Stocks issued can be classified as preferred stocks or common stocks. For prefer
         </td>
     </tr>
 </table>
-<div align="center">table 7 positions detail </div><br/>
+<div align="center">table 7 - positions detail </div><br/>
 
 
 ==== Methods ====
