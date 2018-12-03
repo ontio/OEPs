@@ -203,7 +203,7 @@ func setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId int,
 event setAddrToOntId(operator []byte, address []byte, ontId string, pubKeyId int, privKeyOwnerId string)
 </source>
 
-Operator set the mapping from <code>address</code> to <code>ontId</code>, specify <code>pubKeyId</code> as the corresponding public key id for that <code>address</code> and <code>privKeyOwnerId</code> as the ONT ID of the real private key owner of the address. The <code>ontId</code> and <code>pubKeyId</code> should already exists in the ONT ID service. Exception should be thrown when anything goes wrong, for example, format of the parameters is not correct, or </code>pubKeyId</code> does not match the given address, or roles of the caller are not allowed to make this call.
+Operators set the mapping from <code>address</code> to <code>ontId</code>, specify <code>pubKeyId</code> as the corresponding public key id for that <code>address</code> and <code>privKeyOwnerId</code> as the ONT ID of the real private key owner of the address. The <code>ontId</code> and <code>pubKeyId</code> should already exists in the ONT ID service. Exception should be thrown when anything goes wrong, for example, format of the parameters is not correct, or </code>pubKeyId</code> does not match the given address, or roles of the caller are not allowed to make this call.
 The parameters <code>operator</code> and <code>address</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
 
 ===== getAddrToOntId =====
@@ -315,7 +315,7 @@ Stocks issued can be classified as preferred stocks or common stocks. For prefer
     <tr>
         <td>defaultTranche</td>
         <td>uint64</td>
-        <td>A default tranche can be defined globally to simplify the function calls and make them looks like that of fungible tokens. </td>
+        <td>A default tranche can be defined globally to simplify the function calls and make them look like that of fungible tokens. </td>
     </tr>
     <tr>
         <td>documents</td>
@@ -329,23 +329,24 @@ Stocks issued can be classified as preferred stocks or common stocks. For prefer
             }
         </td>
         <td>
-        fingerprint and uri of supporting documents for the token         document name should contain version information in it.
+        fingerprint and URI of supporting documents for the token document name should contain version information in it.
         validTime is the time when this document becomes legal and effective.
         </td>
     </tr>
     <tr>
         <td>extraTokenInfo</td>
         <td>map[string]string</td>
-        <td>extra token information can be kept in this mapping and can be used for different purpose, such as mere display or referenced in the smart contract. Its interpretation is left for the token implementer</td>
+        <td>extra token information is kept with mapping.  This field can be used for different purpose, such as mere display or referenced in the smart contract. Its interpretation is implementation dependent.
+        </td>
     </tr>
     <tr>
         <td>tokenStatus</td>
         <td>uint8</td>
-        <td>it may (but not forced) be modeled as a series of bit masks, with one mask stands for legal approval/dis-approval, and with one mask stands for suspend/unspspend.But its real  interpretation is left for the token implementer
+        <td>it may (but not forced) be modeled as a series of bit masks, with one mask stands for legal approval/dis-approval, and with one mask stands for suspend/unspspend. But its real interpretation is implementation dependent.
         </td>
     </tr>
     <tr>
-        <td colspan="3">The issuer can modify the information. Regulators can change the status too.
+        <td colspan="3">Only TokenIssuer can create/modify the information. Regulators can change the <code>tokenStatus</code>.
         </td>
     </tr>
 </table>
@@ -370,7 +371,7 @@ Stocks issued can be classified as preferred stocks or common stocks. For prefer
     <tr>
         <td>trancheSupply</td>
         <td>big.Int</td>
-        <td>supply of this tranche. May vary over time. </td>
+        <td>supply of this tranche. It may vary over time. </td>
     </tr>
     <tr>
         <td>lockUntil</td>
@@ -384,11 +385,11 @@ Stocks issued can be classified as preferred stocks or common stocks. For prefer
         <td>extraMeta</td>
         <td>map[string]interface{}</td>
         <td>
-            Other meta data. Defined and interpreted by impementer. May contain the callable/non-callable feature, fixed dividend rate, conversion rate to common stocks or so. Since not all features are commonly used, so they are put here for extension purpose only.
+            Other meta data. This field is implementation dependent. It can contain the callable/non-callable feature, fixed dividend rate, conversion rate to common stocks or so. For features which is not commonly used, they can be put here for extension purpose.
         </td>
     </tr>
     <tr>
-        <td colspan="3">Only the issurer can modify this information.</td>
+        <td colspan="3">Only TokenIssuer can create/update this information.</td>
     </tr>
 </table>
 <div align="center">Table 6 - tranche information</div><br/>
@@ -418,7 +419,7 @@ Stocks issued can be classified as preferred stocks or common stocks. For prefer
         <td>lockUntil</td>
         <td>uint64</td>
         <td>unix timestamp. The tokens in this position cannot be transferred out before that time.
-        Normally it will be 0, which means just see the lockUntil setting of the tranche. Other values will take precedence of the setting of the tranche. Not affected by transfer in operations, but restrict the behavior of transfer out operations. This field should be explictly tagged by regulator or so to explicitly lockup one’s special position.
+        If 0, it means using the lockUntil setting of the tranche. Other values will take precedence of the setting of the tranche. Not affected by transfer in operations, but restrict the behavior of transfer out operations. This field can be explictly tagged by regulator to explicitly lockup one’s special position.
         </td>
     </tr>
      <tr>
@@ -457,13 +458,13 @@ Returns the number of decimals used by the token - e.g. 8, means to divide the 
 <source lang="golang">
 func totalSupply() (big.Int) {}
 </source>
-Returns the total number of token. It is the sum of the supplies of all tranches, thus may bear no much real meanings.
+Returns the total number of token. It is the sum of the supplies of all tranches.
 
 ===== getDefaultTranche =====
 <source lang="golang">
 func totalSupply() (big.Int) {}
 </source>
-Returns the global default tranche. Default tranche is read-only and cannot be changed later in order to avoid chaos.
+Returns the global default tranche. Default tranche is read-only and cannot be changed to avoid chaos.
 
 ===== getDocument =====
 <source lang="golang">
@@ -475,27 +476,27 @@ type DocInfo struct {
 }
 func getDocument(doc string) (info DocInfo) {}
 </source>
-Returns the DocInfo for doc, if document doc not found, return err != nil.
+Returns the DocInfo for doc. If document doc is not found, return err != nil.
 
 ===== setDocument =====
 <source lang="golang">
 func setDocument(doc string, info DocInfo) bool {}
 event setDocuent(operator []byte, doc string, info DocInfo)
 </source>
-Set the document info info for doc.
+Set <code>info</code> for document <code>doc</code>.
 
 ===== getExtraTokenInfo =====
 <source lang="golang">
 func getExtraTokenInfo(key string) string {}
 </source>
-Returns the val for key contained in the extra token info.
+Returns value for <code>key</code> which contained in the extra token info.
 
 ===== setExtraTokenInfo =====
 <source lang="golang">
 func setExtraTokenInfo(key string, val string) bool {}
 event setExtraTokenInfo(operator []byte, key string, val string)
 </source>
-Set the key and val pair in the extra token info.
+Set the <code>key</code> and <code>val</code> pair in the extra token info.
 
 ===== getTokenStatus =====
 <source lang="golang">
@@ -508,17 +509,17 @@ Returns the current token status.
 func setTokenStatus(newState uint8) bool {}
 event setTokenStatus(operator []byte, newState uint8)
 </source>
-Set the current token status to newState. Returns true when success, otherwise when fail. This is a very powerful operation so it should only be authorized to special roles.
+Set the current token status to newState. Returns true when success, otherwise when fail. This is a powerful operation, and should only be authorized to special operators or role.
 
 ===== transfer =====
 <source lang="golang">
 func transfer(fromTranche uint64, from []byte, to[]byte, toTranche uint64, srcAmount big.Int, byte[] data) bool {}
-func transfer(form []byte, to[]byte, srcAmount big.Int, byte[] data) bool {}
+func transfer(from []byte, to[]byte, srcAmount big.Int, byte[] data) bool {}
 event transfer(from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int)
 </source>
-Normally, to should be a valid investor or issuer. As a special case, an all 0 black hole address which can be controlled by nobody can be used in this function as a means to burn token. So we do not introduce a separate burn() function here.
+Normally, <code>to</code> should be a valid investor or token issuer. As a special case, an all 0 black hole address which is controlled by nobody can be used in this function as a means to burn token. So we do not introduce a separate burn() function in proposal.
 
-The succinct form of transfer is just an abbreviation of the extensive form without explicit fromTranche and toTranche. Those two parameters are implicitly set to the global default tranche.
+The succinct form of transfer is just an abbreviation of the extensive form without explicit <code>fromTranche</code> and <code>toTranche</code>. These two parameters are implicitly set to the global default tranche.
 
 ===== approve =====
 <source lang="golang">
@@ -526,9 +527,9 @@ func approve(approver []byte, spender []byte, tranche uint64, value big.Int, byt
 func approve(approver []byte, spender []byte,value big.Int, byte[] data) bool {}
 event approve(approver []byte, spender []byte, tranche uint64, value big.Int)
 </source>
-The succinct form of approve is just an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche.
+The succinct form of approve is an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche.
 
-The parameters <code>approver</code> and <code>spender</code>SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
+The parameters <code>approver</code> and <code>spender</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
 
 ===== transferFrom =====
 <source lang="golang">
@@ -537,7 +538,7 @@ func transferFrom(tranferer []byte, from []byte, to[]byte, srcAmount big.Int, by
 event transferFrom(tranferer []byte, from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int)
 </source>
 
-Normally, to should be a valid investor or issuer. As a special case, an all 0 black hole address which can be controlled by nobody can be used in this function as a means to burn token. So we do not introduce a separate burn() function here.
+Normally, <code>to</code> should be a valid investor or token issuer. As a special case, an all 0 black hole address which is controlled by nobody can be used in this function as a means to burn token. So we do not introduce a separate burn() function in proposal.
 
 The succinct form of transferFrom is just an abbreviation of the extensive form without explicit fromTranche and toTranche. Those two parameters are implicitly set to the global default tranche.
 
@@ -548,14 +549,14 @@ The parameters <code>tranferer</code>, <code>from</code> and <code>to</code>SHOU
 func allowance(owner []byte, tranche uint64, spender []byte) (remaining big.Int) {}
 func allowance(owner []byte, spender []byte) (remaining big.Int) {}
 </source>
-The succinct form of allowance is just an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche.
+The succinct form of allowance is an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche. For invalid investors, the function SHOULD return 0.
 
 ===== balanceOf =====
 <source lang="golang">
 func balanceOf(owner []byte, tranche uint64) (balance big.Int) {}
 func balanceOf (owner []byte) (balance big.Int) {}
 </source>
-The succinct form of balanceOf is just an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche. For invalid investors, the function can return a 0.
+The succinct form of balanceOf is an abbreviation of the extensive form without explicit tranche, which is implicitly set to the global default tranche. For invalid investors, the function SHOULD return 0.
 
 ===== lockPosition =====
 <source lang="golang">
@@ -563,7 +564,7 @@ func lockPosition(address []byte, tranche uint64, lockUntil uint64) bool {}
 func lockPosition(address []byte, lockUntil uint64) bool {}
 event lockPosition(address []byte, tranche uint64, lockUntil uint64) {}
 </source>
-Lock operator’s own position in tranche until lockUntil. The succinct form of this function will use the global default tranche. Locked position cannot be unlocked by himself. One can only wait until the expire time comes. Or one can refer to the privileged user to clear this flag using setBalanceOf() function described below.
+Lock operator’s own position in tranche until lockUntil. The succinct form of this function will use the global default tranche. Locked position cannot be unlocked by himself. Token owner can only wait until expired, or can refer to the privileged user to clear this flag using setBalanceOf() function described below.
 
 The parameters <code>address</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
 
@@ -572,7 +573,7 @@ The parameters <code>address</code> SHOULD be 20-byte address. If not, this meth
 func canTransfer(from []byte, fromTranche uint64, to[]byte, toTranche uint64, srcAmount big.Int) bool {}
 func canTransfer(from []byte, to[]byte, srcAmount big.Int) bool {}
 </source>
-Check whether it will be ok to transfer srcAmount tokens from the fromTranche of address from to toTranche of address to. The operator’s address can be the same as from, or it can be different. When they are different, allowance should be taken into consideration. Return true when success. Always throw and exception when the input parameters are in mal-formed format.
+Check whether it will be ok to transfer <code>srcAmount</code> tokens from the <code>fromTranche</code> of address <code>from</code> to <code>toTranche</code> of address <code>to</code>. The function caller’s address can be the same as <code>from</code>, or it can be different. When they are different, allowance should be taken into consideration. This function returns true when success. This function SHOULD throw an exception when input parameters are mal-formed.
 
 The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD throw an exception.
 
@@ -581,24 +582,24 @@ The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. 
 <source lang="golang">
 func getTrancheInfo(tranche uint64) (description string, supply big.Int, lockUntil uint64) {}
 </source>
-Returns the <code>description</code>,<code>supply</code>and<code>lockUntil</code> for the given tranche
+Returns the <code>description</code>,<code>supply</code>and<code>lockUntil</code> for the given <code>tranche</code>.
 
 ===== setTrancheInfo =====
 <source lang="golang">
 func setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64) bool {}
 event setTrancheInfo(operator []byte, tranche uint64, description string, supply big.Int, lockUntil uint64)
 </source>
-Operator set some necessary information about this tranche.
+Operators set information about this tranche.
 
 ===== getTrancheExtraMeta =====
 <source lang="golang">
 func getTrancheExtraMeta(tranche uint64) (key []string, val []interface{} ) {}
 </source>
-Returns the <code>key</code>and<code>val</code> for the given tranche
+Returns the <code>key</code>and<code>val</code> for the given tranche.
 
 ===== setTrancheExtraMeta =====
 <source lang="golang">
 func setTrancheExtraMeta(operator []byte, tranche uint64, key string, val interface{}) bool {}
 event setTrancheExtraMeta(operator []byte, tranche uint64, key string, val interface{})
 </source>
-Operator set some necessary extra meta about this tranche.
+Operators set necessary extra meta about this tranche.
