@@ -232,8 +232,19 @@ func getClaimInfo(ontId string, roleName string, claimId string) (info claimInfo
 </source>
 Returns the claimInfo for the given ontId, roleName and claimId.
 
-===== isValidClaim =====
+===== ontIdHasValidRole =====
+<source lang="golang">
+func ontIdHasValidRole(ontId string, roleName string) (valid bool)
+</source>
+A role roleName is valid for ontId only when it is supported by at least one valid claim.
 
+===== addrHasValidRole =====
+<source lang="golang">
+func addrHasValidRole(address []byte, roleName string) (valid bool)
+</source>
+A role roleName is valid for address only when it is supported by at least one valid claim.
+
+===== isValidClaim =====
 <source lang="golang">
 func isValidClaim(ontId string, roleName string, claimId string) bool {}
 </source>
