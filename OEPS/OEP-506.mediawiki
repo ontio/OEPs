@@ -208,7 +208,7 @@ The parameters <code>operator</code> and <code>address</code> SHOULD be 20-byte 
 
 ===== getAddrToOntId =====
 <source lang="golang">
-func getAddrToOntId(address []byte) (ontId string, pubKeyId string, privKeyOwnerId string) {}
+func getAddrToOntId(address []byte) (ontId string, pubKeyId int, privKeyOwnerId string) {}
 </source>
 Retrieve the ontId, pubKeyId and privKeyOwnerId for the given address.
 
