@@ -450,19 +450,19 @@ This symbol SHOULD be short (3-8 characters is recommended), with no whitespace 
 
 ===== decimals =====
 <source lang="golang">
-func decimals() (uint8) {}
+func decimals() uint8 {}
 </source>
 Returns the number of decimals used by the token - e.g. if it is 8, the number you get is 10000000, but in fact the ONT amount is 1 ONT.
 
 ===== totalSupply =====
 <source lang="golang">
-func totalSupply() (big.Int) {}
+func totalSupply() big.Int {}
 </source>
 Returns the total number of tokens. It is the sum of the supplies of all tranches.
 
 ===== getDefaultTranche =====
 <source lang="golang">
-func totalSupply() (big.Int) {}
+func getDefaultTranche() uint64 {}
 </source>
 Returns the global default tranche. Default tranche is read only and cannot be changed to avoid chaos.
 
