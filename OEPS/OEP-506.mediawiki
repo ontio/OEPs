@@ -478,9 +478,9 @@ func getDocument(doc string) (info DocInfo) {}
 </source>
 Returns the DocInfo for doc. If document doc is not found, return err != nil.
 
-===== setDocument =====
+===== setDocumenoperator []byte, t =====
 <source lang="golang">
-func setDocument(doc string, info DocInfo) bool {}
+func setDocument(operator []byte, doc string, info DocInfo) bool {}
 event setDocuent(operator []byte, doc string, info DocInfo, error string)
 </source>
 Set <code>info</code> for document <code>doc</code>.
@@ -493,7 +493,7 @@ Returns value for <code>key</code> which contained in the extra token info.
 
 ===== setExtraTokenInfo =====
 <source lang="golang">
-func setExtraTokenInfo(key string, val string) bool {}
+func setExtraTokenInfo(operator []byte, key string, val string) bool {}
 event setExtraTokenInfo(operator []byte, key string, val string, error string)
 </source>
 Set the <code>key</code> and <code>val</code> pair in the extra token info.
@@ -506,7 +506,7 @@ Returns the current token status.
 
 ===== setTokenStatus =====
 <source lang="golang">
-func setTokenStatus(newState uint8) bool {}
+func setTokenStatus(operator []byte, newState uint8) bool {}
 event setTokenStatus(operator []byte, newState uint8, error string)
 </source>
 Set the current token status to newState. Returns true when success, otherwise when fail. This is a powerful operation, and should only be authorized to special operators or role.
