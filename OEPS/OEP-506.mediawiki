@@ -33,7 +33,7 @@ Though several different interfaces are defined here and one can implement them 
 
 We admit that these given interfaces can’t cover all possible business scenarios in themselves. But as basic building blocks, more functionality can be built upon them in separate smart contracts. For example, dividend distribution or stock splits can easily be implemented in a higher level.
 
-=== Interface KYC Service ===
+=== KYC Service Interface ===
 This interface provides the operations for KYC-related information. When implementing these services, it is recommended that ONT ID and ONT CLAIM services are fully utilized. This interface defines the necessary enhancements to those basic services according to the requirements of the given STO business.
 
 ==== Basic Data Model ====
@@ -276,7 +276,7 @@ event setOntIdSuspendStatus(operator []byte, ontId string, suspend bool, memo st
 </source>
 The operator OntId should be deduced from the operator’s address. When <code>suspend</code> is set to true, it is a suspended operation. Suspending a suspended address should be supported. When suspend is set to false, it always deletes the record for suspension, or just ignores the operation when no matching records could be found. One can use memo to pass in description. The target of operation is denoted by ontId.
 
-=== Interface SecurityToken ===
+=== Security Token Interface ===
 This interface provides the basic operations on token definition, token transfer, and investor position management, and is roughly comparable to the ERC 1400 specification in Ethereum.
 
 ==== Basic Data Model ====
