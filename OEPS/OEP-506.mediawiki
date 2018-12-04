@@ -436,13 +436,13 @@ Stocks issued can be classified as preferred stocks or common stocks. For prefer
 ==== Methods ====
 ===== name =====
 <source lang="golang">
-func name() (string) {}
+func name() string {}
 </source>
 Returns the name of the token - e.g. "MyToken".
 
 ===== symbol =====
 <source lang="golang">
-func symbol() (string) {}
+func symbol() string {}
 </source>
 Returns a short string symbol of the token - e.g. "MYT".
 This symbol SHOULD be short (3-8 characters is recommended), with no whitespace characters or new lines and SHOULD be limited to the uppercase Latin alphabet (i.e. the 26 letters used in English).
