@@ -103,7 +103,7 @@ Assigns the ownership of the Non-fungible with ID <code>tokenId</code> to <code>
 <pre>
 public static byte[] tokenMetadata(byte[] tokenId)
 </pre>
-Returns the url referencing an external resource that contains metadata about the NFT associated with tokenId.<code>tokenId</code> SHOULD be string or bytearray. this method is OPTIONAL, but if you don't write this method, the browser cann't get basic info about the token.
+Returns the url referencing an external resource that contains metadata about the NFT associated with tokenId.<code>tokenId</code> SHOULD be string or bytearray. this method is OPTIONAL, but if you don't implement this method, the browser can't get basic info about the token.
 
 ===Events===
 ====transfer====
