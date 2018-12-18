@@ -58,8 +58,7 @@ The parameter <code>address</code> SHOULD be a 20-byte address. If not, this met
 <pre>
 public static byte[] ownerOf(byte[] tokenId)
 </pre>
-Returns the address currently marked as the owner of <code>tokenId</code>.If the <code>tokenId</code> cann't query an owner address,
-
+Returns the address currently marked as the owner of <code>tokenId</code>.If the <code>tokenId</code> cann't query an owner address,<code>TokenId</code> SHOULD be string or bytearray.
 this method SHOULD <code>throw</code> an exception.
 
 ====transfer====
@@ -68,6 +67,7 @@ public static bool transfer(byte[] to, byte[] tokenId)
 </pre>
 
 Transfers an NFTs of tokens from the <code>from</code> account to the <code>to</code> account.
+<code>TokenId</code> SHOULD be string or bytearray.
 <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
 
 ====transferMulti====
@@ -82,7 +82,7 @@ public struct State
 </pre>
 
 The transferMulti allows transfer multiple NFTs from multiple <code>from</code> to multiple <code>to</code> multiple times.The parameter is object array, the object is <code>State</code> struct.<code>To</code> is transfer receiver, which
-also SHOULD be 20-byte address. If any of transfer fail, all of the transfers SHOULD be failed, and the method SHOULD <code>throw</code> an exception.
+also SHOULD be 20-byte address.<code>TokenId</code> SHOULD be string or bytearray. If any of transfer fail, all of the transfers SHOULD be failed, and the method SHOULD <code>throw</code> an exception.
 
 
 ====approve====
@@ -90,14 +90,20 @@ also SHOULD be 20-byte address. If any of transfer fail, all of the transfers SH
 public static bool approve(byte[] to, byte[] tokeId)
 </pre>
 
-The approve allows to grant an NFTs to<code>to</code> account multiple times.If this function is called again it overwrites <code>to</code> or <code>tokenId</code>.
+The approve allows to grant an NFTs to<code>to</code> account multiple times.If this function is called again it overwrites <code>to</code> or <code>tokenId</code>.<code>TokenId</code> SHOULD be string or bytearray.
 <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
 
 ====takeOwnership====
 <pre>
 public static bool takeOwnership(byte[] to, byte[] tokenId)
 </pre>
-Assigns the ownership of the Non-fungible with ID <code>tokenId</code> to <code>to</code> address. <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
+Assigns the ownership of the Non-fungible with ID <code>tokenId</code> to <code>to</code> address. <code>to</code> SHOULD be 20-byte addresses.<code>TokenId</code> SHOULD be string or bytearray. If not, this method SHOULD <code>throw</code> an exception.
+
+====tokenMetadata====
+<pre>
+public static byte[] tokenMetadata(byte[] tokenId)
+</pre>
+Returns the url referencing an external resource that contains metadata about the NFT associated with tokenId.<code>TokenId</code> SHOULD be string or bytearray.
 
 ===Events===
 ====transfer====
