@@ -105,6 +105,13 @@ public static byte[] tokenMetadata(byte[] tokenId)
 </pre>
 Returns the url referencing an external resource that contains metadata about the NFT associated with tokenId.<code>tokenId</code> SHOULD be string or bytearray. this method is OPTIONAL, but if you don't implement this method, the browser can't get basic info about the token.
 
+The url info string MUST be an IPFS or HTTP(S) base path.
+Standard sub-paths:
+- name (required) - The name contain the UTF-8 encoded name of specific NFT, which SHOULD be short (3-8 characters is recommended)
+- image (optional) - If the image exist, it MUST contain a PNG, JPEG, or JPG image with at least 300 pixels of detail in each dimension. (1:1 image is recommended)
+- description (optional) - If the description exist, it MUST contain a UTF-8 encoded textual description of the asset. The description SHOULD be 1500 characters or less.
+- other metadata (optional) - other extension information.
+
 ===Events===
 ====transfer====
 <pre>
