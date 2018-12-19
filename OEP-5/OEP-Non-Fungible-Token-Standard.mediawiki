@@ -1,11 +1,11 @@
-<pre>
+<source lang="csharp">
   OEP: 5
   Title: Non-fungible Token Standard
   Author: tanyuan <tanyuan666@gmail.com>, zhoupw <zhoupw@gmail.com>, tonyclarking<tonyclarking@gmail.com>, blckchan<1258176714@qq.com>
   Type: Standard
   Status: Draft
   Created: 2018-07-26
-</pre>
+</source>
 
 ==Abstract==
 
@@ -21,33 +21,32 @@ A standard token interface of NFTs, allows token on ONT to be convenient used by
 
 ====name====
 
-<pre>
+<source lang="csharp">
 public static string name()
-</pre>
+</source>
 
 Returns the name of the NFTs - e.g. "My Non-Fungibles".
 
 ====symbol====
-
-<pre>
+<source lang="csharp">
 public static string symbol()
-</pre>
+</source>
 
 Returns a short string symbol of the token - e.g. <code>"MNFT"</code>.
 
 This symbol SHOULD be short (3-8 characters is recommended), with no whitespace characters or new-lines and SHOULD be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
 
 ====totalSupply====
-<pre>
+<source lang="csharp">
 public static BigInteger totalSupply()
-</pre>
+</source>
 Returns the total number of NFTs.
 
 ====balanceOf====
 
-<pre>
+<source lang="csharp">
 public static BigInteger balanceOf(byte[] address)
-</pre>
+</source>
 
 Returns the number of NFTs assigned to <code>address</code>.
 
@@ -55,23 +54,23 @@ The parameter <code>address</code> SHOULD be a 20-byte address. If not, this met
 
 ===Ownership Methods===
 ==== ownerOf====
-<pre>
+<source lang="csharp">
 public static byte[] ownerOf(byte[] tokenId)
-</pre>
+</source>
 Returns the address currently marked as the owner of <code>tokenId</code>.If the <code>tokenId</code> cann't query an owner address,<code>tokenId</code> SHOULD be string or bytearray.
 this method SHOULD <code>throw</code> an exception.
 
 ====transfer====
-<pre>
+<source lang="csharp">
 public static bool transfer(byte[] to, byte[] tokenId)
-</pre>
+</source>
 
 Transfers an NFTs of tokens from the <code>from</code> account to the <code>to</code> account.
 <code>tokenId</code> SHOULD be string or bytearray.
 <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
 
 ====transferMulti====
-<pre>
+<source lang="csharp">
 public static bool TransferMulti(object[] args)
 
 public struct State
@@ -79,30 +78,30 @@ public struct State
      public byte[] To;
      public byte[] TokenId;
 }
-</pre>
+</source>
 
 The transferMulti allows transfer multiple NFTs from multiple <code>from</code> to multiple <code>to</code> multiple times.The parameter is object array, the object is <code>State</code> struct.<code>To</code> is transfer receiver, which
 also SHOULD be 20-byte address.<code>tokenId</code> SHOULD be string or bytearray. If any of transfer fail, all of the transfers SHOULD be failed, and the method SHOULD <code>throw</code> an exception.
 
 
 ====approve====
-<pre>
+<source lang="csharp">
 public static bool approve(byte[] to, byte[] tokeId)
-</pre>
+</source>
 
 The approve allows to grant an NFTs to<code>to</code> account multiple times.If this function is called again it overwrites <code>to</code> or <code>tokenId</code>.<code>tokenId</code> SHOULD be string or bytearray.
 <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
 
 ====takeOwnership====
-<pre>
+<source lang="csharp">
 public static bool takeOwnership(byte[] to, byte[] tokenId)
-</pre>
+</source>
 Assigns the ownership of the Non-fungible with ID <code>tokenId</code> to <code>to</code> address. <code>to</code> SHOULD be 20-byte addresses.<code>tokenId</code> SHOULD be string or bytearray. If not, this method SHOULD <code>throw</code> an exception.
 
 ====tokenMetadata====
-<pre>
+<source lang="csharp">
 public static byte[] tokenMetadata(byte[] tokenId)
-</pre>
+</source>
 Returns the url referencing an external resource that contains metadata about the NFT associated with tokenId.<code>tokenId</code> SHOULD be string or bytearray. this method is OPTIONAL, but if you don't implement this method, the browser can't get basic info about the token.
 
 The url info string MUST be an IPFS or HTTP(S) base path.<br/>
@@ -114,9 +113,9 @@ Standard sub-paths:<br/>
 
 ===Events===
 ====transfer====
-<pre>
+<source lang="csharp">
 public static event transfer(byte[] from, byte[] to, byte[] tokenId)
-</pre>
+</source>
 MUST trigger when tokens are transferred, including zero value transfers.
 
 A token contract which creates new NFTs MUST trigger a <code>transfer</code> event with the <code>from</code> address set to <code>null</code>.
@@ -124,11 +123,11 @@ A token contract which creates new NFTs MUST trigger a <code>transfer</code> eve
 A token contract which burns tokens MUST trigger a <code>transfer</code> event with the <code>to</code> address set to <code>null</code> when tokens are burned.
 
 ====approval====
-<pre>
+<source lang="csharp">
 public static event approval(byte[] from, byte[] to, byte[] tokenId)
-</pre>
+</source>
 MUST trigger on any successful call to approve.
 
 ===Implementation===
 ====Example implementations are available at====
-OEP-5 Template:
+OEP-5 Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP5Sample/OEP5Sample.py | Python Template]]
