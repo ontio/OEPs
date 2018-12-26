@@ -37,9 +37,9 @@ Oracle contract platform is designed for someone who want to run a platform that
 
 ===Method===
 ====CreateOracleRequest====
-<pre>
+<source lang="csharp">
 public static bool CreateOracleRequest(string request, byte[] address)
-</pre>
+</source>
 Create oracle request, accepts two params.
 
 <code>request</code> string of request body, defines how to get the data and how to serilize the data.
@@ -47,9 +47,9 @@ Create oracle request, accepts two params.
 <code>address</code> the caller's address, will verify it's signature and pay oracle fee.
 
 ====SetOracleOutcome====
-<pre>
+<source lang="csharp">
 public static bool SetOracleOutcome(byte[] txHash, byte[] result)
-</pre>
+</source>
 Set result of the oracle request, must be invoked by oracle contract admin, accepts two params.
 
 <code>txHash</code> the txHash of oracle request
@@ -57,17 +57,17 @@ Set result of the oracle request, must be invoked by oracle contract admin, acce
 <code>result</code> result of the oracle request
 
 ====GetOracleOutcome====
-<pre>
+<source lang="csharp">
 public static byte[] GetOracleOutcome(byte[] txHash)
-</pre>
+</source>
 Returns result according to the txHash of the oracle request, accepts one param.
 
 <code>txHash</code> the txHash of oracle request
 
 ====RegisterOperator====
-<pre>
+<source lang="csharp">
 public static bool RegisterOperator(string method, byte[] pubKey, byte[] address)
-</pre>
+</source>
 Register an operator to oracle contact, accepts three params. Only available in oracle contract platform.
 
 <code>method</code> the method that the operator provide, users can use this method in request to get data via this operator
