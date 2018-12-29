@@ -76,6 +76,19 @@ Register an operator to oracle contact, accepts three params. Only available in 
 
 <code>address</code> the address of operator wallet
 
+===Notify===
+====CreateOracleRequest====
+<source lang="csharp">
+Notify(["createOracleRequest", request, address])
+</source>
+MUST be invoked in CreateOracleRequest function. 
+
+====SetOracleOutcome====
+<source lang="csharp">
+Notify(["setOracleOutcome", txHash, status, errMessage])
+</source>
+MUST be invoked in SetOracleOutcome function. 
+
 ==Oracle Request Format==
 Oracle request must satisfy OEP-34 format so that operator can recognize, for example:
 <pre>
