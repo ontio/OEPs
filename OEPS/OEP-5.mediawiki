@@ -3,7 +3,7 @@
   Title: Non-fungible Token Standard
   Author: tanyuan <tanyuan666@gmail.com>, zhoupw <zhoupw@gmail.com>, tonyclarking<tonyclarking@gmail.com>, blckchan<1258176714@qq.com>
   Type: Standard
-  Status: Draft
+  Status: Accepted
   Created: 2018-07-26
 </source>
 
