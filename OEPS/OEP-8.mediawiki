@@ -132,5 +132,5 @@ MUST trigger on any successful call to approve.
 
 ==Implementation==
 ====Example implementations are available at====
-OEP-8 Python Template: [[https://github.com/skyinglyh1/CollectPumpkin | Python Template]]
+OEP-8 Python Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP8Sample/OEP8Sample.py | Python Template]]
 
