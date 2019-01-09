@@ -75,7 +75,7 @@ Each OEP should have the following parts:
 
 *Test Cases -- Test cases for an implementation are mandatory for OEPs that are affecting consensus changes. Other OEPs can choose to include links to test cases if applicable.
 
-*Implementations -- The implementations must be completed before any OEP is given status "Final", but it need not be completed before the OEP is accepted. It is better to finish the specification and rationale first and reach consensus on it before writing code.
+*Implementations -- The implementations must be completed before any OEP is given status "Final", but it need not be completed before the OEP is accepted. It is better to finish the specification and rationale first and reach consensus on it before writing code. Suggest to add the implementation in a git submodule under resource/OEP-X. For code piece inside "big" project, just add link (with revision id) as a reference in OEP.
 
 ==OEP Formats and Templates==
 

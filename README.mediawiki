@@ -44,12 +44,12 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Accepted
 | -
 |-
-| 5
+| [[OEPS/OEP-5.mediawiki|5]]
 | Non-Fungible Token Standard
 | community
 | Standard
-| Draft
-| [https://github.com/ontio/OEPs/pull/10 pull request]
+| Accepted
+| -
 |-
 | [[OEPS/OEP-8.mediawiki|8]]
 | Crypto Item Standard
@@ -85,6 +85,13 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Standard
 | Draft
 | [https://github.com/ontio/OEPs/pull/19 pull request]
+|-
+| 34
+| Ontology Oracle Standard
+| 
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/35 pull request]
 |-
 | 
 | Data Token Standard
