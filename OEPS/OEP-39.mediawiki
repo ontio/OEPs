@@ -3,7 +3,7 @@
   Title: Transaction fee rebate for dApp owner
   Author: javajoker <hehehu@gmail.com>
   Type: Meta
-  Status: Draft
+  Status: Accepted
   Created: 2019-05-26
 </pre>
 

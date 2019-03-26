@@ -93,12 +93,12 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Draft
 | [https://github.com/ontio/OEPs/pull/35 pull request]
 |-
-| 39
+| [[OEPS/OEP-39.mediawiki|39]]
 | Standard process of transaction fee rebate adjustment
 | 
 | Meta
-| Stub
-| [https://github.com/ontio/OEPs/issues/39 issue ref]
+| Accepted
+| -
 |-
 | 
 | Data Token Standard
