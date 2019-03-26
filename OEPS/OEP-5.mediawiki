@@ -96,7 +96,7 @@ The approve allows to grant an NFTs to<code>to</code> account multiple times.If 
 <source lang="csharp">
 public static bool takeOwnership(byte[] to, byte[] tokenId)
 </source>
-Assigns the ownership of the Non-fungible with ID <code>tokenId</code> to <code>to</code> address. <code>to</code> SHOULD be 20-byte addresses.<code>tokenId</code> SHOULD be string or bytearray. If not, this method SHOULD <code>throw</code> an exception.
+Either the token owner or the approved account can assign the ownership of the Non-fungible with ID <code>tokenId</code> to <code>to</code> address. <code>to</code> SHOULD be 20-byte addresses.<code>tokenId</code> SHOULD be string or bytearray. If not, this method SHOULD <code>throw</code> an exception.
 
 ====tokenMetadata====
 <source lang="csharp">
