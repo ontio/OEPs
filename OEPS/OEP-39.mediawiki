@@ -1,0 +1,37 @@
+<pre>
+  OEP: 39
+  Title: Transaction fee rebate for dApp owner
+  Author: javajoker <hehehu@gmail.com>
+  Type: Meta
+  Status: Draft
+  Created: 2019-05-26
+</pre>
+
+==Abstract==
+
+The OEP-39 Proposal is a meta proposal of transaction fee (gas fee) rebate for dApp owner, this proposal is to enable a mechanism for transaction fee rebate directly to dApp owner(s), which is targeting to encourage the incentive from end user(s) to dApp(s) directly.
+
+==Motivation==
+
+A standard mechanism throughout Ontology chain-network, enable a new incentive mode inside Ontology ecosystem, to rebate dApp owner(s) with a split of transaction fee from end user(s).
+
+==Specification==
+
+# Ontology network is able to enable transaction fee (gas fee) split, from candidate/consensus network only, to candidate/consensus node and dApp owner.
+## Each consensus node decides the threshold of gas price for each transaction, for proposer role to generate a block
+## Gas price * steps results in the transaction fee (gas fee) of the transaction, which is targeting to reward the blockchain system
+## Gas fee of each transaction will be split into two parts, to reward the operating node (consensus node and candidate), to reward the dApp brought the transaction to Ontology as an incentive
+### The reward of operating nodes follow the algorithm of fee split for each epoch in governance native contract
+### The reword of dApp goes to dApp owner's wallet
+# When the incentive switch is enabled, the split ratio between node and dApp owner shall be set
+## Fee split follows the split ratio
+
+===Rational===
+
+Ontology project is targeting to setup a distributed trust collaboration platform, while blockchain infrastructure serves the on demand availability of trust computer system resources, just like cloud computing. So the form Ontology ecosystem is eventually decided by dApps using Ontology infrastructure. 
+
+This proposal is to enable an incentive mode from end user(s) to dApp(s). The more dApps join Ontology ecosystem, the more transaction fee (gas fee) will be paid to for consensus network and dApps. The better the dApp is, the more users would like to try the dApp, the more transaction fee incents the dApp owner, the more fee consensus/candidate nodes receive.
+
+===Implementation===
+
+This is a meta proposal, the implementation is not included.
