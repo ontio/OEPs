@@ -25,7 +25,7 @@ A standard token interface unifies all of tokens, allows token on ONT to be conv
 def name()
 </pre>
 
-Returns a `string`, the name of the token - e.g. "MyToken".
+Returns a <code>string</code>, the name of the token - e.g. "MyToken".
 
 ====symbol====
 
@@ -33,7 +33,7 @@ Returns a `string`, the name of the token - e.g. "MyToken".
 def symbol()
 </pre>
 
-Returns a `string`, the short symbol of the token - e.g. <code>"MYT"</code>.
+Returns a <code>string</code>, the short symbol of the token - e.g. <code>"MYT"</code>.
 
 This symbol should be short (3-8 characters is recommended), with no whitespace characters or new-lines and should be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
 

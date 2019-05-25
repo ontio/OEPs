@@ -25,7 +25,7 @@ A standard token interface of NFTs, allows token on ONT to be convenient used by
 def name()
 </pre>
 
-Returns a `string`, the name of the NFTs - e.g. "My Non-Fungibles".
+Returns a <code>string</code>, the name of the NFTs - e.g. "My Non-Fungibles".
 
 ====symbol====
 
@@ -33,7 +33,7 @@ Returns a `string`, the name of the NFTs - e.g. "My Non-Fungibles".
 def symbol()
 </pre>
 
-Returns a `string`, the short symbol of the NFTs - e.g. <code>"MNFT"</code>.
+Returns a <code>string</code>, the short symbol of the NFTs - e.g. <code>"MNFT"</code>.
 
 This symbol should be short (3-8 characters is recommended), with no whitespace characters or new-lines and should be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
 
@@ -64,7 +64,7 @@ If not, this method must <code>throw</code> an exception.
 def ownerOf(tokenId)
 </pre>
 
-Returns the address currently marked as the owner of <code>tokenId</code>.
+Returns the address currently marked as the owner of the NFT with id of <code>tokenId</code>.
 <code>tokenId</code> should be string or a bytearray.
 If the owner address of <code>tokenId</code> can't be determined, this method must <code>throw</code> an exception.
 
