@@ -8,12 +8,15 @@
 </pre>
 
 ==Abstract==
-The OEP-8 Proposal is a standard interface for Crypto Item, this standard allows you to transfer any amount of tokens for difference Crypto Item from one address to other address.
-It combines the advantage of OEP-4 and OEP-5, it is very convenient to transfer different types of Crypto Item.
+
+The OEP-8 Proposal is a standard interface for Crypto Items.
+This standard allows you to transfer any amount of tokens for different Crypto Items from one address to another address.
+It combines the advantages of OEP-4 and OEP-5 to make transferring different types of Crypto Items convenient.
 
 ==Motivation==
-With the development of smart contract DApp, the requirement of transferring different amount of different tokens is more and more intense. If you want to transfer difference amount of different tokens from one address to other address or do batch transfer, it is very difficult now.
-The OEP-8 Proposal can perfectly solve this problem. It is easy to do it.
+With the development of smart contracts and dApps, the requirement of transferring different amounts of different tokens has become more intense.
+If you want to transfer different amounts of different tokens from one address to another address or to do batch transfers, it is very difficult.
+The OEP-8 Proposal aims to solve this problem.
 
 ==Specification==
 ===Method===
@@ -133,4 +136,3 @@ MUST trigger on any successful call to approve.
 ==Implementation==
 ====Example implementations are available at====
 OEP-8 Python Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP8Sample/OEP8Sample.py | Python Template]]
-

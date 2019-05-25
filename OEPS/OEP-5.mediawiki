@@ -9,7 +9,8 @@
 
 ==Abstract==
 
-The OEP-5 Proposal is a standard interface for NFTs. This standard allows for the implementation of a standard API for NFTs within smart contracts.
+The OEP-5 Proposal is a standard interface for NFTs.
+This standard allows for the implementation of a standard API for NFTs within smart contracts.
 
 ==Motivation==
 

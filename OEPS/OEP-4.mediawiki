@@ -9,7 +9,8 @@
 
 ==Abstract==
 
-The OEP-4 Proposal is a standard interface for tokens. This standard allows for the implementation of a standard API for tokens within smart contracts.
+The OEP-4 Proposal is a standard interface for tokens.
+This standard allows for the implementation of a standard API for tokens within smart contracts.
 
 ==Motivation==
 
