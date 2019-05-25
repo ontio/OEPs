@@ -79,6 +79,7 @@ Transfers the NFT from the owner address of <code>tokenId</code> to the <code>to
 <code>tokenId</code> should be string or bytearray.
 If the owner address of <code>tokenId</code> can't be determined, this method must <code>throw</code> an exception.
 <code>to</code> must be 20-byte address. If not, this method must <code>throw</code> an exception.
+After a transfer, if an address had been approved by the <code>approve</code> method, it should be cleared automatically.
 
 ====transferMulti====
 
