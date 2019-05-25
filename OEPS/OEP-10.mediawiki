@@ -1,6 +1,6 @@
 <pre>
   OEP: 10
-  Title: <OEP title>
+  Title: Cross-contract Call Attack Prevention
   Author: Wyatt Mufson <wyatt@towerbuilders.org>
   Type: Standard
   Status: Draft
