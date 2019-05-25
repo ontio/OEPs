@@ -9,11 +9,11 @@
 
 ==Abstract==
 
-The OEP-5 Proposal is a standard interface for NFTs, this standard allows for the implementation of a standard API for tokens within smart contracts.
+The OEP-5 Proposal is a standard interface for NFTs. This standard allows for the implementation of a standard API for NFTs within smart contracts.
 
 ==Motivation==
 
-A standard token interface of NFTs, allows token on ONT to be convenient used by other applications.
+A standard NFT interface which allows NFTs on the Ontology blockchain to be conveniently used by other applications.
 
 ==Specification==
 
