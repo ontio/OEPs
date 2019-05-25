@@ -35,7 +35,7 @@ def symbol()
 
 Returns a `string`, the short symbol of the token - e.g. <code>"MYT"</code>.
 
-This symbol SHOULD be short (3-8 characters is recommended), with no whitespace characters or new-lines and SHOULD be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
+This symbol should be short (3-8 characters is recommended), with no whitespace characters or new-lines and should be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
 
 ====decimals====
 
@@ -46,6 +46,7 @@ def decimals()
 Returns the number of decimals used by the token - e.g. <code>8</code>, means to divide the token amount by <code>100,000,000</code> to get its user representation.
 
 ====totalSupply====
+
 <pre>
 def totalSupply()
 </pre>
@@ -73,6 +74,7 @@ The parameters <code>from</code> and <code>to</code> must be 20-byte address. If
 The parameter <code>amount</code> is the number of tokens to transfer, must be greater than or equal to 0.
 
 ====transferMulti====
+
 <pre>
 def TransferMulti(args)
 
@@ -83,23 +85,30 @@ state = {
 }
 </pre>
 
-The transferMulti function allows the transferring of tokens from multiple <code>from</code> addresses to multiple <code>to</code> addresses with multiple <code>amount</code>s of tokens. The parameter is an array of objects, the object is a <code>state</code> struct, which contains three items: the sender address <code>from</code> (which must be 20-byte address), the receiver address <code>to</code> (which must be 20-byte address) and the <code>amount</code> of tokens to transfer. If any of the transfers fail, all of the transfers must be failed, and the method must <code>throw</code> an exception.
+The transferMulti function allows the transferring of tokens from multiple <code>from</code> addresses to multiple <code>to</code> addresses with multiple <code>amount</code>s of tokens.
+The parameter is an array of objects, the object is a <code>state</code> struct, which contains three items: the sender address <code>from</code> (which must be 20-byte address), the receiver address <code>to</code> (which must be 20-byte address) and the <code>amount</code> of tokens to transfer.
+If any of the transfers fail, all of the transfers must be failed, and the method must <code>throw</code> an exception.
 
 ====approve====
+
 <pre>
 def approve(owner, spender, amount)
 </pre>
 
-The approve function allows the <code>spender</code> address to withdraw tokens from the <code>owner</code> address, of up to <code>amount</code> tokens. If this function is called again it overwrites the current allowance with the new value.
-The parameters <code>owner</code> and <code>spender</code> must be 20-byte addresses. If not, this method must <code>throw</code> an exception.
+The approve function allows the <code>spender</code> address to withdraw tokens from the <code>owner</code> address, of up to <code>amount</code> tokens.
+If this function is called again it overwrites the current allowance with the new value.
+The parameters <code>owner</code> and <code>spender</code> must be 20-byte addresses.
+If not, this method must <code>throw</code> an exception.
 
 ====transferFrom====
+
 <pre>
 def transferFrom(spender, from, to, amount)
 </pre>
 
 The transferFrom method is used for a withdraw workflow - allowing the <code>spender</code> address to withdraw <code>amount</code> tokens from the <code>from</code> address and send it to the <code>to</code> address.
-The parameters <code>spender</code>, <code>from</code> and <code>to</code> must all be 20-byte addresses. If not, this method must <code>throw</code> an exception.
+The parameters <code>spender</code>, <code>from</code> and <code>to</code> must all be 20-byte addresses.
+If not, this method must <code>throw</code> an exception.
 
 ====allowance====
 
@@ -118,12 +127,11 @@ TransferEvent = RegisterAction("transfer", "from", "to", "amount")
 </pre>
 
 The event must be triggered when tokens are transferred, including zero value transfers.
-
 A token contract which creates new tokens must trigger a <code>transfer</code> event with the <code>from</code> address set to <code>null</code> when tokens are created.
-
 A token contract which burns tokens must trigger a <code>transfer</code> event with the <code>to</code> address set to <code>null</code> when tokens are burned.
 
 ====approval====
+
 <pre>
 ApprovalEvent = RegisterAction("approval", "owner", "spender", "amount")
 </pre>
@@ -131,6 +139,5 @@ ApprovalEvent = RegisterAction("approval", "owner", "spender", "amount")
 The event must be triggered on any successful calls to approve.
 
 ===Implementation===
-====Example implementations are available at====
 
 OEP-4 Python Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP4Sample/OEP4Sample_compiler2.0.py | Python Template]]
