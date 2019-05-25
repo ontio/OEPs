@@ -93,3 +93,4 @@ Contracts following this OEP are meant to also be following a standard for other
 ==Implementation==
 
 This OEP is implemented in [[https://github.com/TowerBuilders/CrossContractApproval/blob/master/contract.py | this example contract]].
+Note that <code>notProtectedFromCCA</code> can be called by a malicious contract, while <code>protectedFromCCA</code> cannot.
