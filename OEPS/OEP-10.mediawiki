@@ -41,9 +41,9 @@ For example, an OEP4 contract that also follows this OEP will call <code>Require
 def approveContract(addr, contractHash)
 </pre>
 
-The <code>approveContract</code> method takes two arguments, the address of the user <code>addr</addr> and the <code>contractHash</code>.
-It will whitelist the smart contract with the hash <code>contractHash</code> for the wallet with the address <code>addr</addr>.
-<code>addr</addr> must be a 20-byte address.
+The <code>approveContract</code> method takes two arguments, the address of the user <code>addr</code> and the <code>contractHash</code>.
+It will whitelist the smart contract with the hash <code>contractHash</code> for the wallet with the address <code>addr</code>.
+<code>addr</code> must be a 20-byte address.
 If not, this method must throw an exception.
 <code>approveContract</code> must also only be called directly by a wallet, and <code>CheckWitness(addr)</code> must evaluate to <code>True</code>.
 If not, this method must throw an exception.
@@ -54,9 +54,9 @@ If not, this method must throw an exception.
 def unapproveContract(addr, contractHash)
 </pre>
 
-The <code>unapproveContract</code> method takes two arguments, the address of the user <code>addr</addr> and the <code>contractHash</code>.
-It will remove the smart contract with the hash <code>contractHash</code> from the whitelist for the wallet with the address <code>addr</addr>.
-<code>addr</addr> must be a 20-byte address.
+The <code>unapproveContract</code> method takes two arguments, the address of the user <code>addr</code> and the <code>contractHash</code>.
+It will remove the smart contract with the hash <code>contractHash</code> from the whitelist for the wallet with the address <code>addr</code>.
+<code>addr</code> must be a 20-byte address.
 If not, this method must throw an exception.
 <code>unapproveContract</code> must also only be called directly by a wallet, and <code>CheckWitness(addr)</code> must evaluate to <code>True</code>.
 If not, this method must throw an exception.
@@ -67,9 +67,9 @@ If not, this method must throw an exception.
 def isApproved(addr, contractHash)
 </pre>
 
-The <code>isApproved</code> method takes two arguments, the address of the user <code>addr</addr> and the <code>contractHash</code>.
-It returns whether the smart contract with the hash <code>contractHash</code> is in the whitelist for the wallet with the address <code>addr</addr>.
-<code>addr</addr> must be a 20-byte address.
+The <code>isApproved</code> method takes two arguments, the address of the user <code>addr</code> and the <code>contractHash</code>.
+It returns whether the smart contract with the hash <code>contractHash</code> is in the whitelist for the wallet with the address <code>addr</code>.
+<code>addr</code> must be a 20-byte address.
 If not, this method must throw an exception.
 
 ===Internal Methods===
@@ -80,7 +80,7 @@ If not, this method must throw an exception.
 def RequireApproved(addr)
 </pre>
 
-The <code>RequireApproved</code> method takes one argument, the address of the user <code>addr</addr>.
+The <code>RequireApproved</code> method takes one argument, the address of the user <code>addr</code>.
 If the results of <code>GetCallingScriptHash()</code> and <code>GetEntryScriptHash()</code> do not match, then the <code>callerHash</code> must be in the whitelist for the wallet.
 If not, this method must throw an exception.
 
