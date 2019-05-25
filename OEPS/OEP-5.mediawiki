@@ -119,6 +119,8 @@ Either the token owner or the approved account can assign the ownership of the N
 <code>to</code> must be 20-byte addresses.
 If not, this method must <code>throw</code> an exception.
 
+===Optional Methods===
+
 ====tokenMetadata====
 
 <pre>
