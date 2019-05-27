@@ -1,0 +1,452 @@
+<pre>
+  OEP: 9
+  Title: Ontology X-shard Asset Contract
+  Author: qiluge <wangcheng@onchain.com>
+  Type: Standard
+  Status: Draft
+  Created: 2019-04-15
+</pre>
+
+==Abstract==
+
+Sharding is the most effective technology to improve the performance of block chains, without violating the premise of decentralization. At sharding environment, asset should be free to transfer across shard. However, the current OEP-4, OEP-5, OEP-8 asset couldn't support asset transfer cross shard.
+It is necessary to proposal a new specification to support asset transfer cross shard. This is OEP-9, the X-Shard Asset Contract.
+
+The OEP-9 only support OEP-4 asset transfer cross shard at now.
+
+==Motivation==
+
+While ontology enable sharding, the original OEP-4, OEP-5 and OEP-8 asset cannot transfer cross shard. The OEP-9 is standard interface to implement xshard asset by smart contract.
+
+==Specification==
+
+1. To prevent malicious shard, the asset is only allowed to be transferred between root shard and child shard.
+
+Root shard record the asset supply of each child shard at self ledger, but child shard doesn't know the supply of sibling shard and root shard.
+
+2. The xshard transfer would return a big integer(called transferId) to identify this xshard transfer. If transfer failed, user can retry transfer by using this transferId.
+
+Ontology shard communicate by p2p net, so the xshard transfer maybe failed. So, it is necessary to add retry mechanism. User could query asset balance at transfer destination shard after xshard transfer, if user haven't received, retry xshard transfer.
+
+3. Ontology bottom service would provide basic xshard transfer function in the form of native contract. The name of this native contract is xshard-asset, and the contract hash is 0x0900000000000000000000000000000000000000.
+
+The core of xshard-asset is control asset supply and user balance at each shard, such as burn asset at shard A and mint asset at shard B while user xshard transfer from shard A to shard B.
+
+User extend OEP-4 contract to call the xshard-asset contract to implement the asset xshard transfer.
+
+4. XShard-asset contract has already provide check witness while invoking function that would change user balance and asset supply, except the mint interface. Also the contract author could check witness at his neovm contract.
+
+5. The OEP-9 contract only can be deployed at root shard, and must be initialized meta data and register to xshard-asset contract before invoked any function.
+
+After initialized meta data, the contract can be invoked at each shard. And after register to xshard-asset contract, the contract own a <code>assetId</code> at ontology sharding network.
+
+===Methods===
+
+====init====
+
+<pre>
+public static void init()
+</pre>
+
+Init contract meta data firstly, then register this asset to xshard-asset contract.
+
+Only can be invoked at root shard.
+
+====name====
+
+<pre>
+public static string name()
+</pre>
+
+Returns the name of the token - e.g. "MyToken".
+
+Only can be invoked at root shard.
+
+====symbol====
+
+<pre>
+public static string symbol()
+</pre>
+
+Returns a short string symbol of the token - e.g. <code>"MYT"</code>.
+
+Only can be invoked at root shard.
+
+This symbol SHOULD be short (3-8 characters is recommended), with no whitespace characters or new-lines and SHOULD be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
+
+====decimals====
+
+<pre>
+public static byte decimals()
+</pre>
+
+Returns the number of decimals used by the token - e.g. <code>8</code>, means to divide the token amount by <code>100,000,000</code> to get its user representation.
+
+====totalSupply====
+<pre>
+public static BigInteger totalSupply()
+</pre>
+Invoke xshard-asset contract interface 'oep4TotalSupply' at root shard, returns the total number of token in root shard.
+
+If invoking at other shard, there are no value return.
+
+====shardSupply====
+<pre>
+public static BigInteger shardSupply(BigInteger shardId)
+</pre>
+
+Invoke xshard-asset contract interface 'oep4ShardSupply', returns the total number of token at shard <code>shardId</code>.
+
+The parameter <code>shardId</code> SHOULD be a uint64 integer.
+
+Only can be invoked at root shard.
+
+====wholeSupply====
+<pre>
+public static BigInteger wholeSupply()
+</pre>
+
+Invoke xshard-asset contract interface 'oep4WholeSupply', returns the total number of token at all shard.
+
+Only can be invoked at root shard.
+
+====supplyInfo====
+<pre>
+public static String supplyInfo()
+</pre>
+
+Invoke xshard-asset contract interface 'oep4SupplyInfo', returns the supply info of each shard. The return value is map JSON format string. The map key is shardId and value is string of shard supply.
+
+Only can be invoked at root shard.
+
+====balanceOf====
+
+<pre>
+public static BigInteger balanceOf(byte[] address)
+</pre>
+
+Invoke xshard-asset contract interface 'oep4BalanceOf', returns the token balance of the <code>address</code>.
+
+If invoked at non-root shard, the shard must receive a xshard transfer before. Otherwise the function will throw an exception.
+
+The parameter <code>address</code> SHOULD be a 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+
+====assetId====
+<pre>
+public static BigInteger assetId()
+</pre>
+
+Invoke xshard-asset contract interface 'oep4AssetId', returns the <code>assetId</code>, the identification of this asset.
+
+If invoked at non-root shard, the shard must receive a xshard transfer before. Otherwise the function will <code>throw</code> an exception.
+
+====transfer====
+
+<pre>
+public static bool transfer(byte[] from, byte[] to, BigInteger amount)
+</pre>
+
+Invoke xshard-asset contract interface 'oep4Transfer', transfers an <code>amount</code> of tokens from the <code>from</code> account to the <code>to</code> account.
+
+This function transfer asset in the same shard.
+
+The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+
+The parameter <code>amount</code> is transfer value of token.
+
+====transferMulti====
+<pre>
+public static bool TransferMulti(object[] args)
+
+public struct State
+{
+     public byte[] From;
+     public byte[] To;
+     public BigInteger Amount;
+}
+</pre>
+
+Invoke xshard-asset contract interface 'oep4TransferMulti', transfer asset from multi account to multi account at same shard.
+
+The transferMulti allows transfer amount of token from multiple <code>from</code> to multiple <code>to</code> multiple times.
+
+The parameter is object array, the object is <code>State</code> struct, which contains three items.<code>From</code> is transfer sender, which SHOULD be 20-byte address.<code>To</code> is transfer receiver, which
+also SHOULD be 20-byte address. <code>Amount</code> is transfer value of token. If any of transfer fail, all of the transfers SHOULD be failed, and the method SHOULD <code>throw</code> an exception.
+
+====approve====
+<pre>
+public static bool approve(byte[] owner, byte[] spender, BigInteger amount)
+</pre>
+
+Invoke xshard-asset contract interface 'oep4Approve'.
+
+The approve allows <code>spender</code> to withdraw from <code>owner</code> account multiple times, up to the value <code>amount</code>.But the withdraw has been limited at same shard. If this function is called again it overwrites the current allowance with value.
+
+The parameters <code>owner</code>and <code>spender</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
+
+====transferFrom====
+<pre>
+public static bool transferFrom(byte[] spender, byte[] from, byte[] to, BigInteger amount)
+</pre>
+
+Invoke xshard-asset contract interface 'oep4TransferFrom'.
+
+The transferFrom method is used for a withdraw workflow, allowing <code>spender</code> to withdraw <code>amount</code> of token from <code>from</code> account to <code>to</code> account at same shard.
+
+The parameters <code>spender</code> <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
+
+====allowance====
+
+<pre>
+public static BigInteger allowance(byte[] owner, byte[] spender)
+</pre>
+
+Invoke xshard-asset contract interface 'oep4Allowance', returns the amount which <code>spender</code> is still allowed to withdraw from <code>owner</code>.
+
+====mint====
+
+<pre>
+public static bool mint(byte[] user, BigInteger amount)
+</pre>
+
+Invoke xshard-asset contract interface 'oep4Mint', mint <code>amount</code> asset to <code>user</code> account. <b>The contract should check witness before invoke xshard-asset contract to preventing malicious mint asset.</b>
+
+The parameters <code>user</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
+
+====burn====
+
+<pre>
+public static bool burn(byte[] user, BigInteger amount)
+</pre>
+
+Invoke xshard-asset contract interface 'oep4Burn', burn <code>amount</code> asset from <code>user</code> account.
+
+The parameters <code>user</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
+
+====xshardTransfer====
+
+<pre>
+public static BigInteger xshardTransfer(byte[] from, byte[] to, BigInteger toShard, BigInteger amount)
+</pre>
+
+Invoke xshard-asset contract interface 'oep4XShardTransfer', transfers an <code>amount</code> of tokens from the <code>from</code> account to the <code>to</code> account at shard <code>toShard</code>.
+
+This function transfer asset cross shard, cannot transfer asset at same shard, cannot transfer asset between non-root shard and non-root shard.
+
+Returns a big integer identified this xshard transfer.
+
+The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+
+The parameter <code>toShard</code> is transfer destination shard.
+
+The parameter <code>amount</code> is transfer value of token.
+
+====xshardTransferRetry====
+
+<pre>
+public static bool xshardTransferRetry(byte[] from, BigInteger transferId)
+</pre>
+
+Invoke xshard-asset contract interface 'oep4XShardTransferRetry', retry xshard transfer by using <code>transferId</code>.
+
+If <code>transferId</code> xshard transfer has not existed at invoked shard, this method will <code>throw</code> an exception.
+
+If <code>transferId</code> xshard transfer has already completed or not at invoked shard, this method will return true.
+
+The parameter <code>from</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+
+The parameter <code>transferId</code> is xshard transfer identification.
+
+====getXShardTransferDetail====
+
+<pre>
+public static string getXShardTransferDetail(byte[] user, BigInteger transferId)
+</pre>
+
+<pre>
+public struct XShardTransfer {
+    public BigInteger Id
+    public BigInteger ToShard
+    public byte[] ToAccount
+    public BigInteger Amount
+    public uint8 Status
+}
+</pre>
+
+Invoke xshard-asset contract interface 'getOep4Transfer', returns <code>transferId</code> xshard transfer's detail.
+
+If <code>transferId</code> xshard transfer has not existed at invoked shard, this method will <code>throw</code> an exception.
+
+The return value is structure XShardTransfer JSON format string, for example <code>{"id":111,"to_shard":1,"to_account":"AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6","amount":190,"status":6}</code>. If status equals 6, the xshard transfer hasn't completed, it's pending, if status is 7, the transfer has already completed.
+
+The parameter <code>user</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+
+The parameter <code>transferId</code> is xshard transfer identification.
+
+====getPendingXShardTransfer====
+
+<pre>
+public static string getPendingXShardTransfer(byte[] user)
+</pre>
+
+Invoke xshard-asset contract interface 'getOep4PendingTransfer', returns <code>user</code> all pending xshard transfer at invoked shard.
+
+The return value is structure XShardTransfer array JSON format string, for example <code>[{"id":111,"to_shard":1,"to_account":"AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6","amount":190,"status":6}]</code>.
+
+The parameter <code>user</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+
+===Supplement===
+
+The supplement is how to transfer ong across shard at neovm contract. The ong xshard transfer maybe a important function while using smart contract at sharding environment.
+
+====xshardTransferOng====
+
+<pre>
+public static BigInteger xshardTransferOng(byte[] from, byte[] to, BigInteger toShard, BigInteger amount)
+</pre>
+
+Invoke xshard-asset contract interface 'ongXShardTransfer', transfers an <code>amount</code> of ong from the <code>from</code> account to the <code>to</code> account at shard <code>toShard</code>.
+
+This function transfer asset cross shard, cannot transfer asset at same shard, cannot transfer asset between non-root shard and non-root shard.
+
+The means of parameters and return value is same as <code>xshardTransfer</code>.
+
+====xshardTransferOngRetry====
+
+<pre>
+public static bool xshardTransferOngRetry(byte[] from, BigInteger transferId)
+</pre>
+
+Invoke xshard-asset contract interface 'ongXShardTransferRetry', retry xshard transfer by using <code>transferId</code>.
+
+If <code>transferId</code> xshard transfer has not existed at invoked shard, this method will <code>throw</code> an exception.
+
+If <code>transferId</code> xshard transfer has already completed or not at invoked shard, this method will return true.
+
+The means of parameters and return value is same as <code>xshardTransferRetry</code>.
+
+====getOngXShardTransferDetail====
+
+Same with <code>getXShardTransferDetail</code>.
+
+====getOngPendingXShardTransfer====
+
+Same with <code>getPendingXShardTransfer</code>.
+
+===Events===
+
+====transfer====
+
+<pre>
+public static event transfer(BigInteger assetId, byte[] from, byte[] to, BigInteger amount)
+</pre>
+
+XShard-asset contract will publish this event while asset transfer at same shard, include <code>init</code>, <code>transfer</code> and <code>transferFrom</code>.
+
+Fro example:
+<pre>
+{
+    "transfer",
+    "1",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
+    "10000000"
+}
+</pre>
+
+====approval====
+<pre>
+public static event approval(BigInteger assetId, byte[] owner, byte[] spender, BigInteger amount)
+</pre>
+
+XShard-asset contract will publish this event while approving asset at same shard.
+
+Fro example:
+<pre>
+{
+    "approve",
+    "1",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
+    "10000000"
+}
+</pre>
+
+====mint====
+<pre>
+public static event mint(byte[] user, BigInteger assetId, BigInteger amount)
+</pre>
+
+XShard-asset contract will publish this event while mint asset.
+
+Fro example:
+<pre>
+{
+    "mint",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
+    "1",
+    "10000000"
+}
+</pre>
+
+====burn====
+<pre>
+public static event burn(byte[] user, BigInteger assetId, BigInteger amount)
+</pre>
+
+XShard-asset contract will publish this event while burn asset.
+
+Fro example:
+<pre>
+{
+    "burn",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
+    "1",
+    "10000000"
+}
+</pre>
+
+====xshardTransfer====
+<pre>
+public static event xshardTransfer(BigInteger assetId, byte[] from, byte[] to, BigInteger amount, BigInteger transferId, BigInteger toShard)
+</pre>
+
+At transfer initiation shard, xshard-asset contract will publish this event while xshard transfer successfully.
+
+Fro example:
+<pre>
+{
+    "xshardTransfer",
+    "1",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
+    "10000000",
+    "10",
+    "1"
+}
+</pre>
+
+====xshardReceive====
+<pre>
+public static event xshardReceive(BigInteger assetId, byte[] from, byte[] to, BigInteger amount, BigInteger transferId, BigInteger fromShard)
+</pre>
+
+At transfer destination shard, xshard-asset contract will publish this event while received a xshard transfer asset.
+
+Fro example:
+<pre>
+{
+    "xshardReceive",
+    "1",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
+    "10000000",
+    "10",
+    "1"
+}
+</pre>
+
+===Implementation===
+====Example implementations are available at====
+
+OEP-9 Python Template: [[https://github.com/qiluge/ontology-xshard-contract/blob/master/xshardassetdemo.py | Python Template]]
