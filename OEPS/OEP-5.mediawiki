@@ -93,7 +93,7 @@ state = {
 }
 </pre>
 
-The transferMulti function allows the transferring of multiple NFTs to multiple <code>to</code> addresses.
+The transferMulti method allows the transferring of multiple NFTs to multiple <code>to</code> addresses.
 The parameter is an array of objects, the object is a <code>state</code> struct, which contains two items: the receiver address <code>to</code> (which must be 20-byte address) and the <code>tokenId</code> of the NFT.
 If any of the transfers fail, all of the transfers must be failed, and the method must <code>throw</code> an exception.
 
@@ -105,13 +105,24 @@ def approve(to, tokenId)
 </pre>
 
 
-The approve function allows the <code>to</code> address to transfer the <code>tokenId</code> NFT.
+The approve method allows the <code>to</code> address to transfer the <code>tokenId</code> NFT.
 If this function is called again it overwrites the <code>to</code> address that can transfer the NFT.
 <code>tokenId</code> should be string or bytearray.
 The <code>to</code> address must be 20-byte address.
 If not, this method must <code>throw</code> an exception.
 
 ===Optional Methods===
+
+====clearApproved====
+
+<pre>
+def clearApproved(tokenId)
+</pre>
+
+The clearApproved method removes the address that was set by the approve method for the NFT with the id <code>tokenId</code>.
+<code>tokenId</code> should be string or bytearray.
+This method can only be called by the token owner.
+If not, this method must <code>throw</code> an exception.
 
 ====tokenMetadata====
 
