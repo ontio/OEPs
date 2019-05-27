@@ -57,6 +57,18 @@ Returns the number of NFTs assigned to <code>address</code>.
 The parameter <code>address</code> must be a 20-byte address.
 If not, this method must <code>throw</code> an exception.
 
+====tokensOf====
+
+<pre>
+def tokensOf(address)
+</pre>
+
+Returns a list of the tokenIds of the NFTs assigned to <code>address</code>.
+
+The parameter <code>address</code> must be a 20-byte address.
+If not, this method must <code>throw</code> an exception.
+This method should return the list of tokens in the serialized hex format.
+
 ===Ownership Methods===
 
 ==== ownerOf====
