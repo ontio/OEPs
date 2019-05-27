@@ -77,6 +77,7 @@ def transfer(to, tokenId)
 
 Transfers the NFT from the owner address of <code>tokenId</code> to the <code>to</code> address.
 <code>tokenId</code> should be string or bytearray.
+This method can be called by either the token owner or the approved account for the NFT with the id <code>tokenId</code>.
 If the owner address of <code>tokenId</code> can't be determined, this method must <code>throw</code> an exception.
 <code>to</code> must be 20-byte address. If not, this method must <code>throw</code> an exception.
 After a transfer, if an address had been approved by the <code>approve</code> method, it should be cleared automatically.
@@ -108,17 +109,6 @@ The approve function allows the <code>to</code> address to transfer the <code>to
 If this function is called again it overwrites the <code>to</code> address that can transfer the NFT.
 <code>tokenId</code> should be string or bytearray.
 The <code>to</code> address must be 20-byte address.
-If not, this method must <code>throw</code> an exception.
-
-====takeOwnership====
-
-<pre>
-def takeOwnership(to, tokenId)
-</pre>
-
-Either the token owner or the approved account can assign the ownership of the NFT with the id <code>tokenId</code> to the <code>to</code> address.
-<code>tokenId</code> should be string or bytearray.
-<code>to</code> must be 20-byte addresses.
 If not, this method must <code>throw</code> an exception.
 
 ===Optional Methods===
