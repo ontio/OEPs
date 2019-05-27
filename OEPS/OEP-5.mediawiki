@@ -9,11 +9,12 @@
 
 ==Abstract==
 
-The OEP-5 Proposal is a standard interface for NFTs, this standard allows for the implementation of a standard API for tokens within smart contracts.
+The OEP-5 Proposal is a standard interface for NFTs.
+This standard allows for the implementation of a standard API for NFTs within smart contracts.
 
 ==Motivation==
 
-A standard token interface of NFTs, allows token on ONT to be convenient used by other applications.
+A standard NFT interface which allows NFTs on the Ontology blockchain to be conveniently used by other applications.
 
 ==Specification==
 
@@ -21,113 +22,145 @@ A standard token interface of NFTs, allows token on ONT to be convenient used by
 
 ====name====
 
-<source lang="csharp">
-public static string name()
-</source>
+<pre>
+def name()
+</pre>
 
-Returns the name of the NFTs - e.g. "My Non-Fungibles".
+Returns a <code>string</code>, the name of the NFTs - e.g. "My Non-Fungibles".
 
 ====symbol====
-<source lang="csharp">
-public static string symbol()
-</source>
 
-Returns a short string symbol of the token - e.g. <code>"MNFT"</code>.
+<pre>
+def symbol()
+</pre>
 
-This symbol SHOULD be short (3-8 characters is recommended), with no whitespace characters or new-lines and SHOULD be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
+Returns a <code>string</code>, the short symbol of the NFTs - e.g. <code>"MNFT"</code>.
+
+This symbol should be short (3-8 characters is recommended), with no whitespace characters or new-lines and should be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
 
 ====totalSupply====
-<source lang="csharp">
-public static BigInteger totalSupply()
-</source>
+
+<pre>
+def totalSupply()
+</pre>
+
 Returns the total number of NFTs.
 
 ====balanceOf====
 
-<source lang="csharp">
-public static BigInteger balanceOf(byte[] address)
-</source>
+<pre>
+def balanceOf(address)
+</pre>
 
 Returns the number of NFTs assigned to <code>address</code>.
 
-The parameter <code>address</code> SHOULD be a 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+The parameter <code>address</code> must be a 20-byte address.
+If not, this method must <code>throw</code> an exception.
 
 ===Ownership Methods===
+
 ==== ownerOf====
-<source lang="csharp">
-public static byte[] ownerOf(byte[] tokenId)
-</source>
-Returns the address currently marked as the owner of <code>tokenId</code>.If the <code>tokenId</code> cann't query an owner address,<code>tokenId</code> SHOULD be string or bytearray.
-this method SHOULD <code>throw</code> an exception.
+
+<pre>
+def ownerOf(tokenId)
+</pre>
+
+Returns the address currently marked as the owner of the NFT with id of <code>tokenId</code>.
+<code>tokenId</code> should be string or a bytearray.
+If the owner address of <code>tokenId</code> can't be determined, this method must <code>throw</code> an exception.
 
 ====transfer====
-<source lang="csharp">
-public static bool transfer(byte[] to, byte[] tokenId)
-</source>
 
-Transfers an NFTs of tokens from the <code>from</code> account to the <code>to</code> account.
-<code>tokenId</code> SHOULD be string or bytearray.
-<code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+<pre>
+def transfer(to, tokenId)
+</pre>
+
+Transfers the NFT from the owner address of <code>tokenId</code> to the <code>to</code> address.
+<code>tokenId</code> should be string or bytearray.
+If the owner address of <code>tokenId</code> can't be determined, this method must <code>throw</code> an exception.
+<code>to</code> must be 20-byte address. If not, this method must <code>throw</code> an exception.
+After a transfer, if an address had been approved by the <code>approve</code> method, it should be cleared automatically.
 
 ====transferMulti====
-<source lang="csharp">
-public static bool TransferMulti(object[] args)
 
-public struct State
-{
-     public byte[] To;
-     public byte[] TokenId;
+<pre>
+def TransferMulti(args)
+
+state = {
+  to: <TO ADDRESS>,
+  tokenId: <TOKEN ID>
 }
-</source>
+</pre>
 
-The transferMulti allows transfer multiple NFTs from multiple <code>from</code> to multiple <code>to</code> multiple times.The parameter is object array, the object is <code>State</code> struct.<code>To</code> is transfer receiver, which
-also SHOULD be 20-byte address.<code>tokenId</code> SHOULD be string or bytearray. If any of transfer fail, all of the transfers SHOULD be failed, and the method SHOULD <code>throw</code> an exception.
+The transferMulti function allows the transferring of multiple NFTs to multiple <code>to</code> addresses.
+The parameter is an array of objects, the object is a <code>state</code> struct, which contains two items: the receiver address <code>to</code> (which must be 20-byte address) and the <code>tokenId</code> of the NFT.
+If any of the transfers fail, all of the transfers must be failed, and the method must <code>throw</code> an exception.
 
 
 ====approve====
-<source lang="csharp">
-public static bool approve(byte[] to, byte[] tokeId)
-</source>
 
-The approve allows to grant an NFTs to<code>to</code> account multiple times.If this function is called again it overwrites <code>to</code> or <code>tokenId</code>.<code>tokenId</code> SHOULD be string or bytearray.
-<code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
+<pre>
+def approve(to, tokenId)
+</pre>
+
+
+The approve function allows the <code>to</code> address to transfer the <code>tokenId</code> NFT.
+If this function is called again it overwrites the <code>to</code> address that can transfer the NFT.
+<code>tokenId</code> should be string or bytearray.
+The <code>to</code> address must be 20-byte address.
+If not, this method must <code>throw</code> an exception.
 
 ====takeOwnership====
-<source lang="csharp">
-public static bool takeOwnership(byte[] to, byte[] tokenId)
-</source>
-Either the token owner or the approved account can assign the ownership of the Non-fungible with ID <code>tokenId</code> to <code>to</code> address. <code>to</code> SHOULD be 20-byte addresses.<code>tokenId</code> SHOULD be string or bytearray. If not, this method SHOULD <code>throw</code> an exception.
+
+<pre>
+def takeOwnership(to, tokenId)
+</pre>
+
+Either the token owner or the approved account can assign the ownership of the NFT with the id <code>tokenId</code> to the <code>to</code> address.
+<code>tokenId</code> should be string or bytearray.
+<code>to</code> must be 20-byte addresses.
+If not, this method must <code>throw</code> an exception.
+
+===Optional Methods===
 
 ====tokenMetadata====
-<source lang="csharp">
-public static byte[] tokenMetadata(byte[] tokenId)
-</source>
-Returns the url referencing an external resource that contains metadata about the NFT associated with tokenId.<code>tokenId</code> SHOULD be string or bytearray. this method is OPTIONAL, but if you don't implement this method, the browser can't get basic info about the token.
 
-The url info string MUST be an IPFS or HTTP(S) base path.<br/>
+<pre>
+def tokenMetadata(tokenId)
+</pre>
+
+This method is optional.
+
+Returns the url referencing an external resource that contains metadata about the NFT associated with the id <code>tokenId</code>.
+<code>tokenId</code> should be string or bytearray.
+
+The url info string must be an IPFS or HTTP(S) base path.<br/>
 Metadata JSON Schema:<br/>
-* name (required) - The name contain the UTF-8 encoded name of specific NFT, which SHOULD be short (3-8 characters is recommended)
+* name (required) - The name contain the UTF-8 encoded name of specific NFT, which should be short (3-8 characters is recommended)
 * image (optional) - If the image exist, it MUST contain a PNG, JPEG, or JPG image with at least 300 pixels of detail in each dimension. (1:1 image is recommended)
-* description (optional) - If the description exist, it MUST contain a UTF-8 encoded textual description of the asset. The description SHOULD be 1500 characters or less.
+* description (optional) - If the description exist, it MUST contain a UTF-8 encoded textual description of the asset. The description should be 1500 characters or less.
 * other metadata (optional) - other extension information.
 
 ===Events===
+
 ====transfer====
-<source lang="csharp">
-public static event transfer(byte[] from, byte[] to, byte[] tokenId)
-</source>
-MUST trigger when tokens are transferred, including zero value transfers.
 
-A token contract which creates new NFTs MUST trigger a <code>transfer</code> event with the <code>from</code> address set to <code>null</code>.
+<pre>
+TransferEvent = RegisterAction("transfer", "from", "to", "tokenId")
+</pre>
 
-A token contract which burns tokens MUST trigger a <code>transfer</code> event with the <code>to</code> address set to <code>null</code> when tokens are burned.
+The event must be triggered when NFTs are transferred, including zero value transfers.
+A token contract which creates new NFTs must trigger a <code>transfer</code> event with the <code>from</code> address set to <code>null</code>.
+A token contract which burns tokens must trigger a <code>transfer</code> event with the <code>to</code> address set to <code>null</code> when tokens are burned.
 
 ====approval====
-<source lang="csharp">
-public static event approval(byte[] from, byte[] to, byte[] tokenId)
-</source>
-MUST trigger on any successful call to approve.
+
+<pre>
+ApprovalEvent = RegisterAction("approval", "from", "to", "tokenId")
+</pre>
+
+The event must be triggered on any successful calls to approve.
 
 ===Implementation===
-====Example implementations are available at====
-OEP-5 Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP5Sample/OEP5Sample.py | Python Template]]
+
+OEP-5 Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP5Sample/OEP5Sample_compiler2.0.py | Python Template]]
