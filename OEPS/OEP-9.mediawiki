@@ -45,7 +45,7 @@ After initialized meta data, the contract can be invoked at each shard. And afte
 ====init====
 
 <pre>
-public static void init()
+def init()
 </pre>
 
 Init contract meta data firstly, then register this asset to xshard-asset contract.
@@ -55,7 +55,7 @@ Only can be invoked at root shard.
 ====name====
 
 <pre>
-public static string name()
+def name()
 </pre>
 
 Returns the name of the token - e.g. "MyToken".
@@ -65,7 +65,7 @@ Only can be invoked at root shard.
 ====symbol====
 
 <pre>
-public static string symbol()
+def symbol()
 </pre>
 
 Returns a short string symbol of the token - e.g. <code>"MYT"</code>.
@@ -77,14 +77,14 @@ This symbol SHOULD be short (3-8 characters is recommended), with no whitespace 
 ====decimals====
 
 <pre>
-public static byte decimals()
+def decimals()
 </pre>
 
 Returns the number of decimals used by the token - e.g. <code>8</code>, means to divide the token amount by <code>100,000,000</code> to get its user representation.
 
 ====totalSupply====
 <pre>
-public static BigInteger totalSupply()
+def totalSupply()
 </pre>
 Invoke xshard-asset contract interface 'oep4TotalSupply' at root shard, returns the total number of token in root shard.
 
@@ -92,7 +92,7 @@ If invoking at other shard, there are no value return.
 
 ====shardSupply====
 <pre>
-public static BigInteger shardSupply(BigInteger shardId)
+def shardSupply(shardId)
 </pre>
 
 Invoke xshard-asset contract interface 'oep4ShardSupply', returns the total number of token at shard <code>shardId</code>.
@@ -103,7 +103,7 @@ Only can be invoked at root shard.
 
 ====wholeSupply====
 <pre>
-public static BigInteger wholeSupply()
+def wholeSupply()
 </pre>
 
 Invoke xshard-asset contract interface 'oep4WholeSupply', returns the total number of token at all shard.
@@ -112,7 +112,7 @@ Only can be invoked at root shard.
 
 ====supplyInfo====
 <pre>
-public static String supplyInfo()
+def supplyInfo()
 </pre>
 
 Invoke xshard-asset contract interface 'oep4SupplyInfo', returns the supply info of each shard. The return value is map JSON format string. The map key is shardId and value is string of shard supply.
@@ -122,18 +122,18 @@ Only can be invoked at root shard.
 ====balanceOf====
 
 <pre>
-public static BigInteger balanceOf(byte[] address)
+def balanceOf(account)
 </pre>
 
-Invoke xshard-asset contract interface 'oep4BalanceOf', returns the token balance of the <code>address</code>.
+Invoke xshard-asset contract interface 'oep4BalanceOf', returns the token balance of the <code>account</code>.
 
 If invoked at non-root shard, the shard must receive a xshard transfer before. Otherwise the function will throw an exception.
 
-The parameter <code>address</code> SHOULD be a 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+The parameter <code>account</code> SHOULD be a 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
 
 ====assetId====
 <pre>
-public static BigInteger assetId()
+def assetId()
 </pre>
 
 Invoke xshard-asset contract interface 'oep4AssetId', returns the <code>assetId</code>, the identification of this asset.
@@ -143,26 +143,26 @@ If invoked at non-root shard, the shard must receive a xshard transfer before. O
 ====transfer====
 
 <pre>
-public static bool transfer(byte[] from, byte[] to, BigInteger amount)
+def transfer(from_acct, to_acct, amount)
 </pre>
 
-Invoke xshard-asset contract interface 'oep4Transfer', transfers an <code>amount</code> of tokens from the <code>from</code> account to the <code>to</code> account.
+Invoke xshard-asset contract interface 'oep4Transfer', transfers an <code>amount</code> of tokens from the <code>from_acct</code> account to the <code>to_acct</code> account.
 
 This function transfer asset in the same shard.
 
-The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+The parameters <code>from_acct</code> and <code>to_acct</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
 
 The parameter <code>amount</code> is transfer value of token.
 
 ====transferMulti====
 <pre>
-public static bool TransferMulti(object[] args)
+def transferMulti(args)
 
-public struct State
+struct State
 {
-     public byte[] From;
-     public byte[] To;
-     public BigInteger Amount;
+     From;
+     To;
+     Amount;
 }
 </pre>
 
@@ -170,12 +170,12 @@ Invoke xshard-asset contract interface 'oep4TransferMulti', transfer asset from 
 
 The transferMulti allows transfer amount of token from multiple <code>from</code> to multiple <code>to</code> multiple times.
 
-The parameter is object array, the object is <code>State</code> struct, which contains three items.<code>From</code> is transfer sender, which SHOULD be 20-byte address.<code>To</code> is transfer receiver, which
+The parameter is object array, the object is <code>State</code> struct(defined by the pseudo code above), which contains three items.<code>From</code> is transfer sender, which SHOULD be 20-byte address.<code>To</code> is transfer receiver, which
 also SHOULD be 20-byte address. <code>Amount</code> is transfer value of token. If any of transfer fail, all of the transfers SHOULD be failed, and the method SHOULD <code>throw</code> an exception.
 
 ====approve====
 <pre>
-public static bool approve(byte[] owner, byte[] spender, BigInteger amount)
+def approve(owner, spender, amount)
 </pre>
 
 Invoke xshard-asset contract interface 'oep4Approve'.
@@ -186,19 +186,19 @@ The parameters <code>owner</code>and <code>spender</code> SHOULD be 20-byte addr
 
 ====transferFrom====
 <pre>
-public static bool transferFrom(byte[] spender, byte[] from, byte[] to, BigInteger amount)
+def transferFrom(spender, from_acct, to_acct, amount)
 </pre>
 
 Invoke xshard-asset contract interface 'oep4TransferFrom'.
 
-The transferFrom method is used for a withdraw workflow, allowing <code>spender</code> to withdraw <code>amount</code> of token from <code>from</code> account to <code>to</code> account at same shard.
+The transferFrom method is used for a withdraw workflow, allowing <code>spender</code> to withdraw <code>amount</code> of token from <code>from_acct</code> account to <code>to_acct</code> account at same shard.
 
-The parameters <code>spender</code> <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
+The parameters <code>spender</code> <code>from_acct</code> and <code>to_acct</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
 
 ====allowance====
 
 <pre>
-public static BigInteger allowance(byte[] owner, byte[] spender)
+def allowance(owner, spender)
 </pre>
 
 Invoke xshard-asset contract interface 'oep4Allowance', returns the amount which <code>spender</code> is still allowed to withdraw from <code>owner</code>.
@@ -206,7 +206,7 @@ Invoke xshard-asset contract interface 'oep4Allowance', returns the amount which
 ====mint====
 
 <pre>
-public static bool mint(byte[] user, BigInteger amount)
+def mint(user, amount)
 </pre>
 
 Invoke xshard-asset contract interface 'oep4Mint', mint <code>amount</code> asset to <code>user</code> account. <b>The contract should check witness before invoke xshard-asset contract to preventing malicious mint asset.</b>
@@ -216,7 +216,7 @@ The parameters <code>user</code> SHOULD be 20-byte addresses. If not, this metho
 ====burn====
 
 <pre>
-public static bool burn(byte[] user, BigInteger amount)
+def burn(user, amount)
 </pre>
 
 Invoke xshard-asset contract interface 'oep4Burn', burn <code>amount</code> asset from <code>user</code> account.
@@ -226,25 +226,25 @@ The parameters <code>user</code> SHOULD be 20-byte addresses. If not, this metho
 ====xshardTransfer====
 
 <pre>
-public static BigInteger xshardTransfer(byte[] from, byte[] to, BigInteger toShard, BigInteger amount)
+def xshardTransfer(from_acc, to_acc, to_shard, amount)
 </pre>
 
-Invoke xshard-asset contract interface 'oep4XShardTransfer', transfers an <code>amount</code> of tokens from the <code>from</code> account to the <code>to</code> account at shard <code>toShard</code>.
+Invoke xshard-asset contract interface 'oep4XShardTransfer', transfers an <code>amount</code> of tokens from the <code>from_acc</code> account to the <code>to_acc</code> account at shard <code>to_shard</code>.
 
 This function transfer asset cross shard, cannot transfer asset at same shard, cannot transfer asset between non-root shard and non-root shard.
 
 Returns a big integer identified this xshard transfer.
 
-The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+The parameters <code>from_acc</code> and <code>to_acc</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
 
-The parameter <code>toShard</code> is transfer destination shard.
+The parameter <code>to_shard</code> is transfer destination shard.
 
 The parameter <code>amount</code> is transfer value of token.
 
 ====xshardTransferRetry====
 
 <pre>
-public static bool xshardTransferRetry(byte[] from, BigInteger transferId)
+def xshardTransferRetry(from_acc, transferId)
 </pre>
 
 Invoke xshard-asset contract interface 'oep4XShardTransferRetry', retry xshard transfer by using <code>transferId</code>.
@@ -253,23 +253,23 @@ If <code>transferId</code> xshard transfer has not existed at invoked shard, thi
 
 If <code>transferId</code> xshard transfer has already completed or not at invoked shard, this method will return true.
 
-The parameter <code>from</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+The parameter <code>from_acc</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
 
 The parameter <code>transferId</code> is xshard transfer identification.
 
 ====getXShardTransferDetail====
 
 <pre>
-public static string getXShardTransferDetail(byte[] user, BigInteger transferId)
+def getXShardTransferDetail(user, transferId)
 </pre>
 
 <pre>
-public struct XShardTransfer {
-    public BigInteger Id
-    public BigInteger ToShard
-    public byte[] ToAccount
-    public BigInteger Amount
-    public uint8 Status
+struct XShardTransfer {
+    Id
+    ToShard
+    ToAccount
+    Amount
+    Status
 }
 </pre>
 
@@ -277,7 +277,7 @@ Invoke xshard-asset contract interface 'getOep4Transfer', returns <code>transfer
 
 If <code>transferId</code> xshard transfer has not existed at invoked shard, this method will <code>throw</code> an exception.
 
-The return value is structure XShardTransfer JSON format string, for example <code>{"id":111,"to_shard":1,"to_account":"AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6","amount":190,"status":6}</code>. If status equals 6, the xshard transfer hasn't completed, it's pending, if status is 7, the transfer has already completed.
+The return value is structure XShardTransfer(defined by pseudo code above) JSON format string, for example <code>{"id":111,"to_shard":1,"to_account":"AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6","amount":190,"status":6}</code>. If status equals 6, the xshard transfer hasn't completed, it's pending, if status is 7, the transfer has already completed.
 
 The parameter <code>user</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
 
@@ -286,7 +286,7 @@ The parameter <code>transferId</code> is xshard transfer identification.
 ====getPendingXShardTransfer====
 
 <pre>
-public static string getPendingXShardTransfer(byte[] user)
+def getPendignXShardTransfer(user)
 </pre>
 
 Invoke xshard-asset contract interface 'getOep4PendingTransfer', returns <code>user</code> all pending xshard transfer at invoked shard.
@@ -302,10 +302,10 @@ The supplement is how to transfer ong across shard at neovm contract. The ong xs
 ====xshardTransferOng====
 
 <pre>
-public static BigInteger xshardTransferOng(byte[] from, byte[] to, BigInteger toShard, BigInteger amount)
+def xshardTransferOng(from_acc, to_acc, to_shard, amount)
 </pre>
 
-Invoke xshard-asset contract interface 'ongXShardTransfer', transfers an <code>amount</code> of ong from the <code>from</code> account to the <code>to</code> account at shard <code>toShard</code>.
+Invoke xshard-asset contract interface 'ongXShardTransfer', transfers an <code>amount</code> of ong from the <code>from_acc</code> account to the <code>to_acc</code> account at shard <code>to_shard</code>.
 
 This function transfer asset cross shard, cannot transfer asset at same shard, cannot transfer asset between non-root shard and non-root shard.
 
@@ -314,7 +314,7 @@ The means of parameters and return value is same as <code>xshardTransfer</code>.
 ====xshardTransferOngRetry====
 
 <pre>
-public static bool xshardTransferOngRetry(byte[] from, BigInteger transferId)
+def xshardTransferOngRetry(from_acc, transferId)
 </pre>
 
 Invoke xshard-asset contract interface 'ongXShardTransferRetry', retry xshard transfer by using <code>transferId</code>.
@@ -338,7 +338,7 @@ Same with <code>getPendingXShardTransfer</code>.
 ====transfer====
 
 <pre>
-public static event transfer(BigInteger assetId, byte[] from, byte[] to, BigInteger amount)
+TransferEvent = RegisterAction("transfer", "assetId", ""from", "to", "amount")
 </pre>
 
 XShard-asset contract will publish this event while asset transfer at same shard, include <code>init</code>, <code>transfer</code> and <code>transferFrom</code>.
@@ -356,7 +356,7 @@ Fro example:
 
 ====approval====
 <pre>
-public static event approval(BigInteger assetId, byte[] owner, byte[] spender, BigInteger amount)
+ApprovalEvent = RegisterAction("approval", "assetId", ""owner", "spender", "amount")
 </pre>
 
 XShard-asset contract will publish this event while approving asset at same shard.
@@ -364,7 +364,7 @@ XShard-asset contract will publish this event while approving asset at same shar
 Fro example:
 <pre>
 {
-    "approve",
+    "approval",
     "1",
     "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
     "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
@@ -374,7 +374,7 @@ Fro example:
 
 ====mint====
 <pre>
-public static event mint(byte[] user, BigInteger assetId, BigInteger amount)
+MintEvent = RegisterAction("mint", "assetId", "user", "amount")
 </pre>
 
 XShard-asset contract will publish this event while mint asset.
@@ -383,15 +383,15 @@ Fro example:
 <pre>
 {
     "mint",
-    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
     "1",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
     "10000000"
 }
 </pre>
 
 ====burn====
 <pre>
-public static event burn(byte[] user, BigInteger assetId, BigInteger amount)
+BurnEvent = RegisterAction("burn", "assetId", "user", "amount")
 </pre>
 
 XShard-asset contract will publish this event while burn asset.
@@ -400,15 +400,15 @@ Fro example:
 <pre>
 {
     "burn",
-    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
     "1",
+    "AFmseVrdL9f9oyCzZefL9tG6UbviRj6Fv6",
     "10000000"
 }
 </pre>
 
 ====xshardTransfer====
 <pre>
-public static event xshardTransfer(BigInteger assetId, byte[] from, byte[] to, BigInteger amount, BigInteger transferId, BigInteger toShard)
+XShardTransferEvent = RegisterAction("xshardTransfer", "assetId", "from", "to", "amount", "transferId", "toShard")
 </pre>
 
 At transfer initiation shard, xshard-asset contract will publish this event while xshard transfer successfully.
@@ -428,7 +428,7 @@ Fro example:
 
 ====xshardReceive====
 <pre>
-public static event xshardReceive(BigInteger assetId, byte[] from, byte[] to, BigInteger amount, BigInteger transferId, BigInteger fromShard)
+XShardReceiveEvent = RegisterAction("xshardReceive", "assetId", "from", "to", "amount", "transferId", "fromShard")
 </pre>
 
 At transfer destination shard, xshard-asset contract will publish this event while received a xshard transfer asset.
