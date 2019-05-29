@@ -143,6 +143,17 @@ The clearApproved method removes the address that was set by the approve method 
 This method can only be called by the token owner.
 If not, this method must <code>throw</code> an exception.
 
+====approvalForAll====
+
+<pre>
+def approvalForAll(owner, to, approval)
+</pre>
+
+The approvalForAll method grants permission to the <code>to</code> address to transfer NFTs on behalf of the <code>owner</code> address.
+<code>approval</code> should be <code>true</code> to grant permission and <code>false</code> to revoke permission.
+The <code>owner</code> and <code>to</code> addresses must be 20-byte address.
+If not, this method must <code>throw</code> an exception.
+
 ====tokenMetadata====
 
 <pre>
