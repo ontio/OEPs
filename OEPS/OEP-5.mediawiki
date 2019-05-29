@@ -1,7 +1,7 @@
 <source lang="csharp">
   OEP: 5
   Title: Non-fungible Token Standard
-  Author: tanyuan <tanyuan666@gmail.com>, zhoupw <zhoupw@gmail.com>, tonyclarking<tonyclarking@gmail.com>, blckchan<1258176714@qq.com>
+  Author: tanyuan <tanyuan666@gmail.com>, zhoupw <zhoupw@gmail.com>, tonyclarking<tonyclarking@gmail.com>, blckchan<1258176714@qq.com>, Wyatt Mufson <wyatt@towerbuilders.org>
   Type: Standard
   Status: Accepted
   Created: 2018-07-26
