@@ -116,12 +116,19 @@ If any of the transfers fail, all of the transfers must be failed, and the metho
 def approve(to, tokenId)
 </pre>
 
-
 The approve method allows the <code>to</code> address to transfer the <code>tokenId</code> NFT.
 If this function is called again it overwrites the <code>to</code> address that can transfer the NFT.
 <code>tokenId</code> should be string or bytearray.
 The <code>to</code> address must be 20-byte address.
 If not, this method must <code>throw</code> an exception.
+
+====allowance====
+
+<pre>
+def allowance(tokenId)
+</pre>
+
+Returns the address that is allowed to send the NFT with id <code>tokenId</code>.
 
 ===Optional Methods===
 
