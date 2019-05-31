@@ -90,7 +90,7 @@ def transfer(to, tokenId)
 Transfers the NFT from the owner address of <code>tokenId</code> to the <code>to</code> address.
 <code>tokenId</code> should be string or bytearray.
 This method can be called by either the token owner, the approved account for the NFT with the id <code>tokenId</code>
-or the address that has been approved to transfer all tokens for the token owner (see <code>approvalForAll/code> method).
+or an address that has been approved to transfer all tokens for the token owner (see <code>approvalForAll/code> method).
 If the owner address of <code>tokenId</code> can't be determined, this method must <code>throw</code> an exception.
 <code>to</code> must be 20-byte address.
 If not, this method must <code>throw</code> an exception.
