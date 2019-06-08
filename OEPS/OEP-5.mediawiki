@@ -63,11 +63,11 @@ If not, this method must <code>throw</code> an exception.
 def tokensOf(address)
 </pre>
 
-Returns a serialized <code>PackedList</code> of the tokenIds of the NFTs assigned to <code>address</code>.
+Returns a serialized <code>DynamicList</code> of the tokenIds of the NFTs assigned to <code>address</code>.
 
 The parameter <code>address</code> must be a 20-byte address.
 If not, this method must <code>throw</code> an exception.
-This method should return the <code>PackedList</code> of tokens in the serialized hex format.
+This method should return the <code>DynamicList</code> of tokens in the serialized hex format.
 
 ===Ownership Methods===
 
@@ -197,4 +197,4 @@ The event must be triggered on any successful calls to approve.
 ===Implementation===
 
 OEP-5 Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP5Sample/OEP5Sample_compiler2.0.py | Python Template]]
-OEP-5 PackedList: [[https://github.com/TowerBuilders/PackedList/blob/master/packed.py | PackedList example]]
+OEP-5 DynamicList (and PackedList): [[https://github.com/TowerBuilders/Ontology-Advanced-Storage-Objects | Advanced storage objects example]]
