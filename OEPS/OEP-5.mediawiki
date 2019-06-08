@@ -57,18 +57,6 @@ Returns the number of NFTs assigned to <code>address</code>.
 The parameter <code>address</code> must be a 20-byte address.
 If not, this method must <code>throw</code> an exception.
 
-====tokensOf====
-
-<pre>
-def tokensOf(address)
-</pre>
-
-Returns a serialized <code>DynamicList</code> of the tokenIds of the NFTs assigned to <code>address</code>.
-
-The parameter <code>address</code> must be a 20-byte address.
-If not, this method must <code>throw</code> an exception.
-This method should return the <code>DynamicList</code> of tokens in the serialized hex format.
-
 ===Ownership Methods===
 
 ==== ownerOf====
@@ -155,6 +143,18 @@ The approvalForAll method grants permission to the <code>to</code> address to tr
 <code>approval</code> should be <code>true</code> to grant permission and <code>false</code> to revoke permission.
 The <code>owner</code> and <code>to</code> addresses must be 20-byte address.
 If not, this method must <code>throw</code> an exception.
+
+====tokensOf====
+
+<pre>
+def tokensOf(address)
+</pre>
+
+Returns a serialized <code>DynamicList</code> of the tokenIds of the NFTs assigned to <code>address</code>.
+
+The parameter <code>address</code> must be a 20-byte address.
+If not, this method must <code>throw</code> an exception.
+This method should return the <code>DynamicList</code> of tokens in the serialized hex format.
 
 ====tokenMetadata====
 
