@@ -1,0 +1,150 @@
+<pre>
+  OEP: 35
+  Title: Ontology Cross-Chain Standard
+  Author: zhangmh<siovanus@126.com>
+  Type: Standard
+  Status: Accepted
+  Created: 2019-6-12
+</pre>
+
+=Abstract=
+The OEP-35 Proposal is a standard interface for Ontology Cross-Chain, this standard allows you to transfer asset or any type of informations in smartcontract among different homogeneous sidechains and heterogeneous side-chains.
+
+=Motivation=
+Now blockchains are isolated and unable to communicate with each other. But with the development of blockchain ecosystem and smart contract DApp, the requirement of breaking through barriers between different block chains is more and more intense.
+
+Ontology provides multichain network and allows ontology mainnet and these side-chains communicate to each other. Developers can use cross-chain API in their ontology smartcontract.
+
+The OEP-35 proposal is the standard specify how the this technology works.
+
+=Specification=
+==Contract==
+===Chain Manager Contract===
+====initConfig====
+<source lang="go">
+func InitConfig(native *native.NativeService) ([]byte, error) {}
+</source>
+This method init chain manager contract, will be invoked automatically when block chain starts.
+
+====registerMainChain====
+<source lang="go">
+func RegisterMainChain(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in side chain, register main chain's key header to side chain.
+
+====registerSideChain====
+<source lang="go">
+func RegisterSideChain(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in main chain, register side chain's information and genesis header to main chain.
+
+====setGovernanceEpoch====
+<source lang="go">
+func SetGovernanceEpoch(native *native.NativeService) ([]byte, error) {}
+</source>
+This method set governance epoch of a certain chain.
+
+====approveSideChain====
+<source lang="go">
+func ApproveSideChain(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in main chain, approve the registration of side chain.
+
+====rejectSideChain====
+<source lang="go">
+func RejectSideChain(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in main chain, reject the registration of side chain.
+
+====quitSideChain====
+<source lang="go">
+func QuitSideChain(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in main chain, quit side chain.
+
+====approveQuitSideChain====
+<source lang="go">
+func ApproveQuitSideChain(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in main chain, approve the quit request of side chain.
+
+====blackSideChain====
+<source lang="go">
+func BlackSideChain(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in main chain, put side chain into black list.
+
+====stakeSideChain====
+<source lang="go">
+func StakeSideChain(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in main chain, add stake of side chain.
+
+====unStakeSideChain====
+<source lang="go">
+func UnStakeSideChain(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in main chain, reduce stake of side chain.
+
+====inflation====
+<source lang="go">
+func Inflation(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in main chain, inflation ong of side chain.
+
+====approveInflation====
+<source lang="go">
+func ApproveInflation(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in main chain, approve the Inflation of side chain.
+
+====rejectInflation====
+<source lang="go">
+func RejectInflation(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in main chain, reject the Inflation of side chain.
+
+===Header Sync Contract===
+====syncBlockHeader====
+<source lang="go">
+func SyncBlockHeader(native *native.NativeService) ([]byte, error) {}
+</source>
+This method sync other chain's block header.
+
+====syncConsensusPeers====
+<source lang="go">
+func SyncConsensusPeers(native *native.NativeService) ([]byte, error) {}
+</source>
+This method is available in side chain, sync other side chain's consensus peers from main chain.
+
+===Cross Chain Contract===
+====createCrossChainTx====
+<source lang="go">
+func CreateCrossChainTx(native *native.NativeService) ([]byte, error) {}
+</source>
+This method create cross chain transaction, put into merkle tree, notify cross chain transaction.
+
+====processCrossChainTx====
+<source lang="go">
+func ProcessCrossChainTx(native *native.NativeService) ([]byte, error) {}
+</source>
+This method process cross chain transaction, verify merkle tree, and call destination contract.
+
+==Notify==
+===Cross Chain Contract===
+====createCrossChainTx====
+<source lang="go">
+notifyCreateCrossChainTx(native, params.ToChainID, newID, native.Height, ongFee)
+</source>
+MUST be invoked in createCrossChainTx function.
+
+====processCrossChainTx====
+<source lang="go">
+notifyProcessCrossChainTx(native, params.FromChainID, merkleValue.RequestID, params.Height, ongFee)
+</source>
+MUST be invoked in processCrossChainTx function.
+
+==Implementation==
+====Example implementations are available at====
+[[https://github.com/siovanus/ontology/tree/main-chain/smartcontract/service/native | Contract Template]]
+
