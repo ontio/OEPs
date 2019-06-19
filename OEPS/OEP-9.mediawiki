@@ -449,4 +449,4 @@ Fro example:
 ===Implementation===
 ====Example implementations are available at====
 
-OEP-9 Python Template: [[https://github.com/qiluge/ontology-xshard-contract/blob/master/xshardassetdemo.py | Python Template]]
+OEP-9 Python Template: [[https://github.com/qiluge/ontology-xshard-contract/blob/master/xshardasset/xshardassetdemo.py | Python Template]]
