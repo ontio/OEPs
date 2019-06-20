@@ -125,6 +125,12 @@ def InvokeRemoteShard(shardId, contract, method, args):
 
 Used for cross-shards synchronous invocation, caller can fetch the result of callee. It can be considered as a delayed cross-contract call. Because the result of the call is returned by network transmission, the result of callee should be byte array after serialization. In order to ensure the atomization of synchronous invocation, the contract involved in the whole cross-shards invocation process will be locked until the invocation is completed. The locked contract does not allow any form of invocation, including non-cross-shards invocation, which means that the contract involved will not be accessible throughout the cross-shards synchronous invocation period. This kind of lock is called smart contract lock. The existence of smart contract lock protects the atomicity of synchronous across shards invocation, but reduces the execution efficiency of smart contract. At the same time, in order not to affect and protect the contracts already existing on the ontology main chain, the ontology main chain is not allowed to participate in cross-shards synchronous calls, whether as a caller or a callee.
 
+====Handling Fee for X-Shard Call====
+
+In the case of asynchronous invocation, the x-shard call fee has deducted from account of original payer at callee shard. This means that the original payer must hold a certain amount of ONG on the target shard. At the same time, the original payer can control the maximum number of gas used in this cross-shard asynchronous call through the <code>NotifyRemoteShard</code> API <code>fee</code> parameter. On the other hand, gasPrice for this asynchronous call is determined by the target shard. Therefore, the maximum handling fee paid by the original payer for this cross-shard asynchronous call is <code>fee</code> parameter multiplied by gasPrice of the target shard. When the call ends, the fee is deducted.
+
+In the case of synchronous invocation, the invocation fee is deducted from account of original payer at the current shard. It should be noted that when send a transaction with a cross-shard call, the gasPrice of the transaction must be greater than or equal to the gasPrice at all the invoked shards, otherwise the corresponding cross-shard call will fail.
+
 ===Implementation===
 ====Example implementations are available at====
 

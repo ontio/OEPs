@@ -88,7 +88,7 @@ def InitMetaData(owner, allShard, isfrozen, shardId, invokedContracts):
 
 2. 除了允许合约跨分片调用自己之外，合约的跨分片调用链不能成环，即合约A的<code>InvokedContracts</code>里有合约B，合约B的<code>InvokedContracts</code>不能有A，但是可以有B自己。
 
-===跨分片调用API===
+===跨分片调用===
 
 在分片的网络环境中，ontology提供了两个跨分片通信的接口：<code>NotifyRemoteShard</code>和<code>InvokeRemoteShard</code>，分别用来进行异步调用和同步调用。因为跨分片调用中的通信过程依赖于网络传输，所以跨分片调用时传输的参数应序列化成byte array。
 
@@ -123,6 +123,12 @@ def InvokeRemoteShard(shardId, contract, method, args):
 </pre>
 
 用来进行跨分片同步调用，caller可以取到callee的调用结果。可以将其视为延时执行的跨合约调用。由于调用的结果经网络传输返回，所以callee的返回结果应该是序列化之后的byte array。为了保证同步调用的原子化，整个跨分片调用过程中所涉及到的contract都会被锁定，直到调用完成。被锁定的合约不允许任何形式的调用，包括非跨分片调用，这意味着在整个跨分片同步调用期间，涉及的合约将无法访问。这种锁定称为智能合约锁，智能合约锁的存在保护了跨分片同步调用的原子性，但是降低了智能合约的执行效率。同时，为了不影响和保护已经存在于ontology主链上的合约，ontology主链不被允许参与跨分片同步调用，无论是作为调用方还是被调用方。
+
+====跨分片调用的手续费支付====
+
+对于异步调用的情况，由于caller无法得知调用结果，所以同步调用采用在目标分片上实时扣费的机制。这意味着原始的调用人必须在目标分片上持有一定量的ONG。同时，原始的调用人可以通过<code>NotifyRemoteShard</code> API中的<code>fee</code>参数控制这次跨分片异步调用最多使用多少gas。另一方面，这一笔异步调用的gasPrice由目标分片决定，所以原始调用人为这一次跨分片异步调用支付的手续费最大为<code>fee</code>乘以目标分片的gasPrice。当调用结束时，这一笔手续费会从原始调用人在目标分片上的账户中扣除。
+
+对于同步调用的情况，调用的手续费在原始分片上扣除。要注意的是，发起含有跨分片调用的交易时，该笔交易的gasPrice必须大于等于所有被调用的分片所设置的gasPrice，否则对应的跨分片调用将会失败。
 
 ===Implementation===
 ====Example implementations are available at====
