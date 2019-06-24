@@ -8,129 +8,167 @@
 </pre>
 
 ==Abstract==
-The OEP-8 Proposal is a standard interface for Crypto Item, this standard allows you to transfer any amount of tokens for difference Crypto Item from one address to other address.
-It combines the advantage of OEP-4 and OEP-5, it is very convenient to transfer different types of Crypto Item.
+
+The OEP-8 Proposal is a standard interface for Crypto Items.
+This standard allows you to transfer any amount of tokens for different Crypto Items from one address to another address.
+It combines the advantages of OEP-4 and OEP-5 to make transferring different types of Crypto Items convenient.
 
 ==Motivation==
-With the development of smart contract DApp, the requirement of transferring different amount of different tokens is more and more intense. If you want to transfer difference amount of different tokens from one address to other address or do batch transfer, it is very difficult now.
-The OEP-8 Proposal can perfectly solve this problem. It is easy to do it.
+With the development of smart contracts and dApps, the requirement of transferring different amounts of different tokens has become more intense.
+If you want to transfer different amounts of different tokens from one address to another address or to do batch transfers, it is very difficult.
+The OEP-8 Proposal aims to solve this problem.
 
 ==Specification==
-===Method===
+
+===Methods===
+
 ====name====
+
 <pre>
-public static string name(byte[] tokenId)
+def name(tokenId)
 </pre>
-Returns the name of the Crypto Item <code>tokenId</code> - e.g. "My Crypto Item".
+
+Returns the name of the Crypto Item with id <code>tokenId</code> - e.g. "My Crypto Item".
 
 ====symbol====
+
 <pre>
-public static string symbol(byte[] tokenId)
+def symbol(tokenId)
 </pre>
-Returns a short string symbol of Crypto Item <code>tokenId</code> - e.g. <code>"MCI"</code>.
-This symbol SHOULD be short (3-8 characters is recommended), with no whitespace characters or new-lines and SHOULD be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
+
+Returns a short string symbol of the Crypto Item with id <code>tokenId</code> - e.g. <code>"MCI"</code>.
+This symbol should be short (3-8 characters is recommended), with no whitespace characters or new-lines and should be limited to the uppercase latin alphabet (i.e. the 26 letters used in English).
 
 ====totalSupply====
+
 <pre>
-public static BigInteger symbol(byte[] tokenId)
+def totalSupply(tokenId)
 </pre>
-Returns the total number of Crypto Item <code>tokenId</code>.
+
+Returns the total number of Crypto Items with an id <code>tokenId</code>.
 
 ====balanceOf====
+
 <pre>
-public static BigInteger balanceOf(byte[] address, byte[] tokenId)
+def balanceOf(address, tokenId)
 </pre>
-Returns the number of Crypto Item <code>tokenId</code> assigned to <code>address</code>.
-The parameter <code>address</code> SHOULD be a 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
+
+Returns the number of Crypto Items with the id <code>tokenId</code> assigned to <code>address</code>.
+The parameter <code>address</code> must be a 20-byte address.
+If not, this method must <code>throw</code> an exception.
 
 ====transfer====
+
 <pre>
-public static bool transfer(byte[] from, byte[] to, byte[] tokenId, BigInteger value)
+def transfer(from, to, tokenId, amount)
 </pre>
-Transfers <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
-The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
-<code>tokenId</code> is the id of Crypto Item. <code>value</code> is the amount of Crypto Item.
+
+Transfers <code>amount</code> of Crypto Items with the id <code>tokenId</code> from the <code>from</code> address to the <code>to</code> address.
+The parameters <code>from</code> and <code>to</code> must be 20-byte addresses.
+If not, this method must <code>throw</code> an exception.
 
 ====transferMulti====
+
 <pre>
-public static bool transferMulti(object[] args)
-public struct State
-{
-    public byte[] From;
-    public byte[] To;
-    public byte[] TokenId;
-    public BigInteger Value;
+def TransferMulti(args)
+
+state = {
+  from: <FROM ADDRESS>,
+  to: <TO ADDRESS>,
+  tokenId: <TOKEN ID>,
+  amount: <AMOUNT>
 }
 </pre>
-The transferMulti method allows to transfer multiple <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
-The parameters <code>from</code> and <code>to</code> SHOULD be 20-byte address. If not, this method SHOULD <code>throw</code> an exception.
-<code>tokenId</code> is the id of Crypto Item. <code>value</code> is the amount of Crypto Item.
+
+The transferMulti method allows to transfer multiple times with varying <code>amount</code>s, <code>tokenId</code>s, <code>from</code> addresses and <code>to</code> addresses.
+The parameters <code>from</code> and <code>to</code> must be 20-byte addresses.
+If not, this method must <code>throw</code> an exception.
+If any of the transfers fail, all of the transfers must be failed, and the method must <code>throw</code> an exception.
 
 ====approve====
+
 <pre>
-public static bool approve(byte[] from, byte[] to, byte[] tokenId, BigInteger value)
+def approve(from, to, tokenId, amount)
 </pre>
-The approve method allows to grant the amount <code>value</code> of Crypto Item <code>tokenId</code> from <code>from</code> account to <code>to</code> account.
-If this function is called again it overwrites tokenId or value.
-The Parameters <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD throw an exception.
+
+The approve method allows to grant the <code>amount</code> of Crypto Items with the id <code>tokenId</code> from the <code>from</code> address to the <code>to</code> address.
+If this function is called again it overwrites the <code>amount</code> allowed for the <code>to</code> address.
+The parameters <code>from</code> and <code>to</code> must be 20-byte addresses.
+If not, this method must <code>throw</code> an exception.
 
 ====transferFrom====
+
 <pre>
-public static bool transferFrom(byte[] spender, byte[] from, byte[] to, byte[] tokenId, BigInteger value)
+def transferFrom(spender, from, to, tokenId, amount)
 </pre>
-The transferFrom method is used for a withdraw workflow, allowing <code>spender</code> to withdraw <code>amount</code> of Crypto Item <code>tokenId</code>  from <code>from</code> account to <code>to</code> account.
-The parameters <code>spender</code> <code>from</code> and <code>to</code> SHOULD be 20-byte addresses. If not, this method SHOULD <code>throw</code> an exception.
+
+The transferFrom method is used for a withdraw workflow - allowing the <code>spender</code> address to withdraw <code>amount</code> of Crypto Items with the id <code>tokenId</code> from the <code>from</code> address and send it to the <code>to</code> address.
+The parameters <code>spender</code>, <code>from</code> and <code>to</code> must be 20-byte addresses.
+If not, this method must <code>throw</code> an exception.
 
 ====allowance====
+
 <pre>
-public static BigInteger allowance(byte[] owner, byte[] spender, byte[] tokenId)
+def allowance(owner, spender, tokenId)
 </pre>
-Returns the amount of Crypto Item <code>tokenId</code> which <code>spender</code> is still allowed to withdraw from <code>owner</code>.
+
+Returns the amount of Crypto Items with the id <code>tokenId</code> which <code>spender</code> is still allowed to withdraw from <code>owner</code>.
 
 ====approveMulti====
 <pre>
-public static bool approveMulti(object[] args)
-public struct State
-{
-    public byte[] From;
-    public byte[] To;
-    public byte[] TokenId;
-    public BigInteger Value;
+
+def approveMulti(args)
+
+state = {
+  from: <FROM ADDRESS>,
+  to: <TO ADDRESS>,
+  tokenId: <TOKEN ID>,
+  amount: <AMOUNT>
 }
 </pre>
 
-The approveMulti method allows to grant multiple amount <code>Value</code> of Crypto Item <code>TokenId</code> from <code>From</code> account to <code>To</code> account.
-The Parameters <code>From</code> and <code>To</code> SHOULD be 20-byte addresses. If not, this method SHOULD throw an exception.
+The approveMulti method allows to grant multiple <code>amount</code> of Crypto Items with the id <code>tokenId</code>.
+The parameters <code>from</code> and <code>to</code> must be 20-byte addresses.
+If not, this method must <code>throw</code> an exception.
 
 ====transferFromMulti====
+
 <pre>
-public static bool transferFromMulti(object[] args)
-public struct State
-{
-    public byte[] Spender;
-    public byte[] From;
-    public byte[] To;
-    public byte[] TokenId;
-    public BigInteger Value;
+def transferFromMulti(args)
+
+state = {
+  spender: <SPENDER ADDRESS>,
+  from: <FROM ADDRESS>,
+  to: <TO ADDRESS>,
+  tokenId: <TOKEN ID>,
+  amount: <AMOUNT>
 }
 </pre>
-The transferFromMulti method is used for a withdraw workflow, allowing multiple <code>Spender</code> to withdraw <code>Value</code> of Crypto Item <code>TokenId</code>  from <code>From</code> account to <code>To</code> account.
-The Parameters <code>Spender</code> <code>From</code> and <code>To</code> SHOULD be 20-byte addresses. If not, this method SHOULD throw an exception.
+
+The transferFromMulti method is used for a withdraw workflow - allowing multiple calls to <code>transferFrom</code>.
+The parameters <code>spender</code>, <code>from</code> and <code>to</code> must be 20-byte addresses.
+If not, this method must <code>throw</code> an exception.
 
 ==Event==
+
 ====transfer====
+
 <pre>
-public static bool transfer(byte[] from, byte[] to, byte[] tokenId, BigInteger value)
+TransferEvent = RegisterAction("transfer", "from", "to", "tokenId", "amount")
 </pre>
-MUST trigger when tokens are transferred, including zero value transfers.
+
+The event must be triggered when tokens are transferred, including zero value transfers.
+A token contract which creates new tokens must trigger a <code>transfer</code> event with the <code>from</code> address set to <code>null</code> when tokens are created.
+A token contract which burns tokens must trigger a <code>transfer</code> event with the <code>to</code> address set to <code>null</code> when tokens are burned.
 
 ====approval====
+
 <pre>
-public static bool approval(byte[] from, byte[] to, byte[] tokenId, BigInteger value)
+ApprovalEvent = RegisterAction("approval", "from", "to", "tokenId", "amount")
 </pre>
-MUST trigger on any successful call to approve.
+
+The event must be triggered on any successful calls to approve.
 
 ==Implementation==
-====Example implementations are available at====
-OEP-8 Python Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP8Sample/OEP8Sample.py | Python Template]]
 
+OEP-8 Python Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP8Sample/OEP8Sample_compiler2.0.py | Python Template]]

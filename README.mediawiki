@@ -86,6 +86,13 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Draft
 | [https://github.com/ontio/OEPs/pull/19 pull request]
 |-
+| 10
+| Cross-contract Call Attack Prevention Standard
+| Wyatt Mufson
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/48 pull request]
+|-
 | 34
 | Ontology Oracle Standard
 | 
