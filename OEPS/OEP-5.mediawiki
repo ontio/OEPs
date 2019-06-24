@@ -197,4 +197,7 @@ The event must be triggered on any successful calls to approve.
 ===Implementation===
 
 OEP-5 Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP5Sample/OEP5Sample_compiler2.0.py | Python Template]]
+
+Live OEP-5 example: [[https://github.com/Ryucoin/RyuNFTs-ONT | Ryu NFT Contact]]
+
 OEP-5 DynamicList (and PackedList): [[https://github.com/TowerBuilders/Ontology-Advanced-Storage-Objects | Advanced storage objects example]]
