@@ -3,7 +3,7 @@
   Title: Cross-contract Call Attack Prevention Standard
   Author: Wyatt Mufson <wyatt@towerbuilders.org>
   Type: Standard
-  Status: Draft
+  Status: Accepted
   Created: 2019-05-25
 </pre>
 
