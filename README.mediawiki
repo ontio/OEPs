@@ -62,7 +62,7 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Cross-contract Call Attack Prevention Standard
 | Wyatt Mufson
 | Standard
-| Accept
+| Accepted
 | -
 |-
 | 506
