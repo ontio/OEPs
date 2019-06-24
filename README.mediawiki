@@ -25,7 +25,7 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 |-
 | 2
 | Ontology ID Standard
-| 
+|
 | Standard
 | Stub
 | [[meta-backup/Auth-process.mediawiki|Authentication process]], [https://github.com/ontio/OEPs/pull/9 Website Interaction Standard pull request]
@@ -58,16 +58,23 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Accepted
 | -
 |-
+| [[OEPS/OEP-10.mediawiki|10]]
+| Cross-contract Call Attack Prevention Standard
+| Wyatt Mufson
+| Standard
+| Accept
+| -
+|-
 | 506
 | Security Token Offering (STO) Standard
-| 
+|
 | Standard
 | Stub
 | ref., [https://www.sec.gov/smallbusiness/exemptofferings/rule506c Regulation D 506(c)], etc. [https://github.com/ontio/OEPs/issues/23 issue ref]
 |-
 | 24
 | Time-limited Token Standard
-| 
+|
 | Standard
 | Stub
 | [https://github.com/ontio/OEPs/issues/24 issue ref]
@@ -81,61 +88,54 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 |-
 | 7
 | URI Schema
-| 
+|
 | Standard
 | Draft
 | [https://github.com/ontio/OEPs/pull/19 pull request]
 |-
-| 10
-| Cross-contract Call Attack Prevention Standard
-| Wyatt Mufson
-| Standard
-| Draft
-| [https://github.com/ontio/OEPs/pull/48 pull request]
-|-
 | 34
 | Ontology Oracle Standard
-| 
+|
 | Standard
 | Draft
 | [https://github.com/ontio/OEPs/pull/35 pull request]
 |-
 | [[OEPS/OEP-39.mediawiki|39]]
 | Standard process of transaction fee rebate adjustment
-| 
+|
 | Meta
 | Accepted
 | -
 |-
-| 
+|
 | Data Token Standard
-| 
+|
 | Standard
 | Draft
 | Data Tokenization Standard, etc.
 |-
-| 
+|
 | Token Exchange Standard
-| 
+|
 | Standard
 | Stub
 | Data-Token Exchange Standard, etc.
 |-
-| 
+|
 | Ontology Data Encryption extension
-| 
+|
 | Meta
 | Stub
 | Zero-knowledge proof, Homomorphic Encryption, etc.
 |-
-| 
+|
 | Ontology Ecosystem Governance Meta
 | ontology team
 | Meta
 | Stub
 | Ontology Governance Standard
 |-
-| 
+|
 | Ontology Tokenomics Meta
 | ontology team
 | Meta
