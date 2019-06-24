@@ -112,10 +112,10 @@ If this function is called again it overwrites the <code>to</code> address that 
 The <code>to</code> address must be 20-byte address.
 If not, this method must <code>throw</code> an exception.
 
-====allowance====
+====getApproved====
 
 <pre>
-def allowance(tokenId)
+def getApproved(tokenId)
 </pre>
 
 Returns the address that is allowed to send the NFT with id <code>tokenId</code>.
