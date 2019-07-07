@@ -198,7 +198,10 @@ The design of this specification is to unify the implementations of the wallet f
 
 ==Implementation==
 
-- [[https://github.com/ontio/ontology-java-sdk/blob/master/docs/en/Wallet_File_Specification_en.md | Java SDK]]
-- [[https://github.com/ontio/ontology-ts-sdk/blob/master/docs/en/Wallet_File_Specification.md | TS SDK]]
-- [[https://dev-docs.ont.io/#/docs-en/SDKs/01-wallet-file-specification | Dev Docs]]
-- [[https://github.com/Ryucoin/neovm-utils/blob/master/docs/ont-wallet.md | Swift SDK]]
+Specification for the [[https://github.com/ontio/ontology-java-sdk/blob/master/docs/en/Wallet_File_Specification_en.md | Java SDK]]
+
+Specification for the [[https://github.com/ontio/ontology-ts-sdk/blob/master/docs/en/Wallet_File_Specification.md | TS SDK]]
+
+Specification for the [[https://dev-docs.ont.io/#/docs-en/SDKs/01-wallet-file-specification | Dev Docs]]
+
+Specification for the [[https://github.com/Ryucoin/neovm-utils/blob/master/docs/ont-wallet.md | Swift SDK]]
