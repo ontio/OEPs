@@ -1,0 +1,204 @@
+<pre>
+  OEP: 9
+  Title: Wallet Standard
+  Author: Wyatt Mufson <wyatt@towerbuilders.org>
+  Type: Standard
+  Status: Draft
+  Created: 2019-07-07
+</pre>
+
+==Abstract==
+
+The OEP-9 Proposal is a standard for managing wallet files across all Ontology applications.
+
+==Motivation==
+
+There is currently no OEP defining a wallet standard for Ontology.
+Different SDKs list their own wallet file specification.
+While most are the same, there is not one standard that has been determined.
+An established wallet file standard will improve interoperability between applications.
+
+==Specification==
+
+For simplicity I have taken the wallet file specification outlined in the <code>ontology-java-sdk</code>.
+
+===Wallet===
+
+A wallet file in JSON format has the following basic structure:
+
+<pre>
+{
+  "name": "MyWallet",
+  "version": "1.0",
+  "scrypt": {},
+  "defaultOntid": "did:ont:TJNxJe2Ty8eSCjCDxDPwiS78NRAn8XPTFL",
+  "defaultAccountAddress": "TJNxJe2Ty8eSCjCDxDPwiS78NRAn8XPTFL",
+  "createTime": "2018-03-14T03:12:30.862Z",
+  "identities": [],
+  "accounts": [],
+  "extra": null
+}
+</pre>
+
+The <code>name</code> field is a unique label that the user has given to the wallet file.
+
+The <code>version</code> field is currently fixed at 1.0 and will be used for functional upgrades in the future.
+
+The <code>scrypt</code> field is a ScryptParameters object which describe the parameters of Scrypt algorithm used for encrypting and decrypting the private keys in the wallet.
+
+The <code>defaultOntid</code> field indicates the default identity in the wallet file.
+
+The <code>defaultAccountAddress</code> field indicates the default account address in the wallet file.
+
+The <code>createTime</code> field is the time that the wallet file was created, in UTC format.
+
+The <code>identities</code> field is an array of identity objects which describe the details of each identity in the wallet file.
+
+The <code>accounts</code> field is an array of account objects which describe the details of each account in the wallet file.
+
+The <code>extra</code> field is an object that is defined by the implementor of the client for storing extra data.
+It is optional and can be left as <code>null</code> if it is not needed.
+
+===ScryptParameters===
+
+The <code>ScryptParameters</code> object has the following structure:
+
+<pre>
+{
+  "n": 16384,
+  "r": 8,
+  "p": 8,
+  "dkLen" : 64
+}
+</pre>
+
+<code>n</code> is a parameter that defines the CPU/memory cost.
+Must be a value 2^N.
+
+<code>r</code> is a tuning parameter.
+
+<code>p</code> is a tuning parameter (parallelization parameter).
+A large value of p can increase computational cost of SCrypt without increasing the memory usage.
+
+<code>dkLen</code> is intended output length in octets of the derived key.
+
+===Identity===
+
+The <code>Identity</code> object has the following structure:
+
+<pre>
+{
+  "ontid": "did:ont:TQLASLtT6pWbThcSCYU1biVqhMnzhTgLFq",
+  "label": "MyIdentity",
+  "lock": false,
+  "isDefault" : false,
+  "controls": []
+}
+</pre>
+
+<code>ontid</code> is the ontid of the identity.
+
+<code>label</code> is a label that the user has given to the identity.
+
+<code>lock</code> indicates whether the identity is locked by the user - the client shouldn't update the information in a locked identity.
+
+<code>isDefault</code> indicates whether the identity is the default identity.
+
+<code>controls</code> is an array of Control objects which describes the details of each controller in the identity.
+
+===Control===
+
+The <code>Control</code> object has the following structure:
+
+<pre>
+{
+  "algorithm": "ECDSA",
+  "parameters": {},
+  "id": "1",
+  "key": "6PYWB8m1bCnu5bQkRUKAwbZp2BHNvQ3BQRLbpLdTuizpyLkQPSZbtZfoxx",
+  "address": "AQkGLumU1tnyJBGV1ZUmD229iQf9KRTTDL",
+  "salt": "Rv4v3a4U1zFEq28/"
+}
+</pre>
+
+<code>algorithm</code> is the algorithm used in the encryption system.
+
+<code>parameters</code> is an array of parameter objects used in the encryption system.
+
+<code>id</code> is the identity of this control.
+
+<code>key</code> is the private key of the account in the NEP-2 format.
+This field can be null (for watch-only addresses or non-standard addresses).
+
+<code>address</code> address in base58 format.
+
+<code>salt</code> 16 byte salt value in base64 format.
+
+===Parameter===
+
+Parameter object has the following structure:
+
+<pre>
+{
+  "curve":"P-256"
+}
+</pre>
+
+<code>curve</code> is the name of the elliptic curve.
+
+===Account===
+
+The <code>Account</code> object has the following structure:
+
+<pre>
+{
+    "address": "AadQ5xRwrSsFTGzKfLHc1brzykdnf7phhD",
+    "label": "a6575fd9",
+    "lock": false,
+    "algorithm": "ECDSA",
+    "parameters": {
+    	"curve": "P-256"
+     },
+    "key": "NyfxXX+xKDG2agrDy3espqX7N0k3MysTgqx5FxJGI8bkklZQO6+6BSluyBRvEsOx",
+    "enc-alg": "aes-256-gcm",
+    "salt": "MHct5XIedi86rQILJFi9lA==",
+    "isDefault": false,
+    "publicKey": "03e897f5a1ea306270e3e1e539c9065b6905e2430aae7f4802e1114f01634d7235",
+    "signatureScheme": "SHA256withECDSA"
+}
+</pre>
+
+<code>address</code> is the base58 encoded address of the account.
+
+<code>enc-alg</code> is the algorithm used to encrypt the private key.
+
+<code>salt</code> is the salt value for decryption.
+
+<code>publicKey</code> is the public key.
+
+<code>signatureScheme</code> is the signatureScheme used in signature.
+
+<code>isDefault</code> indicates whether the account is the default account.
+
+<code>label</code> is a label that the user has given to the account.
+
+<code>lock</code> indicates whether the account is locked by the user - the client shouldn't spend the funds in a locked account.
+
+<code>algorithm</code> is the algorithms used in the encryption system.
+
+<code>parameters</code> is an array of parameter objects used in encryption system.
+
+<code>key</code> is the private key of the account in the NEP-2 format.
+This field can be null (for watch-only addresses or non-standard addresses).
+
+
+==Rationale==
+
+The design of this specification is to unify the implementations of the wallet file throughout the SDKs and applications on Ontology.
+
+==Implementation==
+
+- [[https://github.com/ontio/ontology-java-sdk/blob/master/docs/en/Wallet_File_Specification_en.md | Java SDK]]
+- [[https://github.com/ontio/ontology-ts-sdk/blob/master/docs/en/Wallet_File_Specification.md | TS SDK]]
+- [[https://dev-docs.ont.io/#/docs-en/SDKs/01-wallet-file-specification | Dev Docs]]
+- [[https://github.com/Ryucoin/neovm-utils/blob/master/docs/ont-wallet.md | Swift SDK]]
