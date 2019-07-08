@@ -46,15 +46,15 @@ The <code>version</code> field is currently fixed at 1.0 and will be used for fu
 
 The <code>scrypt</code> field is a ScryptParameters object which describe the parameters of Scrypt algorithm used for encrypting and decrypting the private keys in the wallet.
 
-The <code>defaultOntid</code> field indicates the default identity in the wallet file.
+The <code>defaultOntid</code> field indicates the ontid of the default Identity in the wallet file.
 
-The <code>defaultAccountAddress</code> field indicates the default account address in the wallet file.
+The <code>defaultAccountAddress</code> field indicates the address of the  default Account in the wallet file.
 
 The <code>createTime</code> field is the time that the wallet file was created, in UTC format.
 
-The <code>identities</code> field is an array of identity objects which describe the details of each identity in the wallet file.
+The <code>identities</code> field is an array of Identity objects which describe the details of each Identity in the wallet file.
 
-The <code>accounts</code> field is an array of account objects which describe the details of each account in the wallet file.
+The <code>accounts</code> field is an array of Account objects which describe the details of each Account in the wallet file.
 
 The <code>extra</code> field is an object that is defined by the implementor of the client for storing extra data.
 It is optional and can be left as <code>null</code> if it is not needed.
@@ -72,15 +72,15 @@ The <code>ScryptParameters</code> object has the following structure:
 }
 </pre>
 
-<code>n</code> is a parameter that defines the CPU/memory cost.
+The <code>n</code> field is a parameter that defines the CPU/memory cost.
 Must be a value 2^N.
 
-<code>r</code> is a tuning parameter.
+The <code>r</code> field is a tuning parameter.
 
-<code>p</code> is a tuning parameter (parallelization parameter).
-A large value of p can increase computational cost of SCrypt without increasing the memory usage.
+The <code>p</code> field is a tuning parameter (parallelization parameter).
+A large value for p can increase computational cost of Scrypt without increasing the memory usage.
 
-<code>dkLen</code> is intended output length in octets of the derived key.
+The <code>dkLen</code> field is the intended output length in octets of the derived key.
 
 ===Identity===
 
@@ -96,15 +96,15 @@ The <code>Identity</code> object has the following structure:
 }
 </pre>
 
-<code>ontid</code> is the ontid of the identity.
+The <code>ontid</code> field is the ontid of the Identity.
 
-<code>label</code> is a label that the user has given to the identity.
+The <code>label</code> field is a label that the user has given to the Identity.
 
-<code>lock</code> indicates whether the identity is locked by the user - the client shouldn't update the information in a locked identity.
+The <code>lock</code> field indicates whether the Identity is locked by the user - the client shouldn't update the information in a locked Identity.
 
-<code>isDefault</code> indicates whether the identity is the default identity.
+The <code>isDefault</code> field indicates whether the Identity is the default Identity.
 
-<code>controls</code> is an array of Control objects which describes the details of each controller in the identity.
+The <code>controls</code> field is an array of Control objects which describes the details of each controller in the Identity.
 
 ===Control===
 
@@ -121,18 +121,18 @@ The <code>Control</code> object has the following structure:
 }
 </pre>
 
-<code>algorithm</code> is the algorithm used in the encryption system.
+The <code>algorithm</code> field is the algorithm used in the encryption system.
 
-<code>parameters</code> is an array of parameter objects used in the encryption system.
+The <code>parameters</code> field is an array of parameter objects used in the encryption system.
 
-<code>id</code> is the identity of this control.
+The <code>id</code> field is the unique id of this control.
 
-<code>key</code> is the private key of the account in the NEP-2 format.
+The <code>key</code> field is the private key of the Account in the NEP-2 format.
 This field can be null (for watch-only addresses or non-standard addresses).
 
-<code>address</code> address in base58 format.
+The <code>address</code> field is the address in base58 format.
 
-<code>salt</code> 16 byte salt value in base64 format.
+The <code>salt</code> field is the 16 byte salt value in base64 format.
 
 ===Parameter===
 
@@ -144,7 +144,7 @@ Parameter object has the following structure:
 }
 </pre>
 
-<code>curve</code> is the name of the elliptic curve.
+The <code>curve</code> field is the name of the elliptic curve.
 
 ===Account===
 
@@ -168,27 +168,27 @@ The <code>Account</code> object has the following structure:
 }
 </pre>
 
-<code>address</code> is the base58 encoded address of the account.
+The <code>address</code> field is the base58 encoded address of the Account.
 
-<code>enc-alg</code> is the algorithm used to encrypt the private key.
+The <code>enc-alg</code> field is the algorithm used to encrypt the private key.
 
-<code>salt</code> is the salt value for decryption.
+The <code>salt</code> field is the salt value for decryption.
 
-<code>publicKey</code> is the public key.
+The <code>publicKey</code> field is the public key of the Account.
 
-<code>signatureScheme</code> is the signatureScheme used in signature.
+The <code>signatureScheme</code> field is the signatureScheme used in the signature.
 
-<code>isDefault</code> indicates whether the account is the default account.
+The <code>isDefault</code> field indicates whether the Account is the default Account.
 
-<code>label</code> is a label that the user has given to the account.
+The <code>label</code> field is a label that the user has given to the Account.
 
-<code>lock</code> indicates whether the account is locked by the user - the client shouldn't spend the funds in a locked account.
+The <code>lock</code> field indicates whether the Account is locked by the user - the client shouldn't spend the funds in a locked Account.
 
-<code>algorithm</code> is the algorithms used in the encryption system.
+The <code>algorithm</code> field is the algorithms used in the encryption system.
 
-<code>parameters</code> is an array of parameter objects used in encryption system.
+The <code>parameters</code> field is an array of parameter objects used in encryption system.
 
-<code>key</code> is the private key of the account in the NEP-2 format.
+The <code>key</code> field is the private key of the Account in the NEP-2 format.
 This field can be null (for watch-only addresses or non-standard addresses).
 
 
