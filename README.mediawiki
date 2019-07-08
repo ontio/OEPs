@@ -58,6 +58,13 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Accepted
 | -
 |-
+| 9
+| Ontology Wallet Standard
+| Wyatt Mufson
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/56 pull request]
+|-
 | [[OEPS/OEP-10.mediawiki|10]]
 | Cross-contract Call Attack Prevention Standard
 | Wyatt Mufson
