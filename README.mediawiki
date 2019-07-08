@@ -46,7 +46,7 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 |-
 | [[OEPS/OEP-5.mediawiki|5]]
 | Non-Fungible Token Standard
-| community
+| tanyuan, zhoupw, tonyclarking, blckchan, Wyatt Mufson
 | Standard
 | Accepted
 | -
