@@ -152,19 +152,19 @@ The <code>Account</code> object has the following structure:
 
 <pre>
 {
-    "address": "AadQ5xRwrSsFTGzKfLHc1brzykdnf7phhD",
-    "label": "a6575fd9",
-    "lock": false,
-    "algorithm": "ECDSA",
-    "parameters": {
-    	"curve": "P-256"
-     },
-    "key": "NyfxXX+xKDG2agrDy3espqX7N0k3MysTgqx5FxJGI8bkklZQO6+6BSluyBRvEsOx",
-    "enc-alg": "aes-256-gcm",
-    "salt": "MHct5XIedi86rQILJFi9lA==",
-    "isDefault": false,
-    "publicKey": "03e897f5a1ea306270e3e1e539c9065b6905e2430aae7f4802e1114f01634d7235",
-    "signatureScheme": "SHA256withECDSA"
+  "address": "AadQ5xRwrSsFTGzKfLHc1brzykdnf7phhD",
+  "label": "a6575fd9",
+  "lock": false,
+  "algorithm": "ECDSA",
+  "parameters": {
+    "curve": "P-256"
+  },
+  "key": "NyfxXX+xKDG2agrDy3espqX7N0k3MysTgqx5FxJGI8bkklZQO6+6BSluyBRvEsOx",
+  "enc-alg": "aes-256-gcm",
+  "salt": "MHct5XIedi86rQILJFi9lA==",
+  "isDefault": false,
+  "publicKey": "03e897f5a1ea306270e3e1e539c9065b6905e2430aae7f4802e1114f01634d7235",
+  "signatureScheme": "SHA256withECDSA"
 }
 </pre>
 
