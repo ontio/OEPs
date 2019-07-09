@@ -60,7 +60,7 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 |-
 | 7
 | URI Schema
-|
+| zhoupw
 | Standard
 | Draft
 | [https://github.com/ontio/OEPs/pull/19 pull request]
