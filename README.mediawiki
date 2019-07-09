@@ -51,6 +51,20 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Accepted
 | -
 |-
+| 6
+| dApp extension
+| Community
+| Meta
+| Draft
+| [https://github.com/ontio/OEPs/pull/8 pull request]
+|-
+| 7
+| URI Schema
+|
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/19 pull request]
+|-
 | [[OEPS/OEP-8.mediawiki|8]]
 | Crypto Item Standard
 | tanyuan, zhoupw, tonyclarking, blckchan
@@ -59,11 +73,11 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | -
 |-
 | 9
-| Ontology Wallet Standard
-| Wyatt Mufson
+| Ontology X-shard Asset Contract
+| qiluge
 | Standard
 | Draft
-| [https://github.com/ontio/OEPs/pull/56 pull request]
+| [https://github.com/ontio/OEPs/pull/50 pull request]
 |-
 | [[OEPS/OEP-10.mediawiki|10]]
 | Cross-contract Call Attack Prevention Standard
@@ -71,6 +85,13 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Standard
 | Accepted
 | -
+|-
+| 15
+| Ontology Wallet Standard
+| Wyatt Mufson
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/56 pull request]
 |-
 | 506
 | Security Token Offering (STO) Standard
@@ -85,20 +106,6 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Standard
 | Stub
 | [https://github.com/ontio/OEPs/issues/24 issue ref]
-|-
-| 6
-| dApp extension
-| Community
-| Meta
-| Draft
-| [https://github.com/ontio/OEPs/pull/8 pull request]
-|-
-| 7
-| URI Schema
-|
-| Standard
-| Draft
-| [https://github.com/ontio/OEPs/pull/19 pull request]
 |-
 | 34
 | Ontology Oracle Standard
