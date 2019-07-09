@@ -1,5 +1,5 @@
 <pre>
-  OEP: 9
+  OEP: 15
   Title: Wallet Standard
   Author: Wyatt Mufson <wyatt@towerbuilders.org>
   Type: Standard
@@ -9,7 +9,7 @@
 
 ==Abstract==
 
-The OEP-9 Proposal is a standard for managing wallet files across all Ontology applications.
+This proposal is a standard for managing wallet files across all Ontology applications.
 
 ==Motivation==
 
