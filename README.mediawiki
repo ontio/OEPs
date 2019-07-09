@@ -18,7 +18,7 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 |-
 | [[OEPS/OEP-1.mediawiki|1]]
 | OEP Purpose and Guidelines
-| ontology team
+| Ontology Team
 | Meta
 | Active
 | -
@@ -32,7 +32,7 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 |-
 | 3
 | Ontology SDK extension
-| ontology team & community
+| Ontology Team & Community
 | Meta
 | Stub
 | [[meta-backup/CSharp-SDK.mediawiki|CSharp-SDK]]
@@ -46,7 +46,7 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 |-
 | [[OEPS/OEP-5.mediawiki|5]]
 | Non-Fungible Token Standard
-| community
+| tanyuan, zhoupw, tonyclarking, blckchan
 | Standard
 | Accepted
 | -
@@ -81,7 +81,7 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 |-
 | 6
 | dApp extension
-| community
+| Community
 | Meta
 | Draft
 | [https://github.com/ontio/OEPs/pull/8 pull request]
@@ -130,14 +130,14 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 |-
 |
 | Ontology Ecosystem Governance Meta
-| ontology team
+| Ontology Team
 | Meta
 | Stub
 | Ontology Governance Standard
 |-
 |
 | Ontology Tokenomics Meta
-| ontology team
+| Ontology Team
 | Meta
 | Stub
 | Ontology Gas Standard
