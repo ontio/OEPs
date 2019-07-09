@@ -1,6 +1,6 @@
 <pre>
   OEP: 15
-  Title: Wallet Standard
+  Title: Ontology Wallet Standard
   Author: Wyatt Mufson <wyatt@towerbuilders.org>
   Type: Standard
   Status: Draft
