@@ -68,7 +68,7 @@ The <code>ScryptParameters</code> object has the following structure:
   "n": 16384,
   "r": 8,
   "p": 8,
-  "dkLen" : 64
+  "dkLen": 64
 }
 </pre>
 
@@ -202,6 +202,6 @@ Specification for the [[https://github.com/ontio/ontology-java-sdk/blob/master/d
 
 Specification for the [[https://github.com/ontio/ontology-ts-sdk/blob/master/docs/en/Wallet_File_Specification.md | TS SDK]]
 
-Specification for the [[https://dev-docs.ont.io/#/docs-en/SDKs/01-wallet-file-specification | Dev Docs]]
+Specification for the [[https://dev-docs.ont.io/#/docs-en/SDKs/01-wallet-file-specification | Developer Documentation]]
 
 Specification for the [[https://github.com/Ryucoin/neovm-utils/blob/master/docs/ont-wallet.md | Swift SDK]]
