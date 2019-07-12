@@ -18,21 +18,21 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 |-
 | [[OEPS/OEP-1.mediawiki|1]]
 | OEP Purpose and Guidelines
-| ontology team
+| Ontology Team
 | Meta
 | Active
 | -
 |-
 | 2
 | Ontology ID Standard
-| 
+|
 | Standard
 | Stub
 | [[meta-backup/Auth-process.mediawiki|Authentication process]], [https://github.com/ontio/OEPs/pull/9 Website Interaction Standard pull request]
 |-
 | 3
 | Ontology SDK extension
-| ontology team & community
+| Ontology Team & Community
 | Meta
 | Stub
 | [[meta-backup/CSharp-SDK.mediawiki|CSharp-SDK]]
@@ -58,79 +58,86 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Accepted
 | -
 |-
+| [[OEPS/OEP-10.mediawiki|10]]
+| Cross-contract Call Attack Prevention Standard
+| Wyatt Mufson
+| Standard
+| Accepted
+| -
+|-
 | 506
 | Security Token Offering (STO) Standard
-| 
+|
 | Standard
 | Stub
 | ref., [https://www.sec.gov/smallbusiness/exemptofferings/rule506c Regulation D 506(c)], etc. [https://github.com/ontio/OEPs/issues/23 issue ref]
 |-
 | 24
 | Time-limited Token Standard
-| 
+|
 | Standard
 | Stub
 | [https://github.com/ontio/OEPs/issues/24 issue ref]
 |-
 | 6
 | dApp extension
-| community
+| Community
 | Meta
 | Draft
 | [https://github.com/ontio/OEPs/pull/8 pull request]
 |-
 | 7
 | URI Schema
-| 
+|
 | Standard
 | Draft
 | [https://github.com/ontio/OEPs/pull/19 pull request]
 |-
 | 34
 | Ontology Oracle Standard
-| 
+|
 | Standard
 | Draft
 | [https://github.com/ontio/OEPs/pull/35 pull request]
 |-
 | [[OEPS/OEP-39.mediawiki|39]]
 | Standard process of transaction fee rebate adjustment
-| 
+|
 | Meta
 | Accepted
 | -
 |-
-| 
+|
 | Data Token Standard
-| 
+|
 | Standard
 | Draft
 | Data Tokenization Standard, etc.
 |-
-| 
+|
 | Token Exchange Standard
-| 
+|
 | Standard
 | Stub
 | Data-Token Exchange Standard, etc.
 |-
-| 
+|
 | Ontology Data Encryption extension
-| 
+|
 | Meta
 | Stub
 | Zero-knowledge proof, Homomorphic Encryption, etc.
 |-
-| 
+|
 | Ontology Ecosystem Governance Meta
-| ontology team
+| Ontology Team
 | Meta
 | Stub
 | Ontology Governance Standard
 |-
-| 
+|
 | Ontology Tokenomics Meta
-| ontology team
+| Ontology Team
 | Meta
 | Stub
 | Ontology Gas Standard

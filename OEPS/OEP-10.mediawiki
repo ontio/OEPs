@@ -1,0 +1,90 @@
+<pre>
+  OEP: 10
+  Title: Cross-contract Call Attack Prevention Standard
+  Author: Wyatt Mufson <wyatt@towerbuilders.org>
+  Type: Standard
+  Status: Accepted
+  Created: 2019-05-25
+</pre>
+
+==Abstract==
+
+The OEP-10 Proposal is a standard for cross-contract call attack prevention in digital asset smart contracts.
+
+==Motivation==
+
+The motivation for this contract comes from the lack of cross-contract call attack prevention documentation and practices in smart contract development.
+The current proposals for digital assets on the Ontology blockchain do not address this issue and therefore put users' assets at risk.
+
+It was ultimately inspired by the article [[https://medium.com/ontologynetwork/an-analysis-of-ontology-smart-contract-security-and-loopholes-part-1-f24c1680de67 | An Analysis of Ontology Smart Contract Security and Loopholes — Part 1]]
+and the [[https://learn.towerbuilders.org/#/smartContract/callerValidation | Caller Validation article by TowerBuilders]].
+
+==Specification==
+
+===Overview===
+
+This OEP introduces a process for preventing malicious contracts to invoke smart contracts conforming to OEP-10.
+By default, users will only be able to invoke the contract directly from their wallet.
+In order to be able to invoke the contract from another contract they will need to manually approve that second contract.
+Users will also have the ability to unapprove contracts, as well as view whether a contract has been approved.
+
+This OEP introduces three methods to be implemented within the <code>Main</code> function: <code>approveContract</code>, <code>unapproveContract</code> and <code>isApproved</code>.
+
+It also introduces an internal method, <code>RequireApproved</code> to be included within any method that changes the state.
+For example, an OEP4 contract that also follows this OEP will call <code>RequireApproved</code> at the beginning of the <code>transfer</code>, <code>transferMulti</code>, <code>approve</code> and <code>transferFrom</code> methods.
+
+===Public Methods===
+
+====approveContract====
+
+<pre>
+def approveContract(contractHash)
+</pre>
+
+The <code>approveContract</code> method takes one argument, the <code>contractHash</code> to approve.
+It will whitelist the smart contract with the hash <code>contractHash</code> to be used with the given smart contract following OEP10.
+<code>approveContract</code> must also only be called directly by a wallet, the owner of the contract.
+If not, this method must throw an exception.
+
+====unapproveContract====
+
+<pre>
+def unapproveContract(contractHash)
+</pre>
+
+The <code>unapproveContract</code> method takes one argument, the <code>contractHash</code>.
+It will remove the smart contract with the hash <code>contractHash</code> from the whitelist for the given smart contract following OEP10.
+<code>unapproveContract</code> must also only be called directly by a wallet, the owner of the contract.
+If not, this method must throw an exception.
+
+====isApproved====
+
+<pre>
+def isApproved(contractHash)
+</pre>
+
+The <code>isApproved</code> method takes one argument, the <code>contractHash</code>.
+It returns whether the smart contract with the hash <code>contractHash</code> is in the whitelist for the contract following OEP10.
+
+===Internal Methods===
+
+====RequireApproved====
+
+<pre>
+def RequireApproved()
+</pre>
+
+The <code>RequireApproved</code> method takes no arguments.
+If the results of <code>GetCallingScriptHash()</code> and <code>GetEntryScriptHash()</code> do not match, then the <code>callerHash</code> must be in the whitelist for the wallet.
+If not, this method must throw an exception.
+
+==Rationale==
+
+This OEP was designed with the usability and security of digital assets on the Ontology blockchain in-mind.
+The goal is to enable a new type of asset on Ontology that will be optimized for use in smart contracts while maintaining the security of its users.
+Contracts following this OEP are meant to also be following a standard for other crypto assets - such as OEP4, OEP5 and OEP8.
+
+==Implementation==
+
+This OEP is implemented in [[https://github.com/TowerBuilders/CrossContractApproval/blob/master/contract.py | this example contract]].
+Note that <code>notProtectedFromCCA</code> can be called by a malicious contract, while <code>protectedFromCCA</code> cannot.
