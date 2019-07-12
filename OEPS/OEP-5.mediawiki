@@ -156,24 +156,6 @@ The parameter <code>address</code> must be a 20-byte address.
 If not, this method must <code>throw</code> an exception.
 This method should return the <code>DynamicList</code> of tokens in the serialized hex format.
 
-====tokenURI====
-
-<pre>
-def tokenURI(tokenId)
-</pre>
-
-This method is optional.
-
-Returns the url referencing an external resource that contains metadata about the NFT associated with the id <code>tokenId</code>.
-<code>tokenId</code> should be string or bytearray.
-
-The url info string must be an IPFS or HTTP(S) base path.<br/>
-Metadata JSON Schema:<br/>
-* name (required) - The name contain the UTF-8 encoded name of specific NFT, which should be short (3-8 characters is recommended)
-* image (optional) - If the image exist, it MUST contain a PNG, JPEG, or JPG image with at least 300 pixels of detail in each dimension. (1:1 image is recommended)
-* description (optional) - If the description exist, it MUST contain a UTF-8 encoded textual description of the asset. The description should be 1500 characters or less.
-* other metadata (optional) - other extension information.
-
 ====takeOwnership====
 
 <pre>
@@ -184,6 +166,59 @@ Either the token owner or the approved account can assign the ownership of the N
 <code>tokenId</code> should be string or bytearray.
 The parameter <code>to</code> must be a 20-byte address.
 If not, this method must <code>throw</code> an exception.
+
+====tokenURI====
+
+<pre>
+def tokenURI(tokenId)
+</pre>
+
+This method is optional.
+
+Returns a distinct Uniform Resource Identifier (URI) for a given NFT with the id <code>tokenId</code>.
+<code>tokenId</code> should be string or bytearray.
+
+The parameter <code>tokenId</code> must correspond to a valid NFT.
+If not, this method SHOULD <code>throw</code> an exception.
+
+URIs are defined in [https://tools.ietf.org/html/rfc3986 RFC 3986].
+This URI contains mutable properties for the given NFT.
+
+The URI MUST point to a JSON file that conforms to the Metadata JSON Schema:
+
+The supported scheme of the returned URI MUST be one of the following: <code>http</code>, <code>https</code>, <code>data</code>.
+
+The "data" URI scheme is defined in [https://tools.ietf.org/html/rfc2397 RFC 2397].
+
+====Metadata JSON Schema====
+
+<pre>
+{
+  "title": "Asset Metadata",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Identifies the asset to which this NFT represents"
+    },
+    "description": {
+      "type": "string",
+      "description": "Describes the asset to which this NFT represents"
+    },
+    "image": {
+      "type": "string",
+      "description": "A URI pointing to a resource with mime type image/* representing the asset to which this NFT represents.
+      Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive."
+    }
+  }
+}
+</pre>
+
+The schema must contain a <code>title</code>, <code>type</code> and <code>properties</code>.
+
+Any custom fields can be included in the JSON file.
+Each field contains a <code>type</code> and <code>description</code>.
+
 
 ===Events===
 
