@@ -174,6 +174,17 @@ Metadata JSON Schema:<br/>
 * description (optional) - If the description exist, it MUST contain a UTF-8 encoded textual description of the asset. The description should be 1500 characters or less.
 * other metadata (optional) - other extension information.
 
+====takeOwnership====
+
+<pre>
+def takeOwnership(to, tokenId)
+</pre>
+
+Either the token owner or the approved account can assign the ownership of the NFT with the id <code>tokenId</code> to the <code>to</code> address.
+<code>tokenId</code> should be string or bytearray.
+The parameter <code>to</code> must be a 20-byte address.
+If not, this method must <code>throw</code> an exception.
+
 ===Events===
 
 ====transfer====
