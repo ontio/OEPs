@@ -179,7 +179,7 @@ Returns a distinct Uniform Resource Identifier (URI) for a given NFT with the id
 <code>tokenId</code> should be string or bytearray.
 
 The parameter <code>tokenId</code> must correspond to a valid NFT.
-If not, this method SHOULD <code>throw</code> an exception.
+If not, this method must <code>throw</code> an exception.
 
 URIs are defined in [https://tools.ietf.org/html/rfc3986 RFC 3986].
 This URI contains mutable properties for the given NFT.
