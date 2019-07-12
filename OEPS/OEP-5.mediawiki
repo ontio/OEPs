@@ -173,8 +173,6 @@ If not, this method must <code>throw</code> an exception.
 def tokenURI(tokenId)
 </pre>
 
-This method is optional.
-
 Returns a distinct Uniform Resource Identifier (URI) for a given NFT with the id <code>tokenId</code>.
 <code>tokenId</code> should be string or bytearray.
 
