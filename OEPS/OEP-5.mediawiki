@@ -180,13 +180,25 @@ The parameter <code>tokenId</code> must correspond to a valid NFT.
 If not, this method must <code>throw</code> an exception.
 
 URIs are defined in [https://tools.ietf.org/html/rfc3986 RFC 3986].
-This URI contains mutable properties for the given NFT.
+This URI contains optionally mutable properties for the given NFT.
 
 The URI must point to a JSON file that conforms to the Metadata JSON Schema:
 
 The supported scheme of the returned URI MUST be one of the following: <code>http</code>, <code>https</code>, <code>data</code>.
 
 The "data" URI scheme is defined in [https://tools.ietf.org/html/rfc2397 RFC 2397].
+
+====properties====
+
+<pre>
+def properties(tokenId)
+</pre>
+
+Returns a serialized NVM object containing immutable on-chain properties for the given NFT.
+The NVM object must conform to the Metadata JSON Schema.
+
+The parameter <code>tokenId</code> must correspond to a valid NFT.
+If not, this method must <code>throw</code> an exception.
 
 ====Metadata JSON Schema====
 
