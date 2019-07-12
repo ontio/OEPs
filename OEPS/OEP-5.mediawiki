@@ -211,4 +211,4 @@ OEP-5 Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OE
 
 Live OEP-5 example: [[https://github.com/Ryucoin/RyuNFTs-ONT | Ryu NFT Contact]]
 
-OEP-5 DynamicList (and PackedList): [[https://github.com/TowerBuilders/Ontology-Advanced-Storage-Objects | Advanced storage objects example]]
+OEP-5 DynamicList (and PackedList): [[https://github.com/TowerBuilders/NVM-Advanced-Storage-Objects | NVM advanced storage objects example]]
