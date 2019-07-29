@@ -167,34 +167,13 @@ Either the token owner or the approved account can assign the ownership of the N
 The parameter <code>to</code> must be a 20-byte address.
 If not, this method must <code>throw</code> an exception.
 
-====tokenURI====
-
-<pre>
-def tokenURI(tokenId)
-</pre>
-
-Returns a distinct Uniform Resource Identifier (URI) for a given NFT with the id <code>tokenId</code>.
-<code>tokenId</code> should be string or bytearray.
-
-The parameter <code>tokenId</code> must correspond to a valid NFT.
-If not, this method must <code>throw</code> an exception.
-
-URIs are defined in [https://tools.ietf.org/html/rfc3986 RFC 3986].
-This URI contains optionally mutable properties for the given NFT.
-
-The URI must point to a JSON file that conforms to the Metadata JSON Schema:
-
-The supported scheme of the returned URI MUST be one of the following: <code>http</code>, <code>https</code>, <code>data</code>.
-
-The "data" URI scheme is defined in [https://tools.ietf.org/html/rfc2397 RFC 2397].
-
 ====properties====
 
 <pre>
 def properties(tokenId)
 </pre>
 
-Returns a serialized NVM object containing immutable on-chain properties for the given NFT.
+Returns a serialized NVM object containing the properties for the given NFT.
 The NVM object must conform to the Metadata JSON Schema.
 
 The parameter <code>tokenId</code> must correspond to a valid NFT.
@@ -223,12 +202,6 @@ If not, this method must <code>throw</code> an exception.
   }
 }
 </pre>
-
-The schema must contain a <code>title</code>, <code>type</code> and <code>properties</code>.
-
-Any custom fields can be included in the JSON file.
-Each field contains a <code>type</code> and <code>description</code>.
-
 
 ===Events===
 
