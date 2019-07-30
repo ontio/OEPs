@@ -1,7 +1,7 @@
 <source lang="csharp">
   OEP: 5
   Title: Non-fungible Token Standard
-  Author: tanyuan <tanyuan666@gmail.com>, zhoupw <zhoupw@gmail.com>, tonyclarking<tonyclarking@gmail.com>, blckchan<1258176714@qq.com>
+  Author: tanyuan <tanyuan666@gmail.com>, zhoupw <zhoupw@gmail.com>, tonyclarking<tonyclarking@gmail.com>, blckchan<1258176714@qq.com>, Wyatt Mufson <wyatt@towerbuilders.org>
   Type: Standard
   Status: Accepted
   Created: 2018-07-26
@@ -77,8 +77,11 @@ def transfer(to, tokenId)
 
 Transfers the NFT from the owner address of <code>tokenId</code> to the <code>to</code> address.
 <code>tokenId</code> should be string or bytearray.
+This method can be called by either the token owner, the approved account for the NFT with the id <code>tokenId</code>
+or an address that has been approved to transfer all tokens for the token owner (see <code>approvalForAll</code> method).
 If the owner address of <code>tokenId</code> can't be determined, this method must <code>throw</code> an exception.
-<code>to</code> must be 20-byte address. If not, this method must <code>throw</code> an exception.
+<code>to</code> must be 20-byte address.
+If not, this method must <code>throw</code> an exception.
 After a transfer, if an address had been approved by the <code>approve</code> method, it should be cleared automatically.
 
 ====transferMulti====
@@ -92,7 +95,7 @@ state = {
 }
 </pre>
 
-The transferMulti function allows the transferring of multiple NFTs to multiple <code>to</code> addresses.
+The transferMulti method allows the transferring of multiple NFTs to multiple <code>to</code> addresses.
 The parameter is an array of objects, the object is a <code>state</code> struct, which contains two items: the receiver address <code>to</code> (which must be 20-byte address) and the <code>tokenId</code> of the NFT.
 If any of the transfers fail, all of the transfers must be failed, and the method must <code>throw</code> an exception.
 
@@ -103,12 +106,55 @@ If any of the transfers fail, all of the transfers must be failed, and the metho
 def approve(to, tokenId)
 </pre>
 
-
-The approve function allows the <code>to</code> address to transfer the <code>tokenId</code> NFT.
+The approve method allows the <code>to</code> address to transfer the <code>tokenId</code> NFT.
 If this function is called again it overwrites the <code>to</code> address that can transfer the NFT.
 <code>tokenId</code> should be string or bytearray.
 The <code>to</code> address must be 20-byte address.
 If not, this method must <code>throw</code> an exception.
+
+====getApproved====
+
+<pre>
+def getApproved(tokenId)
+</pre>
+
+Returns the address that is allowed to send the NFT with id <code>tokenId</code>.
+
+===Optional Methods===
+
+====clearApproved====
+
+<pre>
+def clearApproved(tokenId)
+</pre>
+
+The clearApproved method removes the address that was set by the approve method for the NFT with the id <code>tokenId</code>.
+<code>tokenId</code> should be string or bytearray.
+This method can only be called by the token owner.
+If not, this method must <code>throw</code> an exception.
+
+====approvalForAll====
+
+<pre>
+def approvalForAll(owner, to, approval)
+</pre>
+
+The approvalForAll method grants permission to the <code>to</code> address to transfer NFTs on behalf of the <code>owner</code> address.
+<code>approval</code> should be <code>true</code> to grant permission and <code>false</code> to revoke permission.
+The <code>owner</code> and <code>to</code> addresses must be 20-byte address.
+If not, this method must <code>throw</code> an exception.
+
+====tokensOf====
+
+<pre>
+def tokensOf(address)
+</pre>
+
+Returns a serialized <code>DynamicList</code> of the tokenIds of the NFTs assigned to <code>address</code>.
+
+The parameter <code>address</code> must be a 20-byte address.
+If not, this method must <code>throw</code> an exception.
+This method should return the <code>DynamicList</code> of tokens in the serialized hex format.
 
 ====takeOwnership====
 
@@ -118,28 +164,44 @@ def takeOwnership(to, tokenId)
 
 Either the token owner or the approved account can assign the ownership of the NFT with the id <code>tokenId</code> to the <code>to</code> address.
 <code>tokenId</code> should be string or bytearray.
-<code>to</code> must be 20-byte addresses.
+The parameter <code>to</code> must be a 20-byte address.
 If not, this method must <code>throw</code> an exception.
 
-===Optional Methods===
-
-====tokenMetadata====
+====properties====
 
 <pre>
-def tokenMetadata(tokenId)
+def properties(tokenId)
 </pre>
 
-This method is optional.
+Returns a serialized NVM object containing the properties for the given NFT.
+The NVM object must conform to the Metadata JSON Schema.
 
-Returns the url referencing an external resource that contains metadata about the NFT associated with the id <code>tokenId</code>.
-<code>tokenId</code> should be string or bytearray.
+The parameter <code>tokenId</code> must correspond to a valid NFT.
+If not, this method must <code>throw</code> an exception.
 
-The url info string must be an IPFS or HTTP(S) base path.<br/>
-Metadata JSON Schema:<br/>
-* name (required) - The name contain the UTF-8 encoded name of specific NFT, which should be short (3-8 characters is recommended)
-* image (optional) - If the image exist, it MUST contain a PNG, JPEG, or JPG image with at least 300 pixels of detail in each dimension. (1:1 image is recommended)
-* description (optional) - If the description exist, it MUST contain a UTF-8 encoded textual description of the asset. The description should be 1500 characters or less.
-* other metadata (optional) - other extension information.
+====Metadata JSON Schema====
+
+<pre>
+{
+  "title": "Asset Metadata",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Identifies the asset to which this NFT represents"
+    },
+    "description": {
+      "type": "string",
+      "description": "Describes the asset to which this NFT represents"
+    },
+    "image": {
+      "type": "string",
+      "description": "A URI pointing to a resource with mime type image/* representing the asset to which this NFT represents.
+      Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive."
+    }
+  }
+}
+</pre>
 
 ===Events===
 
@@ -164,3 +226,7 @@ The event must be triggered on any successful calls to approve.
 ===Implementation===
 
 OEP-5 Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP5Sample/OEP5Sample_compiler2.0.py | Python Template]]
+
+Live OEP-5 example: [[https://github.com/Ryucoin/RyuNFTs-ONT | Ryu NFT Contact]]
+
+OEP-5 DynamicList (and PackedList): [[https://github.com/TowerBuilders/NVM-Advanced-Storage-Objects | NVM advanced storage objects example]]
