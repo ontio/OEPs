@@ -44,3 +44,5 @@ Returns a <code>boolean</code> whether the contract supports the <code>standard<
 For example, <code>supports("OEP-4")</code> would return <code>true</code> if <code>supportedStandards()</code> returns <code>["OEP-4", "OEP-59"]</code>.
 
 ===Implementation===
+
+OEP-4/59: [[https://github.com/jwang35412/OEP4-Example/blob/master/contract.py | python example]]
