@@ -121,6 +121,13 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Accepted
 | -
 |-
+| 59
+| Composite Smart Contract Standard
+|
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/61 pull request]
+|-
 |
 | Data Token Standard
 |
