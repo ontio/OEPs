@@ -123,7 +123,7 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 |-
 | 59
 | Composite Smart Contract Standard
-|
+| Jawax
 | Standard
 | Draft
 | [https://github.com/ontio/OEPs/pull/61 pull request]
