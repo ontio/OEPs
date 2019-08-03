@@ -1,7 +1,7 @@
 <pre>
   OEP: 59
   Title: Composite Smart Contract Standard
-  Author: Jack Wang <jwang35412@gmail.com>
+  Author: Jawax <jwang35412@gmail.com>
   Type: Standard
   Status: Accepted
   Created: 2019-07-31
