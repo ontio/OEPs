@@ -141,4 +141,6 @@ The event must be triggered on any successful calls to approve.
 
 ===Implementation===
 
-OEP-4 Python Template: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP4Sample/OEP4Sample_compiler2.0.py | Python Template]]
+TowerBuilders OEP-4 Example: [[https://github.com/TowerBuilders/OEP4-Example/blob/master/contract.py | Python Template]]
+
+ONT-Avocados OEP-4 Example: [[https://github.com/ONT-Avocados/python-template/blob/master/OEP4Sample/OEP4Sample_compiler2.0.py | Python Template]]
