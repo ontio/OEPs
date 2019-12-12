@@ -97,6 +97,7 @@ def approve(owner, spender, amount)
 </pre>
 
 The approve function allows the <code>spender</code> address to withdraw tokens from the <code>owner</code> address, of up to <code>amount</code> tokens.
+The <code>amount</code> should be no less than <code>0</code> and no more than the token balance of the <code>owner</code>.
 If this function is called again it overwrites the current allowance with the new value.
 The parameters <code>owner</code> and <code>spender</code> must be 20-byte addresses.
 If not, this method must <code>throw</code> an exception.
