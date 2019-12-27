@@ -83,7 +83,7 @@ def getTopic(hash)
 </pre>
 
 Return the topic, for example, 'Update the Governance Strategy, Mortgage unlocking cycle changed from 2 months to 1 month'
-The parameter hash should be the topic 32-byte hash
+The parameter <code>hash</code> should be the topic 32-byte hash
 
 ====getTopicInfo====
 
@@ -92,7 +92,7 @@ def getTopicInfo(hash)
 </pre>
 
 Return the topicInfo which includes 'admin, topic, voter address,startTime, endTime, approve amount, reject amount'.
-The parameter hash should be the topic 32-byte hash
+The parameter <code>hash</code> should be the topic 32-byte hash
 
 ====getVoters====
 
