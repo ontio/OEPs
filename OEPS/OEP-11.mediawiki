@@ -1,0 +1,136 @@
+<pre>
+  OEP: 11
+  Title: Governance Change Standard
+  Author: luodanwg <luodan.wg@gmail.com>, tanyuan <tanyuan666@gmail.com>, zhoupw <zhoupw@gmail.com>
+  Type: Standard
+  Status: Accepted
+  Created: 2018-07-03
+</pre>
+
+==Abstract==
+
+The OEP-11 Proposal is a standard interface for Governance Change Standard. There will be three roles in the contract, SuperAdmin, Admin and Users.
+SuperAdmin has the right to set who can be Admin.
+Admin has the right to create a topic and set who can vote for the topic.
+Users are topic voters from the Mortgage node address.
+
+
+==Motivation==
+
+Governance Change Standard interface which allows Community update Governance Strategy of the Ontology blockchain to adapt the new development.
+
+==Specification==
+
+===Methods===
+
+====init====
+
+<pre>
+def init()
+</pre>
+
+SuperAdmin can invoke this method to Initialize the contract
+
+====setAdmin====
+
+<pre>
+def setAdmin(admins)
+</pre>
+admins is address array,
+SuperAdmin invoke this method to set who to be admins
+The parameter <code>admins</code> must be a array with every element is a 20-byte address. If not, this method must <code>throw</code> an exception.
+
+====listAdmins====
+
+<pre>
+def listAdmins()
+</pre>
+
+Returns all the admins.
+
+====createTopic====
+
+<pre>
+def createTopic(admin, topic, startTime, endTime)
+</pre>
+Admin can invoke this method to create a new topic.
+The parameter <code>admin</code> must be a 20-byte address.
+The parameter <code>topic</code> should be a string.
+The parameter <code>startTime</code> should be a unix timestamp.
+The parameter <code>endTime</code> should be a unix timestamp.
+
+====setVoterForTopic====
+
+<pre>
+def setVoterForTopic(hash, voters)
+</pre>
+the topic creator can invoke this method.
+The parameter <code>hash</code> should be a 32-byte hash value of topic.
+The parameter <code>voters</code> should be an address array.
+
+====listTopics====
+
+<pre>
+def listTopics()
+</pre>
+
+Return all the topic hash
+
+====getTopic====
+
+<pre>
+def getTopic(hash)
+
+</pre>
+
+Return the topic, for example, 'Update the Governance Strategy, Mortgage unlocking cycle changed from 2 months to 1 month'
+The parameter hash should be the topic 32-byte hash
+
+====getTopicInfo====
+
+<pre>
+def getTopicInfo(hash)
+</pre>
+
+Return the topicInfo which includes 'admin, topic, voter address,startTime, endTime, approve amount, reject amount'.
+The parameter hash should be the topic 32-byte hash
+
+====getVoters====
+
+<pre>
+def getVoters(hash)
+</pre>
+
+Return all the voters of the topic,every voter consists of voter address and voter weight.
+
+====voteTopic====
+
+<pre>
+def voteTopic(hash, voter, approveOrReject)
+</pre>
+
+voters can invoke this method to approve or reject a topic.
+
+The parameter <code>hash</code> is topic hash.
+The parameter <code>voter</code> one of the voters who set by admin.
+The parameter <code>approveOrReject</code> is a boolean value, true mean approve, false mean reject.
+
+===Events===
+
+====createTopic====
+
+<pre>
+CreateTopicEvent = RegisterAction("createTopic", "hash", "topic")
+</pre>
+
+The event must be triggered when topic are created.
+
+====VoteTopicEvent====
+
+<pre>
+VoteTopicEvent = RegisterAction("voteTopic", "hash", "voter")
+</pre>
+
+The event must be triggered on any successful calls to voteTopic.
+
+===Implementation===
