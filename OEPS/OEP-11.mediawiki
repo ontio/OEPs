@@ -29,16 +29,15 @@ Governance Change Standard interface which allows Community update Governance St
 def init()
 </pre>
 
-SuperAdmin can invoke this method to Initialize the contract
+SuperAdmin can invoke this method to Initialize the contract.
 
 ====setAdmin====
 
 <pre>
 def setAdmin(admins)
 </pre>
-admins is address array,
-SuperAdmin invoke this method to set who to be admins
-The parameter <code>admins</code> must be a array with every element is a 20-byte address. If not, this method must <code>throw</code> an exception.
+SuperAdmin invoke this method to set who to be admins and admin can invoke 'createTopic' method to create a new topic.
+The parameter <code>admins</code> should be a 20-byte address array.
 
 ====listAdmins====
 
@@ -46,7 +45,7 @@ The parameter <code>admins</code> must be a array with every element is a 20-byt
 def listAdmins()
 </pre>
 
-Returns all the admins.
+Returns all the admins that is a address array.
 
 ====createTopic====
 
@@ -113,7 +112,7 @@ voters can invoke this method to approve or reject a topic.
 
 The parameter <code>hash</code> is topic hash.
 The parameter <code>voter</code> one of the voters who set by admin.
-The parameter <code>approveOrReject</code> is a boolean value, true mean approve, false mean reject.
+The parameter <code>approveOrReject</code> is a boolean value, true means approve, false means reject.
 
 ===Events===
 
