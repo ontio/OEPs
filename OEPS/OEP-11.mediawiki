@@ -66,7 +66,7 @@ def setVoterForTopic(hash, voters)
 </pre>
 the topic creator can invoke this method.
 The parameter <code>hash</code> should be a 32-byte hash value of topic.
-The parameter <code>voters</code> should be an address array.
+The parameter <code>voters</code> should be an address and weight array, for example: [['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000],['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000]]
 
 ====listTopics====
 
