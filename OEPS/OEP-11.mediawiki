@@ -1,7 +1,7 @@
 <pre>
   OEP: 11
   Title: Governance Change Standard
-  Author: luodanwg <luodan.wg@gmail.com>, tanyuan <tanyuan666@gmail.com>, zhoupw <zhoupw@gmail.com>
+  Author:
   Type: Standard
   Status: Accepted
   Created: 2018-07-03
@@ -9,15 +9,15 @@
 
 ==Abstract==
 
-The OEP-11 Proposal is a standard interface for Governance Change Standard. There will be three roles in the contract, SuperAdmin, Admin and Users.
-SuperAdmin has the right to set who can be Admin.
-Admin has the right to create a topic and set who can vote for the topic.
+The OEP-11 proposal is a standard interface for the '''Governance Change Standard'''. There are three parties involved in the contract- '''SuperAdmin''', '''Admin''' and the '''Users'''.
+SuperAdmin has the authority to assign administrator privileges.
+Admin has the right to create topics and set the users who can vote for a topic.
 Users are topic voters from the Mortgage node address.
 
 
 ==Motivation==
 
-Governance Change Standard interface which allows Community update Governance Strategy of the Ontology blockchain to adapt the new development.
+'''Governance Change Standard''' interace allows the community to update the governace strategy of Ontology blockchain in order to adapt to new developments.
 
 ==Specification==
 
@@ -29,15 +29,16 @@ Governance Change Standard interface which allows Community update Governance St
 def init()
 </pre>
 
-SuperAdmin can invoke this method to Initialize the contract.
+'''SuperAdmin''' can invoke this method to initialize the contract.
 
 ====setAdmin====
 
 <pre>
 def setAdmin(admins)
 </pre>
-SuperAdmin invoke this method to set who to be admins and admin can invoke 'createTopic' method to create a new topic.
-The parameter <code>admins</code> should be a 20-byte address array.
+
+'''SuperAdmin''' can invoke this method to assign admin privileges. The admin can then invoke the <code>createTopic</code>method to create a new topic.
+The parameter <code>admins</code> should be an array that contains 20-byte addresses.
 
 ====listAdmins====
 
@@ -45,27 +46,43 @@ The parameter <code>admins</code> should be a 20-byte address array.
 def listAdmins()
 </pre>
 
-Returns all the admins that is a address array.
+Returns the address array that contains all the admins.
 
 ====createTopic====
 
 <pre>
 def createTopic(admin, topic, startTime, endTime)
 </pre>
-Admin can invoke this method to create a new topic.
-The parameter <code>admin</code> must be a 20-byte address.
-The parameter <code>topic</code> should be a string.
-The parameter <code>startTime</code> should be a unix timestamp.
-The parameter <code>endTime</code> should be a unix timestamp.
+
+An admin can invoke this method to create a new topic.
+The parameters are of the following type:
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type
+|-
+| admin
+| 20 byte address
+|-
+| topic
+| string
+|-
+| startTime
+| UNIX timestamp
+|-
+| endTime
+| UNIX timestamp
+|}
 
 ====setVoterForTopic====
 
 <pre>
 def setVoterForTopic(hash, voters)
 </pre>
-the topic creator can invoke this method.
-The parameter <code>hash</code> should be a 32-byte hash value of topic.
-The parameter <code>voters</code> should be an address and weight array, for example: [['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000],['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000]]
+
+A topic creator can invoke this method.
+The <code>hash</code> parameter should be a 32-byte hash value of the topic.
+The <code>voters</code> parameter should be an address and weight array, for example: <code>[['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000], ['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000]]</code>
 
 ====listTopics====
 
@@ -73,7 +90,7 @@ The parameter <code>voters</code> should be an address and weight array, for exa
 def listTopics()
 </pre>
 
-Return all the topic hash
+Returns all the topic hashes.
 
 ====getTopic====
 
@@ -82,8 +99,8 @@ def getTopic(hash)
 
 </pre>
 
-Return the topic, for example, 'Update the Governance Strategy, Mortgage unlocking cycle changed from 2 months to 1 month'
-The parameter <code>hash</code> should be the topic 32-byte hash
+Returns the corresponding topic, for example, 'Update the Governance Strategy, mortgage unlocking cycle changed from 2 months to 1 month'.
+The parameter <code>hash</code> should be a 32-byte hash that corresponds to a topic.
 
 ====getTopicInfo====
 
@@ -91,7 +108,7 @@ The parameter <code>hash</code> should be the topic 32-byte hash
 def getTopicInfo(hash)
 </pre>
 
-Return the topicInfo which includes 'admin, topic, voter address,startTime, endTime, approve amount, reject amount'.
+Return the <code>topicInfo</code> which includes 'admin, topic, voter address, startTime, endTime, approve amount, reject amount'.
 The parameter <code>hash</code> should be the topic 32-byte hash
 
 ====getVoters====
@@ -100,7 +117,7 @@ The parameter <code>hash</code> should be the topic 32-byte hash
 def getVoters(hash)
 </pre>
 
-Return all the voters of the topic,every voter consists of voter address and voter weight.
+Return all the voters of a topic, each voter record consists of voter address and voter weight.
 
 ====voteTopic====
 
@@ -108,11 +125,11 @@ Return all the voters of the topic,every voter consists of voter address and vot
 def voteTopic(hash, voter, approveOrReject)
 </pre>
 
-voters can invoke this method to approve or reject a topic.
+Voters can invoke this method to approve or reject a topic.
 
-The parameter <code>hash</code> is topic hash.
-The parameter <code>voter</code> one of the voters who set by admin.
-The parameter <code>approveOrReject</code> is a boolean value, true means approve, false means reject.
+The parameter <code>hash</code> is the topic hash.
+The parameter <code>voter</code> is one of the voters set by an admin.
+The parameter <code>approveOrReject</code> is a boolean value, true implies approve, false implies reject.
 
 ===Events===
 
@@ -130,6 +147,6 @@ The event must be triggered when topic are created.
 VoteTopicEvent = RegisterAction("voteTopic", "hash", "voter")
 </pre>
 
-The event must be triggered on any successful calls to voteTopic.
+The event must be triggered on any successful calls to <code>voteTopic</code>.
 
 ===Implementation===
