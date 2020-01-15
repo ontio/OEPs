@@ -1,5 +1,5 @@
 <pre>
-  OEP: 11
+  OEP: 64
   Title: Governance Change Standard
   Author:
   Type: Standard
@@ -9,7 +9,7 @@
 
 ==Abstract==
 
-The OEP-11 proposal is a standard interface for the '''Governance Change Standard'''. There are three parties involved in the contract- '''SuperAdmin''', '''Admin''' and the '''Users'''.
+The OEP-64 proposal is a standard interface for the '''Governance Change Standard'''. There are three parties involved in the contract- '''SuperAdmin''', '''Admin''' and the '''Users'''.
 SuperAdmin has the authority to assign administrator privileges.
 Admin has the right to create topics and set the users who can vote for a topic.
 Users are topic voters from the Mortgage node address.
@@ -51,7 +51,7 @@ Returns the address array that contains all the admins.
 ====createTopic====
 
 <pre>
-def createTopic(admin, topic, startTime, endTime)
+def createTopic(admin, topic, startTime, endTime, voters)
 </pre>
 
 An admin can invoke this method to create a new topic.
@@ -72,6 +72,9 @@ The parameters are of the following type:
 |-
 | endTime
 | UNIX timestamp
+|-
+| voters
+| all voter and voter weight of the Topic,it is array of voter and voter weight.
 |}
 
 ====setVoterForTopic====
@@ -99,7 +102,7 @@ def getTopic(hash)
 
 </pre>
 
-Returns the corresponding topic, for example, 'Update the Governance Strategy, mortgage unlocking cycle changed from 2 months to 1 month'.
+Returns the corresponding [topicTitle,TopicDetail], for example, ['Update the Governance Strategy, mortgage unlocking cycle changed from 2 months to 1 month','Update the Governance Strategy, mortgage unlocking cycle changed from 2 months to 1 month'].
 The parameter <code>hash</code> should be a 32-byte hash that corresponds to a topic.
 
 ====getTopicInfo====
@@ -108,7 +111,7 @@ The parameter <code>hash</code> should be a 32-byte hash that corresponds to a t
 def getTopicInfo(hash)
 </pre>
 
-Return the <code>topicInfo</code> which includes 'admin, topic, voter address, startTime, endTime, approve amount, reject amount'.
+Return the <code>topicInfo</code> which includes 'admin, topicTitle, topicDetail, voter address, startTime, endTime, approve amount, reject amount, status, topicHash'.
 The parameter <code>hash</code> should be the topic 32-byte hash
 
 ====getVoters====
@@ -130,6 +133,43 @@ Voters can invoke this method to approve or reject a topic.
 The parameter <code>hash</code> is the topic hash.
 The parameter <code>voter</code> is one of the voters set by an admin.
 The parameter <code>approveOrReject</code> is a boolean value, true implies approve, false implies reject.
+
+
+====getVotedInfo====
+
+<pre>
+def getVotedInfo(hash, voter)
+</pre>
+
+Voters can invoke this method to query own voted Info, approve or reject.
+
+The parameter <code>hash</code> is the topic hash.
+The parameter <code>voter</code> is one of the voters set by an admin.
+
+return value is 1 or 2, 1 means approve, 2 means reject, other means not voted
+
+====getVotedAddress====
+
+<pre>
+def getVotedAddress(hash)
+</pre>
+
+all users can invoke this method to query all voted address and vote result of a topic.
+The parameter <code>hash</code> is the topic hash.
+
+return value is array of all the address and vote result.
+
+====getTopicInfoListByAdmin====
+
+<pre>
+def getTopicInfoListByAdmin(admin)
+</pre>
+
+all users can invoke this method to query all topicInfo of a admin.
+The parameter <code>hash</code> is the topic hash.
+
+return value is array of topicInfo.
+
 
 ===Events===
 
