@@ -114,6 +114,20 @@ def getTopicInfo(hash)
 Return the <code>topicInfo</code> which includes 'admin, topicTitle, topicDetail, voter address, startTime, endTime, approve amount, reject amount, status, topicHash'.
 The parameter <code>hash</code> should be the topic 32-byte hash
 
+return value
+
+* admin Topic的创建者
+* topic_title Topic标题
+* topic_detail Topic详细描述信息
+* voter address 所有的被授权投票的地址和权重的数组，例如：[['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000],['Ac9JHT6gFh6zxpfv4Q7ZPLD4xLhzcpRTWt',100000]]
+* startTime 该Topic投票开始时间
+* endTime， 该Topic投票结束时间
+* approve amount， 该Topic赞成者的总量，是赞成者权重的累加
+* reject amount， 该Topic反对者的总量，是反对者权重的累加
+* status， 该Topic的状态，0表示已取消，1表示正常
+* topic hash
+
+
 ====getVoters====
 
 <pre>
