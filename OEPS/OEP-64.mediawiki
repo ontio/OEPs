@@ -74,7 +74,7 @@ The parameters are of the following type:
 | UNIX timestamp
 |-
 | voters
-| all voter and voter weight of the Topic,it is array of voter and voter weight.
+| 2D array that contains all the <code>voters</code> and their respective <code>voter_weight</code>.
 |}
 
 ====setVoterForTopic====
@@ -83,9 +83,20 @@ The parameters are of the following type:
 def setVoterForTopic(hash, voters)
 </pre>
 
-A topic creator can invoke this method.
-The <code>hash</code> parameter should be a 32-byte hash value of the topic.
-The <code>voters</code> parameter should be an address and weight array, for example: <code>[['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000], ['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000]]</code>
+A topic creator can invoke this method to assign the voters eligible to vote fora  topic.
+
+{| class = "wikitable"
+! style = "text-align:center;" | Parameter
+! Type
+|-
+| hash
+| 32-byte hash value
+|-
+| voters
+| 2D array that contains all the <code>voters</code> and their respective <code>voter_weight</code>.
+|}
+
+Example: <code>[['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP', 100000], ['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000]]</code>
 
 ====listTopics====
 
@@ -102,7 +113,7 @@ def getTopic(hash)
 
 </pre>
 
-Returns the corresponding [topicTitle,TopicDetail], for example, ['Update the Governance Strategy, mortgage unlocking cycle changed from 2 months to 1 month','Update the Governance Strategy, mortgage unlocking cycle changed from 2 months to 1 month'].
+Returns the corresponding [topicTitle,topicDetail], for example, ['Update the Governance Strategy, mortgage unlocking cycle changed from 2 months to 1 month','Update the Governance Strategy, mortgage unlocking cycle changed from 2 months to 1 month'].
 The parameter <code>hash</code> should be a 32-byte hash that corresponds to a topic.
 
 ====getTopicInfo====
@@ -111,22 +122,22 @@ The parameter <code>hash</code> should be a 32-byte hash that corresponds to a t
 def getTopicInfo(hash)
 </pre>
 
-Return the <code>topicInfo</code> which includes 'admin, topicTitle, topicDetail, voter address, startTime, endTime, approve amount, reject amount, status, topicHash'.
-The parameter <code>hash</code> should be the topic 32-byte hash
+Returns the <code>topicInfo</code> which includes 'admin, topicTitle, topicDetail, voter address, startTime, endTime, approve amount, reject amount, status, topicHash'.
 
-return value
+The parameter <code>hash</code> should be the 32-byte hash of the topic name.
 
-* admin Topic的创建者
-* topic_title Topic标题
-* topic_detail Topic详细描述信息
-* voter address 所有的被授权投票的地址和权重的数组，例如：[['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000],['Ac9JHT6gFh6zxpfv4Q7ZPLD4xLhzcpRTWt',100000]]
-* startTime 该Topic投票开始时间
-* endTime， 该Topic投票结束时间
-* approve amount， 该Topic赞成者的总量，是赞成者权重的累加
-* reject amount， 该Topic反对者的总量，是反对者权重的累加
-* status， 该Topic的状态，0表示已取消，1表示正常
-* topic hash
+Response description:
 
+* <code>admin</code>: Creator of the topic
+* <code>topic_title</code>: Topic title
+* <code>topic_detail</code>: Topic details
+* <code>voter</code>: A 2D array containing the addresses and weight for all the authorized voters, for e.g., [['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000],['Ac9JHT6gFh6zxpfv4Q7ZPLD4xLhzcpRTWt',100000]]
+* <code>startTime</code>: Start time for voting on the topic
+* <code>endTime</code>:End time for voting on the topic
+* <code>approve amount</code>: Total number of voters that approve the topic, sum of the weights of approving voters
+* <code>reject amount</code>: Total number of voters that reject the topic, sum of the weights of rejecting voters
+* <code>status</code>: Status of the topic, <code>0</code> represents <code>cancelled</code>, <code>1</code> represents <code>normal</code>
+* <code>topicHash</code>: Topic hash
 
 ====getVoters====
 
@@ -160,7 +171,7 @@ Voters can invoke this method to query own voted Info, approve or reject.
 The parameter <code>hash</code> is the topic hash.
 The parameter <code>voter</code> is one of the voters set by an admin.
 
-return value is 1 or 2, 1 means approve, 2 means reject, other means not voted
+Return value is 1 or 2, 1 means approve, 2 means reject, other means not voted
 
 ====getVotedAddress====
 
@@ -168,10 +179,10 @@ return value is 1 or 2, 1 means approve, 2 means reject, other means not voted
 def getVotedAddress(hash)
 </pre>
 
-all users can invoke this method to query all voted address and vote result of a topic.
+Users can invoke this method to query all voted address and vote result of a topic.
 The parameter <code>hash</code> is the topic hash.
 
-return value is array of all the address and vote result.
+Return value is array of all the address and vote result.
 
 ====getTopicInfoListByAdmin====
 
@@ -179,10 +190,10 @@ return value is array of all the address and vote result.
 def getTopicInfoListByAdmin(admin)
 </pre>
 
-all users can invoke this method to query all topicInfo of a admin.
+Users can invoke this method to query all topicInfo of a admin.
 The parameter <code>hash</code> is the topic hash.
 
-return value is array of topicInfo.
+Return value is array of topicInfo.
 
 
 ===Events===
