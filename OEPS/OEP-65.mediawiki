@@ -10,9 +10,8 @@
 ==Abstract==
 
 
-The OEP-65 Proposal is a standard interface for Cross Chain Proxy Contract serving cross chain asset transaction.
-This standard allows you to transfer any amount of tokens for different Crypto Items from one address to another address.
-It combines the advantages of OEP-4 and OEP-5 to make transferring different types of Crypto Items convenient.
+The OEP-65 Proposal is a standard interface for the Cross Chain Proxy Contract serving cross chain asset transaction.
+This standard allows you to transfer any amount of fungible tokens from one blockchain to another blockchain supported by ORChain.
 
 ==Motivation==
 The basic feature of cross chain is asset interoperability. Currently, there exist ERC-20 protocol in Ethereum blockchain and OEP-4 protocol in ONTology blockchain for fungible token.
@@ -28,22 +27,18 @@ However, these protocols are designed for transaction within one single blockcha
 def lock(sourceAssetHash, sourceChainFromAddress, targetChainId, targetChainToAddress, amount)
 </pre>
 
-The <code>lock</code> method takes five arguments, completes locking <code>amount</code> of <code>sourceAssetHash</code> token to the proxy contract account and invoking the management contract to construct cross chain transaction. 
-The <code>sourceAssetHash</code> is token contract hash, denoting which token we want to transfer. 
-The <code>sourceChainFromAddress</code> is the from address in the source blockchain, which we want to transfer tokens from. 
+The <code>lock</code> method takes five arguments, completes the work of locking <code>amount</code> of <code>sourceAssetHash</code> tokens to the proxy contract account and invoking the management contract to construct cross chain transaction. 
+The <code>sourceAssetHash</code> is the token contract hash, denoting which token we want to transfer in current chain. 
+The <code>sourceChainFromAddress</code> is the from address in the current chain, which we want to transfer tokens from. 
 The <code>targetChainId</code> is the target chain id, available in ORChain.
 The <code>targetChainToAddress</code> is the to address in the target chain.
-The <code>amount</code> is the amount of tokens we want to transfer from <code>sourceChainFromAddress</code> to <code>targetChainToAddress</code>.
+The <code>amount</code> is the amount of tokens we want to transfer from <code>sourceChainFromAddress</code> in current chain to <code>targetChainToAddress</code> in target chain.
 
-This method should be able to complete the following functions.
-
-1. <code>lock</code> <code>amount</code> of <code>sourceAssetHash</code> token from <code>fromAddress</code> into the proxy contract account.
-
-2. Increase the total locked supply of <code>sourceAssetHash</code> asset and make sure the new locked supply is no more than the limit.
-
-3. Invoke the management contract provided officially to create cross chain transaction.
-
-4. Emit the lock event.
+This method should be able to complete the following four functionalities.
+* Lock <code>amount</code> of <code>sourceAssetHash</code> tokens from <code>fromAddress</code> into the proxy contract account.
+* Increase the total locked supply of <code>sourceAssetHash</code> token and make sure the new locked supply is no more than the limit.
+* Invoke the management contract provided officially to create cross chain transaction.
+* Emit the lock event.
 
 ====unlock====
 
@@ -51,22 +46,17 @@ This method should be able to complete the following functions.
 def unlock(args, sourceChainProxyHash, sourceChainId)
 </pre>
 
-The <code>unlock</code> method takes three arguments, unlocks specific amount of token from the proxy contract account to the to address.
-The <code>args</code> is the serialized data for the struct <code>{targetAssetHash, targetChainToAddress, amount}</code>, the encoding and decoding rules in proxy contract of both source blockchain and target blockchain should be consistent.
-The <code>sourceChainProxyHash</code> is the proxy contract hash in the source blockchain.
-The <code>sourceChainId</code> is the from chain id.
+The <code>unlock</code> method takes three arguments, unlocks specific amount of tokens from the proxy contract account to the to address.
+The <code>args</code> is the serialized data for the struct <code>{targetAssetHash, targetChainToAddress, amount}</code>, the encoding and decoding rules in proxy contract of both source chain and target chain should be consistent.
+The <code>sourceChainProxyHash</code> is the proxy contract hash in the source chain.
+The <code>sourceChainId</code> is the source chain id.
 
-This method should be able to complete the following functions.
-
-1. Only the management contract provided officially should have access to this method.
-
-2. Make sure the passed in <code>sourceChainProxyHash</code> is consistent with the stored proxy hash corresponding with <code>sourceChainId</code>.
-
-3. <code>unlock</code> <code>amount</code> of <code>targetAssetHash</code> token from this proxy contract account into <code>targetChainToAddress</code>.
-
-4. Decrease the total locked supply of <code>targetChainToAddress</code> asset and make sure the new locked supply is no less than zero.
-
-5. Emit the unlock event.
+This method should be able to complete the following five functionalities.
+* Only the management contract provided officially should have access to this method.
+* Make sure the passed in <code>sourceChainProxyHash</code> is consistent with the stored proxy hash corresponding with <code>sourceChainId</code>.
+* Unlock <code>amount</code> of <code>targetAssetHash</code> tokens from this proxy contract account into <code>targetChainToAddress</code> address.
+* Decrease the total locked supply of <code>targetChainToAddress</code> token and make sure the new locked supply is no less than zero.
+* Emit the unlock event.
 
 ====bindProxyHash====
 
@@ -74,15 +64,13 @@ This method should be able to complete the following functions.
 def bindProxyHash(targetChainId, targetProxyHash)
 </pre>
 
-The <code>bindProxyHash</code> method takes two arguments, binds <code>targetProxyHash</code> with <code>targetChainToAddress</code> within this proxy contract.
+The <code>bindProxyHash</code> method takes two arguments, binds <code>targetProxyHash</code> with <code>targetChainId</code> within this proxy contract.
 The <code>targetChainId</code> is the target chain id.
-The <code>targetProxyHash</code> is the corresponding proxy contract hash in the blockchain with chain id <code>targetChainToAddress</code>.
+The <code>targetProxyHash</code> is the corresponding proxy contract hash in the blockchain with chain id <code>targetChainId</code>.
 
-This method should be able to complete the following functions.
-
-1. Only operator has access to this method.
-
-2. Save the <code>targetProxyHash</code> based on the key of <code>targetChainId</code> to storage.
+This method should be able to complete the following two functionalities.
+* Only operator has access to this method.
+* Save the <code>targetProxyHash</code> based on the key of <code>targetChainId</code> to storage.
 
 ====bindAssetHash====
 
@@ -90,22 +78,18 @@ This method should be able to complete the following functions.
 def bindAssetHash(sourceAssetHash, targetChainId, targetAssetHash, assetLimit, isTargetChainAsset)
 </pre>
 
-The <code>bindProxyHash</code> method takes five arguments, binds <code>targetAssetHash</code> with <code>sourceAssetHash</code> within this proxy contract. Meanwhle, <code>isTargetChainAsset</code> helps differentiate if the <code>sourceAssetHash</code> is the original chain asset.
+The <code>bindAssetHash</code> method takes five arguments, binds <code>targetAssetHash</code> with <code>sourceAssetHash</code> and <code>targetChainId</code> within this proxy contract. Meanwhile, <code>isTargetChainAsset</code> helps differentiate if the <code>sourceAssetHash</code> is the original asset in current blockchain.
 The <code>sourceAssetHash</code> is the asset hash in the current blockchain.
 The <code>targetChainId</code> indicates another blockchain with chain id <code>targetChainId</code>.
-The <code>targetAssetHash</code> is the hash of same asset in another blockchain with chain id <code>targetChainId</code>.
-The <code>assetLimit</code> is the limit we set to control the interoperable asset supply, which should be no more than <code>assetLimit</code>.
+The <code>targetAssetHash</code> is the hash of same token in another blockchain with chain id <code>targetChainId</code>.
+The <code>assetLimit</code> is the limit the operator set to control the interoperable asset supply, which should be no more than <code>assetLimit</code>.
 The <code>isTargetChainAsset</code> is the boolean type. If the <code>sourceAssetHash</code> is the original asset in current blockchain, it is set to <code>false</code>, else it is set to <code>true</code>.
 
 This method should be able to complete the following functions.
-
-1. Only operator has access to this method.
-
-2. Save the <code>targetAssetHash</code> based on the key of <code>sourceAssetHash</code> and <code>targetChainId</code> to storage.
-
-3. If <code>isTargetChainAsset</code> is <code>true</code>, increase the asset supply by the increament of assetLimit.
-
-4. Reset the interoperable asset limit as <code>assetLimit</code>, which is increasable only.
+* Only operator has access to this method.
+* Save the <code>targetAssetHash</code> based on the key of <code>sourceAssetHash</code> and <code>targetChainId</code> to storage.
+* If <code>isTargetChainAsset</code> is <code>true</code>, increase the token supply to the new <code>assetLimit</code>.
+* Reset the interoperable asset limit as <code>assetLimit</code>, which is increasable only.
 
 
 ====getProxyHash====
@@ -130,7 +114,7 @@ Return the asset contract hash in the blockchain with chain id <code>toChainId</
 def getSupply(assetHash, toChainId)
 </pre>
 
-Return the specific asset supply of <code>assetHash</code> token within the proxy contract account flowing in (in case assetHash is non-original asset) or out (in case assetHash is original asset).
+Return the specific asset supply of <code>assetHash</code> token within the proxy contract account. If the <code>assetHash</code> is original asset hash, the supply means the amount of tokens flowing out to the blockchain with <code>toChainId</code. If the <code>assetHash</code> is non-original asset hash, (the corresponding <code>assetLimit</code> - supply) indicates the total amount of tokens flowing into the current chain out of source chain with chain id <code>toChainId</code>.
 
 ====getLimit====
 
@@ -142,23 +126,15 @@ Return the maximum limit of <code>getSupply(assetHash, toChainId)</code>.
 
 ===Rationale===
 
-1. When the operator invokes <code>bindAssetHash</code> method, he should set the maximum limit for asset transmission between source chain and target chain. Meanwhile, the value is forced to be no more than the asset real supply, and the limit in two proxy contracts should be the same.
-
-2. Note the <code>unlock</code> function should be only accessable to the management contract.
-
-3. In the initial stage, there is no asset contract or hash in the target chain, and all the asset/tokens are in the source chain. There are two method to implement <code>unlock</code> funcationality.
-
-3.A. The asset contract in the target chain initializes zero amount of token and implements two additional interfaces, including <code>mint</code> and <code>burn</code>, and the <code>mint</code> functions should only accessable to one trustable specific lock proxy contract.
-
-A.1 When the asset/token is locked in the source chain, there is no token existing in the target chain. The <code>mint</code> method is used to help mint the locked amount of token within the source chain to the target chain address corresponding with the locked address. This operation does not actually increase the supply of this token since the lock process restricts the liquidity of the locked amount of token.
-
-A.2 When the token needs to be trasnferred from target chain back to source chain, the <code>burn</code> method should be invoked to destory a specific amount of token. Then in the source chain, the same amount of token will be unlocked from the source chain lock proxy contract account.
-
-3.B. The asset contract in the target chain initializes the same supply amount of token to itself or to the trustable lock proxy contract account.
-
-B.1 In this way, the target chain asset contract needs to implement the <code>delegateToProxy(proxyHash, amount)</code> method. This method transfers <code>amount</code> of token to <code>proxyHash</code> proxy contract account. The accumulative delegated amount should be no more than the actual supply of the source chain asset.
-
-B.2 Both the <code>lock</code> and <code>unlock</code> part can be achieved through <code>transfer</code> or <code>transferFrom</code> within the protocols.
+* When the operator invokes <code>bindAssetHash()</code> method, he should set the maximum limit for asset transmission between source chain and target chain. Meanwhile, the value is forced to be no more than the asset real supply, and the limit in two proxy contracts should be equal.
+* Note the <code>unlock()</code> function should be only accessable to the management contract in every blockchain, respectively.
+* In the initial stage, there is no asset contract or hash in the target chain, and all the tokens are in the source chain. There are two methods to implement <code>unlock</code> funcationality.
+** The token contract in the target chain initializes zero amount of token and implements two additional interfaces, including <code>mint</code> and <code>burn</code>, and the <code>mint</code> function should only be accessable to one specific trustable lock proxy contract.
+*** When the token is locked in the source chain, there is no token existing in the target chain. The <code>mint</code> method is used to help mint the locked amount of tokens within the source chain to the target chain address corresponding with the locked address. This operation does not actually increase the supply of this token since the lock process restricts the liquidity of the locked amount of tokens.
+*** When the token needs to be trasnferred from target chain back to source chain, the <code>burn</code> method should be invoked to destory a specific amount of tokens. Then in the source chain, the same amount of tokens will be unlocked from the source chain lock proxy contract account.
+** The asset contract in the target chain initializes the same supply amount of tokens to itself or to the trustable lock proxy contract account, the tokens should NEVER be initialized any account with private key.
+*** In this way, the target chain asset contract needs to implement the <code>delegateToProxy(proxyHash, amount)</code> method. This method transfers <code>amount</code> of tokens to <code>proxyHash</code> proxy contract account. The accumulative delegated amount should be no more than the actual supply of the source chain asset.
+*** Both the <code>lock</code> and <code>unlock</code> part can be achieved through <code>transfer</code> or <code>transferFrom</code> interfaces within the protocols.
 
 ===Events===
 
