@@ -107,12 +107,12 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Stub
 | [https://github.com/ontio/OEPs/issues/24 issue ref]
 |-
-| 34
+| [[OEPS/OEP-34.mediawiki|34]]
 | Ontology Oracle Standard
 |
 | Standard
-| Draft
-| [https://github.com/ontio/OEPs/pull/35 pull request]
+| Accepted
+| -
 |-
 | [[OEPS/OEP-39.mediawiki|39]]
 | Standard process of transaction fee rebate adjustment
