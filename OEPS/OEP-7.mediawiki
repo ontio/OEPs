@@ -3,7 +3,7 @@
   Title: URI Schema Standard
   Author:  zhoupw <zhoupw@gmail.com>
   Type: Standard
-  Status: Draft
+  Status: Active
   Created: 2018-10-22
 </pre>
 
