@@ -9,10 +9,15 @@
 
 ==Abstract==
 
-The OEP-64 proposal is a standard interface for the '''Governance Change Standard'''. There are three parties involved in the contract- '''SuperAdmin''', '''Admin''' and the '''Users'''.
-SuperAdmin has the authority to assign administrator privileges.
-Admin has the right to create topics and set the users who can vote for a topic.
-Users are topic voters from the Mortgage node address.
+The OEP-64 proposal is a standard interface for the '''Governance Change Standard'''.
+All consensus nodes and candidate nodes can participate in the governance of ontology by creating and voting on topics.
+The admin node will be used instead of all consensus nodes and candidate nodes.
+`Topic` is used to represent a major update of ontology, including the initiator address, topic title, topic detail, start voting time and end voting time.
+The admin node can create a topic. All the admin nodes can approve or reject the topic. Non admin nodes cannot create or participate in the topic voting.
+The voting weight of the admin node is expressed by the number of ont pledged by the node.
+`Topic` needs to be approved by most nodes before it is updated to the Ontology main network. During the voting process, the number of votes for and against will be counted.
+The number of votes in favor is greater than the number of votes in opposition and the number of votes in favor is more than 50%,
+ the update of the Topic representative will be updated to the Ontology main network.
 
 
 ==Motivation==
@@ -22,23 +27,6 @@ Users are topic voters from the Mortgage node address.
 ==Specification==
 
 ===Methods===
-
-====init====
-
-<pre>
-def init()
-</pre>
-
-'''SuperAdmin''' can invoke this method to initialize the contract.
-
-====setAdmin====
-
-<pre>
-def setAdmin(admins)
-</pre>
-
-'''SuperAdmin''' can invoke this method to assign admin privileges. The admin can then invoke the <code>createTopic</code>method to create a new topic.
-The parameter <code>admins</code> should be an array that contains 20-byte addresses.
 
 ====listAdmins====
 
@@ -51,7 +39,7 @@ Returns the address array that contains all the admins.
 ====createTopic====
 
 <pre>
-def createTopic(admin, topic, startTime, endTime, voters)
+def createTopic(admin, topic, startTime, endTime)
 </pre>
 
 An admin can invoke this method to create a new topic.
@@ -72,31 +60,7 @@ The parameters are of the following type:
 |-
 | endTime
 | UNIX timestamp
-|-
-| voters
-| 2D array that contains all the <code>voters</code> and their respective <code>voter_weight</code>.
 |}
-
-====setVoterForTopic====
-
-<pre>
-def setVoterForTopic(hash, voters)
-</pre>
-
-A topic creator can invoke this method to assign the voters eligible to vote fora  topic.
-
-{| class = "wikitable"
-! style = "text-align:center;" | Parameter
-! Type
-|-
-| hash
-| 32-byte hash value
-|-
-| voters
-| 2D array that contains all the <code>voters</code> and their respective <code>voter_weight</code>.
-|}
-
-Example: <code>[['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP', 100000], ['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000]]</code>
 
 ====listTopics====
 
@@ -110,11 +74,20 @@ Returns all the topic hashes.
 
 <pre>
 def getTopic(hash)
-
 </pre>
 
 Returns the corresponding [topicTitle,topicDetail], for example, ['Update the Governance Strategy, mortgage unlocking cycle changed from 2 months to 1 month','Update the Governance Strategy, mortgage unlocking cycle changed from 2 months to 1 month'].
 The parameter <code>hash</code> should be a 32-byte hash that corresponds to a topic.
+
+====cancelTopic====
+
+<pre>
+def cancelTopic(hash)
+</pre>
+only the Topic creator has the right to invoke this method.
+
+The parameter <code>hash</code> should be the 32-byte hash of the topic name.
+
 
 ====getTopicInfo====
 
@@ -131,21 +104,12 @@ Response description:
 * <code>admin</code>: Creator of the topic
 * <code>topic_title</code>: Topic title
 * <code>topic_detail</code>: Topic details
-* <code>voter</code>: A 2D array containing the addresses and weight for all the authorized voters, for e.g., [['AbtTQJYKfQxq4UdygDsbLVjE8uRrJ2H3tP',100000],['Ac9JHT6gFh6zxpfv4Q7ZPLD4xLhzcpRTWt',100000]]
 * <code>startTime</code>: Start time for voting on the topic
 * <code>endTime</code>:End time for voting on the topic
 * <code>approve amount</code>: Total number of voters that approve the topic, sum of the weights of approving voters
 * <code>reject amount</code>: Total number of voters that reject the topic, sum of the weights of rejecting voters
 * <code>status</code>: Status of the topic, <code>0</code> represents <code>cancelled</code>, <code>1</code> represents <code>normal</code>
 * <code>topicHash</code>: Topic hash
-
-====getVoters====
-
-<pre>
-def getVoters(hash)
-</pre>
-
-Return all the voters of a topic, each voter record consists of voter address and voter weight.
 
 ====voteTopic====
 
@@ -191,7 +155,7 @@ def getTopicInfoListByAdmin(admin)
 </pre>
 
 Users can invoke this method to query all topicInfo of a admin.
-The parameter <code>hash</code> is the topic hash.
+The parameter <code>admin</code> is the topic creator.
 
 Return value is array of topicInfo.
 
