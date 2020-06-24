@@ -58,12 +58,12 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Draft
 | [https://github.com/ontio/OEPs/pull/8 pull request]
 |-
-| 7
+| [[OEPS/OEP-7.mediawiki|7]]
 | URI Schema
 | zhoupw
 | Standard
-| Draft
-| [https://github.com/ontio/OEPs/pull/19 pull request]
+| Accepted
+| -
 |-
 | [[OEPS/OEP-8.mediawiki|8]]
 | Crypto Item Standard

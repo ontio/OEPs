@@ -1,0 +1,191 @@
+<pre>
+  OEP: 7
+  Title: URI Schema Standard
+  Author:  zhoupw <zhoupw@gmail.com>
+  Type: Standard
+  Status: Active
+  Created: 2018-10-22
+</pre>
+
+==Abstract==
+
+The OEP-7 Proposal is a standard interface of URI schema,  this standard allows for the implementation of mapping ontology DID to readable URI.
+
+
+==Motivation==
+
+1.  This OEP is used for user to register a meaningful and special domain using his ONTID.
+2.  User can bind any values(not only the wallet address) to this domain.
+3.  Frontend Apps can analyze the value from the domain by it's business logic.
+4.  Every domain has different levels and valid period.
+
+==Specification==
+
+===Methods===
+
+====registerDomain====
+
+<pre>
+def registerDomain(fulldomain, registerdid,idx, validto)
+</pre>
+This allows user to register a domain ,like standard URL, domain format can be *.a.ont, only contract admin can register the top level domain, top domain owner can register the sub level domain and this should trigger a "registerDomain" event.
+
+The parameter <code>fulldomain</code> should be alphanumeric and no more than 253 characters, and every part should no more than 63 characters.
+The parameter <code>registerdid</code> is user's ONTID and the idx is user's wallet index of the ONTID.
+The parameter <code>idx</code> is the wallet index of registerdid.
+The parameter <code>validto</code> is time stamp for the domain expiration.
+
+
+====updateValidPeriod====
+
+<pre>
+def updateValidPeriod(fulldomain,idx,validto)
+</pre>
+Update the domain's valid period by parent owner,this should trigger a 'updateValidPeriod' event.
+
+The parameter <code>fulldomain</code> should be alphanumeric and no more than 253 characters, and every part should no more than 63 characters.
+The parameter <code>idx</code> is the wallet index of registerdid.
+The parameter <code>validto</code> is time stamp for the domain expiration.
+
+====deleteDomain====
+
+<pre>
+def deleteDomain(fulldomain,idx)
+</pre>
+
+Delete the domain,this should trigger a 'deleteDomain' event.
+
+The parameter <code>fulldomain</code> should be alphanumeric and no more than 253 characters, and every part should no more than 63 characters.
+The parameter <code>idx</code> is the wallet index of registerdid.
+
+====bindValue====
+
+<pre>
+def bindValue(fulldomain,idx, ctype,inputvalue)
+</pre>
+
+Bind a value to the domain,this should trigger a 'bindValue' event.
+
+The parameter <code>fulldomain</code> should be alphanumeric and no more than 253 characters, and every part should no more than 63 characters..
+The parameter <code>idx</code> is the wallet index of registerdid.
+The parameter <code>ctype</code> is value type.
+The parameter <code>inputvalue</code> is value to bind.
+
+====transfer====
+
+<pre>
+def transfer(fulldomain,idx,todid)
+</pre>
+
+Transfer domain to other did, this should be only called by URI owner. 
+
+The parameter <code>address</code> must be a 20-byte address. If not, this method must <code>throw</code> an exception.
+
+====transfer====
+
+<pre>
+def transfer(fulldomain,idx,todid)
+</pre>
+Transfer domain to other did, this should be only called by URI owner. 
+Note: transfer will not change the valid time of the domain.
+
+The parameter <code>fulldomain</code> should be alphanumeric and no more than 253 characters, and every part should no more than 63 characters.
+The parameter <code>idx</code> is the wallet index of registerdid.
+The parameter <code>todid</code> is the receiver did.
+
+====valueOf====
+
+<pre>
+def valueOf(fulldomain)
+</pre>
+
+Returns the bind value domain.
+
+The parameter <code>fulldomain</code> should be alphanumeric and no more than 253 characters, and every part should no more than 63 characters.
+
+====validTo====
+
+<pre>
+def validTo(fulldomain)
+</pre>
+
+Returns the valid period of the domain.
+
+The parameter <code>fulldomain</code> should be alphanumeric and no more than 253 characters, and every part should no more than 63 characters.
+
+====ownerOf====
+
+<pre>
+def ownerOf(fulldomain)
+</pre>
+
+Returns the owner DID of the domain.
+
+The parameter <code>fulldomain</code> should be alphanumeric and no more than 253 characters, and every part should no more than 63 characters.
+
+====isDomainValid====
+
+<pre>
+def isDomainValid(fulldomain)
+</pre>
+
+Return true if the domain is valid.
+
+The parameter <code>fulldomain</code> should be alphanumeric and no more than 253 characters, and every part should no more than 63 characters.
+
+====getDomains====
+
+<pre>
+def getDomains(did)
+</pre>
+
+Return the domains binded to the DID.
+
+
+
+===Events===
+
+====transfer====
+
+<pre>
+RegisterAction("transfer","domain","from","to")
+</pre>
+
+The event must be triggered when tokens are transferred.
+
+====registerDomain====
+
+<pre>
+RegisterAction("registerDomain", "domain", "owner","validTo")
+</pre>
+
+The event must be triggered on any successful calls to register.
+
+====updateValidPeriod====
+
+<pre>
+RegisterAction("updateValidPeriod","domain","newvalid")
+</pre>
+
+The event must be triggered on any successful calls to updateValidPeriod.
+
+====bindValue====
+
+<pre>
+RegisterAction("bindValue","domain","ctype","value")
+</pre>
+
+The event must be triggered on any successful calls to bindValue.
+
+====deleteDomain====
+
+<pre>
+RegisterAction("deleteDomain","domain")
+</pre>
+
+The event must be triggered on any successful calls to deleteDomain.
+
+
+
+===Implementation===
+Python sample [[../resource/OEP-7/oep7.py | Python Template]]
