@@ -269,7 +269,7 @@ use token by agent, the agent of the token has the right to invoke this method
 
 event
 
-["useToken", account, token_id, n]
+["useTokenByAgent", account,agent, token_id, n]
 
 
 ====deleteToken====
