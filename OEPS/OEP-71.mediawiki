@@ -272,4 +272,5 @@ event
 
 ===Implementation===
 
-[Ref](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/marketplace)
+Please refer to [[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.mediawiki|OEP-73]],
+[[https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken|DToken+Agent+Oep8]].
