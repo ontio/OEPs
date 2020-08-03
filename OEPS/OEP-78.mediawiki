@@ -115,7 +115,7 @@ The parameters are of the following type:
 | Fees paid by the buyer
 |}
 
-event
+Event
 
 ["transfer", from, key, amt]
 
@@ -161,7 +161,7 @@ The data owner withdraw token from the contract.
 |}
 
 
-event
+Event
 
 ["withdraw", key, addr]
 
@@ -194,7 +194,7 @@ Delete the specified authorized address according to TokenTemplateId
 | Fees paid by the buyer
 |}
 
-event
+Event
 
 ["transferWithdraw", from, key, amt]
 
