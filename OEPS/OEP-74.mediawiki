@@ -3,13 +3,13 @@
   Title: DDXF DToken+Oep4 Standard
   Author: lucas7788 <sishsh@163.com>
   Type: Standard
-  Status: Accepted
+  Status: Draft
   Created: 2020-08-03
 </pre>
 
 ==Abstract==
 
-DToken and OEP-4 implementation
+Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP4.
 
 ==Motivation==
 
