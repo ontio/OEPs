@@ -1,7 +1,7 @@
 <pre>
   OEP: 71
   Title: DDXF DToken Standard
-  Author:
+  Author: lucas7788<sishsh@163.com>
   Type: Standard
   Status: Accepted
   Created: 2018-07-03
@@ -14,10 +14,8 @@ Sub-contract of DDXF series, a standard proposal to combine off-chain access-tok
 
 ==Motivation==
 
-Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP4, OEP5, and OEP8.
-
-作为DDXF的重要组件，将数据的权限管理以链上令牌的形式进行管理，包含对于数据的授权管理和数据操作的鉴权，支持数据生命周期中数据的操作过程的管理，利用链上追溯和确权的能力，使得数据的权限管理支持跨系统互操作。
-根据不同的令牌特征，可以做进一步扩展，本OEP为基础数据令牌，仅支持数据令牌的定义发布和使用。
+As an important component of DDXF, the authority management of data is managed in the form of on-chain tokens, including data authorization management and data operation authentication, supporting the management of data operation processes in the data life cycle, and using on-chain traceability And the ability to confirm rights enables data rights management to support cross-system interoperability.
+According to different token characteristics, it can be further extended. This OEP is the basic data token, which only supports the defined issuance and use of data tokens.
 
 ==Specification==
 
@@ -75,7 +73,7 @@ This method will launch the following events:
 fn update_token_template(token_template_id: &[u8], tt_bs: &[u8]) -> bool
 </pre>
 
-Update the TokenTemplate on the chain according to the TokenTemplateId
+Update the TokenTemplate on the chain according to the TokenTemplateId.
 
 
 The parameters are of the following type:
@@ -94,7 +92,7 @@ The parameters are of the following type:
 | the serialization result of token template
 |}
 
-event
+Event
 
 ["updateTokenTemplate", token_template_id, tt_bs]
 
@@ -104,7 +102,7 @@ event
 fn remove_token_template(token_template_id: &[u8]) -> bool
 </pre>
 
-Delete TokenTemplate based on TokenTemPlateId
+Delete TokenTemplate based on TokenTemPlateId.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
@@ -117,7 +115,7 @@ Delete TokenTemplate based on TokenTemPlateId
 |}
 
 
-event
+Event
 
 ["removeTokenTemplate", token_template_id]
 
@@ -128,7 +126,7 @@ event
 fn authorize_token_template(token_template_id: &[u8], authorized_addr: &[Address]) -> bool
 </pre>
 
-TokenTemplate creator authorizes other addresses to generate DTokens based on the TokenTemplateId
+TokenTemplate creator authorizes other addresses to generate DTokens based on the TokenTemplateId.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
@@ -145,7 +143,7 @@ TokenTemplate creator authorizes other addresses to generate DTokens based on th
 |}
 
 
-event
+Event
 
 ["authorizeTokenTemplate", token_template_id, authorized_addr]
 
@@ -156,7 +154,7 @@ event
 fn remove_authorize_addr(token_template_id: &[u8], authorized_addr: &[Address]) -> bool
 </pre>
 
-Delete the specified authorized address according to TokenTemplateId
+Delete the specified authorized address according to TokenTemplateId.
 
 
 {| class = "wikitable"
@@ -173,7 +171,7 @@ Delete the specified authorized address according to TokenTemplateId
 | Authorized address
 |}
 
-event
+Event
 
 ["removeAuthorizeAddr", token_template_id, authorized_addr]
 
@@ -184,7 +182,7 @@ fn generate_dtoken(acc: &Address, token_template_id: &[u8], n: U128) -> bool
 </pre>
 
 The authorized address generates DToken according to the TokenTemplateId, and records the DToken in the input parameter acc.
-本方法可以扩展如增加expire date等.
+This method can be extended, such as adding expire date, etc.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
@@ -204,7 +202,7 @@ The authorized address generates DToken according to the TokenTemplateId, and re
 | Number of DTokens generated
 |}
 
-event
+Event
 
 ["generateDToken", acc, acc, token_template_id,n, token_id]
 
@@ -215,7 +213,7 @@ fn use_token(account: &Address, token_id: &[u8], n: U128) -> bool
 </pre>
 
 The buyer of the token has the right to consume the token.
-建议当DToken使用完毕之后销毁以节省区块链储存空间.
+It is recommended to destroy the DToken after it is used up to save blockchain storage space.
 
 
 {| class = "wikitable"
@@ -236,7 +234,7 @@ The buyer of the token has the right to consume the token.
 | represents the number of consuming token
 |}
 
-event
+Event
 
 ["useToken", account, token_id, n]
 
@@ -248,8 +246,8 @@ fn delete_token(account: &Address, token_id: &[u8]) -> bool
 </pre>
 
 The TokenTemplate creator can invoke this method to delete token.
-只有令牌所有者才可以删除
-可选的，对于已经失效的令牌， 令牌发起人可以删除，以节省区块链储存空间.
+Only the token owner can delete.
+Optionally, for expired tokens, the token initiator can delete it to save blockchain storage space.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
@@ -265,7 +263,7 @@ The TokenTemplate creator can invoke this method to delete token.
 | token id
 |}
 
-event
+Event
 
 ["deleteToken", account, token_id]
 
