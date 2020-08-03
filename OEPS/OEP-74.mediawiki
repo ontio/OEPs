@@ -9,11 +9,11 @@
 
 ==Abstract==
 
-DToken and Oep4 implementation
+DToken and OEP-4 implementation
 
 ==Motivation==
 
-Capitalize tokens on the basis of data tokenization, and use blockchain technology to realize the generation, transfer and transaction of capitalized tokens. This OEP is an OEP8-type asset support for DToken.
+Capitalize tokens on the basis of data tokenization, and use blockchain technology to realize the generation, transfer and transaction of capitalized tokens. This OEP is an OEP4-type asset support for DToken.
 
 ==Specification==
 
@@ -25,8 +25,8 @@ For methods related to the DToken standard, please refer to
 e.g.,[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-72.mediawiki | DToken+Agent+OEP-72]].
 
 
-For methods related to the oep4 standard, please refer to
-[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-4.mediawiki | Oep4]]
+For methods related to the OEP-4 standard, please refer to
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-4.mediawiki | OEP-4]]
 
 
 ===Implementation===
