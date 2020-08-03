@@ -182,4 +182,4 @@ event
 
 ===Implementation===
 
-[oep-69](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/accountant)
+[oep-77](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/accountant)
