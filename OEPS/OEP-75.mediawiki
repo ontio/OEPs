@@ -9,10 +9,11 @@
 
 ==Abstract==
 
-
+Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP4, OEP5, and OEP8.
 
 ==Motivation==
 
+Capitalize tokens on the basis of data tokenization, and use blockchain technology to realize the generation, transfer and transaction of capitalized tokens. This OEP is an OEP5-type asset support for DToken.
 
 ==Specification==
 
@@ -23,8 +24,8 @@ For methods related to the DToken standard, please refer to
 e.g.,[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-72.mediawiki | DToken+Agent+OEP-72]].
 
 
-For methods related to the oep8 standard, please refer to
-[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-5.mediawiki | Oep5]]
+For methods related to the OEP-5 standard, please refer to
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-5.mediawiki | OEP-5]]
 
 
 ===Implementation===
