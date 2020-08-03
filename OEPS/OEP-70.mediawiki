@@ -78,6 +78,11 @@ This ResourceDDO contains three optional fields,
 [[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-77.mediawiki|accountant contract address]] and
 [[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-78.mediawiki|split_policy contract address]].
 
+If dtoken_contract_address is not set, the default dtoken contract address will be used.
+If accountant_contract_address is not set, the MP will not be charged for the purchase.
+If split_policy_contract_address is not set, the default split policy contract address will be used.
+
+
 The parameters are of the following type:
 
 {| class = "wikitable"
