@@ -1,7 +1,7 @@
 <pre>
   OEP: 70
   Title: DDXF Marketplace Standard
-  Author:
+  Author: lucas7788<sishsh@163.com>
   Type: Standard
   Status: Accepted
   Created: 2020-08-03
@@ -14,9 +14,9 @@ The contract is used to publish, update and delete the goods on the chain, and u
 ==Motivation==
 
 Sub-contract of DDXF series, provides a place for token/DToken owner to manage their published items, and enable token exchange between token owner and token acquiers.
+As an important component of DDXF, it provides a matching and transaction environment for assetized data, including the release and management of assetized data, and supports data transmission and exchange in the data life cycle
+Data auditing, arbitration challenge and other services can be extended. This OEP is the basic Marketplace and only supports the release, update, deletion, and trading of data assets.
 
-作为DDXF的重要组件，为资产化数据提供撮合和交易的环境，包含资产化数据的发布和管理，支持数据生命周期中数据的传输和交换
-可以扩展出数据审计，仲裁挑战等服务，本OEP为基础Marketplace，仅支持数据资产的发布更新删除和买卖。
 
 ==Specification==
 
@@ -161,7 +161,7 @@ event
 pub fn buy_dtoken(resource_id: &[u8], n: U128, buyer_account: &Address, payer: &Address) -> bool
 </pre>
 
-The buyer calls this method to purchase the goods on the chain
+The buyer calls this method to purchase the goods on the chain.
 
 
 {| class = "wikitable"
@@ -201,7 +201,7 @@ pub fn buy_dtokens(
 ) -> bool
 </pre>
 
-buy more than one dtoken at a time
+Buy more than one dtoken at a time.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
@@ -243,7 +243,7 @@ pub fn buy_dtoken_reward(
 ) -> bool
 </pre>
 
-This method can only be called for items that the fee.count is 0, The buyer can reward the seller with any number of tokens.
+This method can only be called for items that the fee.count is 0. The buyer can reward the seller with any number of tokens.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
