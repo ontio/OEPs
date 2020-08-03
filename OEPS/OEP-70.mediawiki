@@ -9,10 +9,14 @@
 
 ==Abstract==
 
-The contract is used to publish、update and delete the goods on the chain, and users can purchase them.
+The contract is used to publish, update and delete the goods on the chain, and users can purchase them.
 
 ==Motivation==
 
+Sub-contract of DDXF series, provides a place for token/DToken owner to manage their published items, and enable token exchange between token owner and token acquiers.
+
+作为DDXF的重要组件，为资产化数据提供撮合和交易的环境，包含资产化数据的发布和管理，支持数据生命周期中数据的传输和交换
+可以扩展出数据审计，仲裁挑战等服务，本OEP为基础Marketplace，仅支持数据资产的发布更新删除和买卖。
 
 ==Specification==
 
@@ -24,7 +28,7 @@ The contract is used to publish、update and delete the goods on the chain, and 
 fn init(dtoken: Address, split_policy: Address) -> bool
 </pre>
 
-this method will store the default dtoken contract address and split_policy contract address.
+This method will store the default dtoken contract address and split_policy contract address,
 only the admin has the right to invoke this method.
 
 The parameters are of the following type:
@@ -35,10 +39,13 @@ The parameters are of the following type:
 |-
 | dtoken
 | Address
+| dtoken contract address
 |-
 | split_policy
 | Address
+| split_policy contract address
 |}
+
 
 ====dtokenSellerPublish====
 
