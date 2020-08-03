@@ -120,7 +120,7 @@ The parameters are of the following type:
 | the number of shares purchased
 |}
 
-event
+Event
 
 ["transferAmount", order_id_bytes, buyer_acc, split_contract_address,fee_bytes,n]
 
@@ -175,7 +175,7 @@ Expense settlement, first transfer fee to mp, second invoke "transferWithdraw" m
 |}
 
 
-event
+Event
 
 ["settle", seller_acc, order_id]
 
