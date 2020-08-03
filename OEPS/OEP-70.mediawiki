@@ -85,7 +85,7 @@ The parameters are of the following type:
 | the result of RegisterParam struct serialization
 |}
 
-event
+Event
 
 ["dtokenSellerPublish", resource_id, resource_ddo_bytes, item_bytes, split_policy_param_bytes]
 
@@ -125,7 +125,7 @@ The seller calls this method to update the information of the goods on the chain
 |}
 
 
-event
+Event
 
 ["update", resource_id, resource_ddo_bytes, item_bytes, split_policy_param_bytes]
 
@@ -149,7 +149,7 @@ Sellers delete items on the chain
 |}
 
 
-event
+Event
 
 ["delete", resource_id]
 
@@ -186,7 +186,7 @@ The buyer calls this method to purchase the goods on the chain.
 | Address to pay for the purchase
 |}
 
-event
+Event
 
 ["buyDToken", resource_id, n, buyer_account, payer]
 
@@ -225,7 +225,7 @@ Buy more than one dtoken at a time.
 | Address to pay for the purchase
 |}
 
-event
+Event
 
 [
 ["buyDToken", resource_id, n, buyer_account, payer],
@@ -271,7 +271,7 @@ This method can only be called for items that the fee.count is 0. The buyer can 
 | unit price the buyer is willing to pay
 |}
 
-event
+Event
 
 ["buyDToken", resource_id, n, buyer_account, payer, unit_price]
 
