@@ -9,7 +9,7 @@
 
 ==Abstract==
 
-Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP4, OEP5, and OEP8.
+Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP8.
 
 
 ==Motivation==
