@@ -1,7 +1,7 @@
 <pre>
   OEP: 74
   Title: DDXF DToken+Oep4 Standard
-  Author:
+  Author: lucas7788 <sishsh@163.com>
   Type: Standard
   Status: Accepted
   Created: 2020-08-03
@@ -30,3 +30,4 @@ For methods related to the oep4 standard, please refer to
 
 ===Implementation===
 
+To be done
