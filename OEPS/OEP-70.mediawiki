@@ -270,4 +270,4 @@ event
 
 ===Implementation===
 
-[oep-69](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/marketplace)
+[oep-70](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/marketplace)
