@@ -28,7 +28,8 @@ Data auditing, arbitration challenge and other services can be extended. This OE
 fn init(dtoken: Address, split_policy: Address) -> bool
 </pre>
 
-This method will store the default dtoken contract address and split_policy contract address,
+This method will store the default [[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.mediawiki|dtoken contract address]] and
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-78.mediawiki|split_policy contract address]],
 only the admin has the right to invoke this method.
 
 The parameters are of the following type:
@@ -60,6 +61,22 @@ pub fn dtoken_seller_publish(
 
 The seller publishes goods on the chain by calling this method.
 
+
+<pre>
+#[derive(Clone, Encoder, Decoder)]
+pub struct ResourceDDO {
+    pub manager: Address,  // data owner
+    pub item_meta_hash: H256,
+    pub dtoken_contract_address: Vec<Address>, // can be empty
+    pub accountant_contract_address: Option<Address>, // can be empty
+    pub split_policy_contract_address: Option<Address>, //can be empty
+}
+</pre>
+
+This ResourceDDO contains three optional fields,
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.mediawiki|dtoken contract address]],
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-77.mediawiki|accountant contract address]] and
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-78.mediawiki|split_policy contract address]].
 
 The parameters are of the following type:
 
