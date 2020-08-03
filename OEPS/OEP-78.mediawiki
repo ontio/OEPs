@@ -201,4 +201,4 @@ event
 
 ===Implementation===
 
-[oep-69](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/split_policy)
+[oep-78](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/split_policy)
