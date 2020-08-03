@@ -1,7 +1,7 @@
 <pre>
   OEP: 75
   Title: DDXF DToken+Oep5 Standard
-  Author:
+  Author: lucas7788 <sishsh@163.com>
   Type: Standard
   Status: Accepted
   Created: 2020-08-03
@@ -29,4 +29,4 @@ For methods related to the oep8 standard, please refer to
 
 ===Implementation===
 
-[DToken+Agent+Oep8](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken)
+To be done
