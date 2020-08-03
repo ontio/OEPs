@@ -16,7 +16,8 @@ Sub-contract of DDXF series, a standard proposal to combine off-chain access-tok
 
 Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP4, OEP5, and OEP8.
 
-
+作为DDXF的重要组件，将数据的权限管理以链上令牌的形式进行管理，包含对于数据的授权管理和数据操作的鉴权，支持数据生命周期中数据的操作过程的管理，利用链上追溯和确权的能力，使得数据的权限管理支持跨系统互操作。
+根据不同的令牌特征，可以做进一步扩展，本OEP为基础数据令牌，仅支持数据令牌的定义发布和使用。
 
 ==Specification==
 
@@ -28,8 +29,8 @@ Sub-contract of DDXF series, a standard proposal to combine off-chain access-tok
 fn create_token_template(creator: &Address, tt_bs: &[u8]) -> bool
 </pre>
 
-this method will store the TokenTemplate to chain.
-the TokenTemplate is defined as follow:
+This method will store the TokenTemplate to chain.
+The TokenTemplate is defined as follow:
 ```
 #[derive(Clone, Encoder, Decoder)]
 pub struct TokenTemplate {
@@ -97,7 +98,7 @@ event
 
 ["updateTokenTemplate", token_template_id, tt_bs]
 
-=========removeTokenTemplate=======
+====removeTokenTemplate====
 
 <pre>
 fn remove_token_template(token_template_id: &[u8]) -> bool
@@ -183,6 +184,7 @@ fn generate_dtoken(acc: &Address, token_template_id: &[u8], n: U128) -> bool
 </pre>
 
 The authorized address generates DToken according to the TokenTemplateId, and records the DToken in the input parameter acc.
+本方法可以扩展如增加expire date等.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
@@ -212,7 +214,8 @@ event
 fn use_token(account: &Address, token_id: &[u8], n: U128) -> bool
 </pre>
 
-the buyer of the token has the right to consume the token
+The buyer of the token has the right to consume the token.
+建议当DToken使用完毕之后销毁以节省区块链储存空间.
 
 
 {| class = "wikitable"
@@ -244,7 +247,9 @@ event
 fn delete_token(account: &Address, token_id: &[u8]) -> bool
 </pre>
 
-The Tokentemplate creator can invoke this method to delete token.
+The TokenTemplate creator can invoke this method to delete token.
+只有令牌所有者才可以删除
+可选的，对于已经失效的令牌， 令牌发起人可以删除，以节省区块链储存空间.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
@@ -267,4 +272,4 @@ event
 
 ===Implementation===
 
-[oep-69](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/marketplace)
+[Ref](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/marketplace)
