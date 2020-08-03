@@ -20,12 +20,12 @@ Sub-contract of DDXF series, a standard proposal to combine off-chain access-tok
 
 
 For methods related to the DToken standard, please refer to
-[DToken](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-71.mediawiki) and it's extensions,
-e.g.,[DToken+Agent OEP-72](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-72.mediawiki).
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-71.mediawiki | DToken]] and it's extensions,
+e.g.,[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-72.mediawiki | DToken+Agent+OEP-72]].
 
 
 For methods related to the oep69 standard, please refer to
-[Oep68](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-69.mediawiki)
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-69.mediawiki | Oep68]]
 
 
 ===Implementation===
