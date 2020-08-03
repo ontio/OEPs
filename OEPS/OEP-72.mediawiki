@@ -9,9 +9,15 @@
 
 ==Abstract==
 
+Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP4, OEP5, and OEP8.
+
+支持Agent使用令牌，
 
 ==Motivation==
 
+
+作为DDXF的重要组件，将数据的权限管理以链上令牌的形式进行管理，包含对于数据的授权管理和数据操作的鉴权，支持数据生命周期中数据的操作过程的管理，利用链上追溯和确权的能力，使得数据的权限管理支持跨系统互操作。
+根据不同的令牌特征，可以做进一步扩展，本OEP为基础数据令牌+Agent。在基础数据令牌之上，支持Agent使用令牌。
 
 ==Specification==
 
@@ -175,4 +181,6 @@ event
 
 ===Implementation===
 
-[oep-72](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/marketplace)
+
+Please refer to [[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.mediawiki|OEP-73]],
+[[https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken|DToken+Agent+Oep8]].
