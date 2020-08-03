@@ -13,7 +13,7 @@ Sub-contract of DDXF series, a standard proposal to combine off-chain access-tok
 
 
 ==Motivation==
-在数据令牌化的基础上将令牌资产化，使用区块链技术实现对资产化令牌的生成，转移和交易。本OEP是对DToken进行OEP8类的资产化支持。
+Capitalize tokens on the basis of data tokenization, and use blockchain technology to realize the generation, transfer and transaction of capitalized tokens. This OEP is an OEP8-type asset support for DToken.
 
 ==Specification==
 
