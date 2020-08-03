@@ -1,7 +1,7 @@
 <pre>
   OEP: 77
   Title: DDXF Accountant Standard
-  Author:
+  Author: lucas7788<sishsh@163.com>
   Type: Standard
   Status: Accepted
   Created: 2020-08-03
@@ -24,9 +24,9 @@ The contract is used to agree on the profit distribution ratio between the marke
 fn set_fee_split_model(seller_acc: &Address, fsm_bytes: &[u8]) -> bool
 </pre>
 
-set charging model, need mp and seller signature
+Set charging model, need mp and seller signature.
 
-the FeeSplitModel is defined as follow:
+The FeeSplitModel is defined as follow:
 ```
 #[derive(Encoder, Decoder, Clone)]
 pub struct FeeSplitModel {
@@ -64,7 +64,7 @@ This method will launch the following events:
 fn get_fee_split_model(seller_acc: &Address) -> FeeSplitModel
 </pre>
 
-query charging model
+Query charging model
 
 The parameters are of the following type:
 
@@ -90,7 +90,7 @@ pub fn transfer_amount(
 ) -> bool
 </pre>
 
-transfer fee to the contract and register the income distribution balance of this order
+Transfer fee to the contract and register the income distribution balance of this order.
 
 The parameters are of the following type:
 
@@ -130,7 +130,7 @@ event
 pub fn get_settle_info(order_id: &[u8]) -> SettleInfo
 </pre>
 
-query settle info by order id
+Query settle info by order id.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
@@ -158,7 +158,7 @@ pub struct SettleInfo {
 pub fn settle(seller_acc: &Address, order_id: &[u8]) -> bool
 </pre>
 
-expense settlement, first transfer fee to mp, second invoke "transferWithdraw" method of split contract
+Expense settlement, first transfer fee to mp, second invoke "transferWithdraw" method of split contract.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
