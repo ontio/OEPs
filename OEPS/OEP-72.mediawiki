@@ -1,7 +1,7 @@
 <pre>
   OEP: 72
   Title: DDXF DToken+Agent Standard
-  Author:
+  Author: lucas7788<sishsh@163.com>
   Type: Standard
   Status: Accepted
   Created: 2018-07-03
@@ -10,14 +10,12 @@
 ==Abstract==
 
 Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP4, OEP5, and OEP8.
-
-支持Agent使用令牌，
+Support the Agent to use tokens.
 
 ==Motivation==
 
-
-作为DDXF的重要组件，将数据的权限管理以链上令牌的形式进行管理，包含对于数据的授权管理和数据操作的鉴权，支持数据生命周期中数据的操作过程的管理，利用链上追溯和确权的能力，使得数据的权限管理支持跨系统互操作。
-根据不同的令牌特征，可以做进一步扩展，本OEP为基础数据令牌+Agent。在基础数据令牌之上，支持Agent使用令牌。
+As an important component of DDXF, the authority management of data is managed in the form of on-chain tokens, including data authorization management and data operation authentication, supporting the management of data operation processes in the data life cycle, and using on-chain traceability And the ability to confirm rights enables data rights management to support cross-system interoperability.
+According to different token characteristics, it can be further extended. This OEP is the basic data token + Agent. On top of the basic data token, the Agent is supported to use the token.
 
 ==Specification==
 
@@ -58,7 +56,7 @@ Use token by agent, the agent of the token has the right to invoke this method.
 | represents the number of consuming token
 |}
 
-event
+Event
 
 ["useTokenByAgent", account,agent, token_id, n]
 
@@ -74,7 +72,7 @@ fn add_token_agents(
 ) -> bool
 </pre>
 
-this method only append agents for the specified token.
+This method only append agents for the specified token.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
