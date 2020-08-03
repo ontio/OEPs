@@ -13,6 +13,7 @@ DToken and Oep4 implementation
 
 ==Motivation==
 
+Capitalize tokens on the basis of data tokenization, and use blockchain technology to realize the generation, transfer and transaction of capitalized tokens. This OEP is an OEP8-type asset support for DToken.
 
 ==Specification==
 
