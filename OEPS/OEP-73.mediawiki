@@ -26,7 +26,7 @@ e.g.,[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-72.mediawiki | DToken+
 
 
 
-For methods related to the oep8 standard, please refer to
+For methods related to the OEP-8 standard, please refer to
 [Oep8](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-8.mediawiki)
 
 
