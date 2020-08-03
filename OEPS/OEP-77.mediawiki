@@ -1,0 +1,185 @@
+<pre>
+  OEP: 77
+  Title: DDXF Accountant Standard
+  Author:
+  Type: Standard
+  Status: Accepted
+  Created: 2020-08-03
+</pre>
+
+==Abstract==
+
+The contract is used to agree on the profit distribution ratio between the marketplace and the seller
+
+==Motivation==
+
+
+==Specification==
+
+===Methods===
+
+====setFeeSplitModel====
+
+<pre>
+fn set_fee_split_model(seller_acc: &Address, fsm_bytes: &[u8]) -> bool
+</pre>
+
+set charging model, need mp and seller signature
+
+the FeeSplitModel is defined as follow:
+```
+#[derive(Encoder, Decoder, Clone)]
+pub struct FeeSplitModel {
+    pub weight: u16,
+}
+```
+
+* `weight` Marketplace fee ratio
+
+
+The parameters are of the following type:
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type| Parameter Description
+|-
+| seller_acc
+| &Address
+| the owner of token template
+|-
+| fsm_bytes
+| &[u8]
+| the serialization result of FeeSplitModel
+|}
+
+Event
+
+This method will launch the following events:
+["setFeeSplitModel", seller_acc, fsm_bytes]
+
+
+====getFeeSplitModel====
+
+<pre>
+fn get_fee_split_model(seller_acc: &Address) -> FeeSplitModel
+</pre>
+
+query charging model
+
+The parameters are of the following type:
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type| Parameter Description
+|-
+| seller_acc
+| &Address
+| seller address
+|}
+
+
+====transferAmount====
+
+<pre>
+pub fn transfer_amount(
+    order_id_bytes: &[u8],
+    buyer_acc: &Address,
+    split_contract_address: &Address,
+    fee: &[u8],
+    n: U128,
+) -> bool
+</pre>
+
+transfer fee to the contract and register the income distribution balance of this order
+
+The parameters are of the following type:
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type
+! Desc
+|-
+| order_id_bytes
+| &[u8]
+| the serialization result of OrderId
+|-
+| buyer_acc
+| &[u8]
+| buyer address
+|-
+| split_contract_address
+| &Address
+| split contract address which register the distribution strategy
+|-
+| fee
+| &[u8]
+| the cost of one share
+|-
+| n
+| U128
+| the number of shares purchased
+|}
+
+event
+
+["transferAmount", order_id_bytes, buyer_acc, split_contract_address,fee_bytes,n]
+
+=========getSettleInfo=======
+
+<pre>
+pub fn get_settle_info(order_id: &[u8]) -> SettleInfo
+</pre>
+
+query settle info by order id
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type
+! Desc
+|-
+| order_id
+| &[u8]
+| the serialization result of OrderId
+|}
+
+return type is `SettleInfo` is defined as follows:
+```
+#[derive(Encoder, Decoder)]
+pub struct SettleInfo {
+    pub split_contract_addr: Address,
+    pub fee: Fee,
+    pub n: U128,
+}
+```
+
+====settle====
+
+<pre>
+pub fn settle(seller_acc: &Address, order_id: &[u8]) -> bool
+</pre>
+
+expense settlement, first transfer fee to mp, second invoke "transferWithdraw" method of split contract
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type
+! Desc
+|-
+| seller_acc
+| &Address
+| the seller address, need the address signature
+|-
+| order_id
+| &[u8]
+| the serialization result of OrderId
+|}
+
+
+event
+
+["settle", seller_acc, order_id]
+
+
+===Implementation===
+
+[oep-69](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/accountant)
