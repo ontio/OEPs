@@ -19,12 +19,12 @@
 ===Methods===
 
 For methods related to the DToken standard, please refer to
-[DToken](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-71.mediawiki) and it's extensions,
-e.g.,[DToken+Agent OEP-72](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-72.mediawiki).
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-71.mediawiki | DToken]] and it's extensions,
+e.g.,[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-72.mediawiki | DToken+Agent+OEP-72]].
 
 
 For methods related to the oep8 standard, please refer to
-[Oep5](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-5.mediawiki)
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-5.mediawiki | Oep5]]
 
 
 ===Implementation===
