@@ -13,6 +13,7 @@ Sub-contract of DDXF series, a standard proposal to combine off-chain access-tok
 
 ==Motivation==
 
+Capitalize tokens on the basis of data tokenization, and use blockchain technology to realize the generation, transfer and transaction of capitalized tokens. This OEP is an OEP69-type asset support for DToken.
 
 ==Specification==
 
@@ -24,8 +25,8 @@ For methods related to the DToken standard, please refer to
 e.g.,[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-72.mediawiki | DToken+Agent+OEP-72]].
 
 
-For methods related to the oep69 standard, please refer to
-[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-69.mediawiki | Oep68]]
+For methods related to the OEP-69 standard, please refer to
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-69.mediawiki | OEP-69]]
 
 
 ===Implementation===
