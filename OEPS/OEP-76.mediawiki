@@ -1,7 +1,7 @@
 <pre>
   OEP: 76
   Title: DDXF DToken+Oep69 Standard
-  Author:
+  Author: lucas7788<sishsh@163.com>
   Type: Standard
   Status: Accepted
   Created: 2020-08-03
@@ -9,7 +9,7 @@
 
 ==Abstract==
 
-
+Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP4, OEP5, and OEP8.
 
 ==Motivation==
 
@@ -30,4 +30,4 @@ For methods related to the oep69 standard, please refer to
 
 ===Implementation===
 
-[DToken+Agent+Oep8](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken)
+To be done
