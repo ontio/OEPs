@@ -1,7 +1,7 @@
 <pre>
   OEP: 78
   Title: DDXF SplitPolicy Standard
-  Author:
+  Author: lucas7788<sishsh@163.com>
   Type: Standard
   Status: Accepted
   Created: 2020-08-03
@@ -10,12 +10,12 @@
 ==Abstract==
 
 
-The contract is used to determine the profit distribution strategy of multiple owners of goods
+The contract is used to determine the profit distribution strategy of multiple owners of goods.
 
 
 ==Motivation==
 
-There may be multiple owners of goods on the chain, and each owner's share of profit distribution is different. The specific allocation can be set in this contract
+There may be multiple owners of goods on the chain, and each owner's share of profit distribution is different. The specific allocation can be set in this contract.
 
 ==Specification==
 
@@ -27,9 +27,9 @@ There may be multiple owners of goods on the chain, and each owner's share of pr
 pub fn register(key: &[u8], param_bytes: &[u8]) -> bool
 </pre>
 
-register the dividend distribution strategy on the chain
+Register the dividend distribution strategy on the chain.
 
-the RegisterParam is defined as follow:
+The RegisterParam is defined as follow:
 ```
 #[derive(Encoder, Decoder)]
 pub struct RegisterParam {
@@ -73,7 +73,7 @@ This method will launch the following events:
 pub fn get_register_param(key: &[u8]) -> RegisterParam
 </pre>
 
-query RegisterParam by key
+Query RegisterParam by key.
 
 The parameters are of the following type:
 
@@ -93,7 +93,7 @@ The parameters are of the following type:
 pub fn transfer(from: &Address, key: &[u8], amt: U128) -> bool
 </pre>
 
-Transfer token assets to current contract address
+Transfer token assets to current contract address.
 
 The parameters are of the following type:
 
@@ -144,7 +144,7 @@ Query balance by commodity ID
 pub fn withdraw(key: &[u8], addr: &Address) -> bool
 </pre>
 
-the data owner withdraw token from the contract.
+The data owner withdraw token from the contract.
 
 {| class = "wikitable"
 ! style = "text-align:center;"| Parameter
