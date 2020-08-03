@@ -9,10 +9,14 @@
 
 ==Abstract==
 
-The contract is used to agree on the profit distribution ratio between the marketplace and the seller
+The contract is used to agree on the profit distribution ratio between the marketplace and the token owner(s).
 
 ==Motivation==
 
+Sub-contract of DDXF series, provides fee split services between the marketplace and the token owner(s).
+
+The marketplace provides a place for token/DToken owner to manage their published items, and enable token exchange between token owner and token acquiers.
+The digital asset paid by token acquiers will be split between marketplace and token owners, by Accountant.
 
 ==Specification==
 
