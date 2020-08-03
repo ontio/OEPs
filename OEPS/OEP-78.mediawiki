@@ -15,7 +15,7 @@ The contract is used to determine the profit distribution strategy of multiple o
 
 ==Motivation==
 
-There may be multiple owners of goods on the chain, and each owner's share of profit distribution is different. The specific allocation can be set in this contract.
+There may be multiple owners of Tokens on the chain, and each owner's share of profit distribution is different. The specific allocation can be set in this contract.
 
 ==Specification==
 
