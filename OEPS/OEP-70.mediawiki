@@ -94,6 +94,37 @@ pub struct DTokenItem {
 }
 </pre>
 
+Fee struct defined as follow:
+<pre>
+#[derive(Encoder, Decoder, Clone)]
+pub struct Fee {
+    pub contract_addr: Address,//Token contract address.
+    pub contract_type: TokenType,//contract type, support ont, ong, oep4.
+    pub count: u64, //unit price.
+}
+#[derive(Clone)]
+pub enum TokenType {
+    ONT,
+    ONG,
+    OEP4,
+}
+</pre>
+
+RegisterParam struct defined as follows:
+<pre>
+#[derive(Encoder, Decoder, Clone)]
+pub struct AddrAmt {
+    to: Address,
+    weight: u32,
+    has_withdraw: bool,
+}
+#[derive(Encoder, Decoder)]
+pub struct RegisterParam {
+    addr_amt: Vec<AddrAmt>,
+    token_type: TokenType,
+    contract_addr: Option<Address>,
+}
+</pre>
 
 The parameters are of the following type:
 
@@ -261,9 +292,7 @@ Buy more than one dtoken at a time.
 
 Event
 
-[
-["buyDToken", resource_id, n, buyer_account, payer],
-]
+[["buyDToken", resource_id, n, buyer_account, payer],]
 
 ====buyDTokenReward====
 
