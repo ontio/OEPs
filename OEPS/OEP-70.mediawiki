@@ -152,7 +152,9 @@ The parameters are of the following type:
 
 Event
 
+<pre>
 ["dtokenSellerPublish", resource_id, resource_ddo_bytes, item_bytes, split_policy_param_bytes]
+</pre>
 
 ====update====
 
@@ -192,8 +194,9 @@ The seller calls this method to update the information of the goods on the chain
 
 Event
 
+<pre>
 ["update", resource_id, resource_ddo_bytes, item_bytes, split_policy_param_bytes]
-
+</pre>
 
 ====delete====
 
@@ -216,8 +219,9 @@ Sellers delete items on the chain
 
 Event
 
+<pre>
 ["delete", resource_id]
-
+</pre>
 
 
 ====buyDToken====
@@ -253,7 +257,9 @@ The buyer calls this method to purchase the goods on the chain.
 
 Event
 
+<pre>
 ["buyDToken", resource_id, n, buyer_account, payer]
+</pre>
 
 ====buyDTokens====
 
@@ -292,17 +298,19 @@ Buy more than one dtoken at a time.
 
 Event
 
+<pre>
 ["buyDToken", resource_id, n, buyer_account, payer]
+</pre>
 
 ====buyDTokenReward====
 
 <pre>
 pub fn buy_dtoken_reward(
-    resource_id: &[u8],
-    n: U128,
-    buyer_account: &Address,
-    payer: &Address,
-    unit_price: U128,
+    resource_id:&[u8],
+    n:U128,
+    buyer_account:&Address,
+    payer:&Address,
+    unit_price:U128,
 ) -> bool
 </pre>
 
@@ -336,7 +344,9 @@ This method can only be called for items that the fee.count is 0. The buyer can 
 
 Event
 
+<pre>
 ["buyDToken", resource_id, n, buyer_account, payer, unit_price]
+</pre>
 
 ===Implementation===
 
