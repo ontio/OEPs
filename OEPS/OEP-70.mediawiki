@@ -61,7 +61,7 @@ pub fn dtoken_seller_publish(
 
 The seller publishes goods on the chain by calling this method.
 
-
+ResourceDDO struct defined as follow:
 <pre>
 #[derive(Clone, Encoder, Decoder)]
 pub struct ResourceDDO {
@@ -81,6 +81,18 @@ This ResourceDDO contains three optional fields,
 If dtoken_contract_address is not set, the default dtoken contract address will be used.
 If accountant_contract_address is not set, the MP will not be charged for the purchase.
 If split_policy_contract_address is not set, the default split policy contract address will be used.
+
+DTokenItem struct defined as follow:
+<pre>
+#[derive(Clone, Encoder, Decoder)]
+pub struct DTokenItem {
+    pub fee: Fee, //Commodity charge information, token type, token contract address and commodity unit price.
+    pub expired_date: u64, //Commodity expiration time.
+    pub stocks: u64, //Commodity stocks.
+    pub sold: u64,// The number of items sold.
+    pub token_template_ids: Vec<Vec<u8>>,// token_template_id array,token_template_id is used to mark the uniqueness of the TokenTemplate in the DToken contract.
+}
+</pre>
 
 
 The parameters are of the following type:
