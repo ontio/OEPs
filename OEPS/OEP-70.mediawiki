@@ -304,7 +304,7 @@ Event
 
 ====buyDTokenReward====
 
-<pre>
+<pre><nowiki>
 pub fn buy_dtoken_reward(
     resource_id: &[u8],
     n: U128,
@@ -312,7 +312,7 @@ pub fn buy_dtoken_reward(
     payer: &Address,
     unit_price: U128,
 ) -> bool
-</pre>
+</nowiki></pre>
 
 This method can only be called for items that the fee.count is 0. The buyer can reward the seller with any number of tokens.
 
@@ -344,9 +344,9 @@ This method can only be called for items that the fee.count is 0. The buyer can 
 
 Event
 
-<pre>
+<pre><nowiki>
 ["buyDToken", resource_id, n, buyer_account, payer, unit_price]
-</pre>
+</nowiki></pre>
 
 ===Implementation===
 
