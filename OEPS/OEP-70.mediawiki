@@ -292,7 +292,7 @@ Buy more than one dtoken at a time.
 
 Event
 
-[["buyDToken", resource_id, n, buyer_account, payer],]
+["buyDToken", resource_id, n, buyer_account, payer]
 
 ====buyDTokenReward====
 
