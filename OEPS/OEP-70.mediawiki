@@ -306,11 +306,11 @@ Event
 
 <pre>
 pub fn buy_dtoken_reward(
-    resource_id:&[u8],
-    n:U128,
-    buyer_account:&Address,
-    payer:&Address,
-    unit_price:U128,
+    resource_id: &[u8],
+    n: U128,
+    buyer_account: &Address,
+    payer: &Address,
+    unit_price: U128,
 ) -> bool
 </pre>
 
