@@ -43,7 +43,7 @@ fn create_token_template(creator: &Address, tt_bs: &[u8]) -> bool
 
 ```
 
-This method will store the TokenTemplate to chain.The TokenTemplate is defined as follow:```
+This method will store the TokenTemplate to chain.The TokenTemplate is defined as follow:
 
 ```
 [derive(Clone, Encoder, Decoder)]
@@ -65,10 +65,10 @@ pub struct TokenTemplate {
 
 The parameters are of the following type:
 
-| Parameter | Parameter Description |                                            |
-| --------- | --------------------- | ------------------------------------------ |
-| creator   | Address               | the owner of token template                |
-| tt_bs     | &[u8]                 | the serialization result of token template |
+| Parameter  |  Type                  |             Desc                            |
+| :--------- | :--------------------- | :------------------------------------------ |
+| creator    | Address                | the owner of token template                 |
+| tt_bs      | &[u8]                  | the serialization result of token template  |
 
 Event
 
