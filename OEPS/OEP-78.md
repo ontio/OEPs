@@ -7,30 +7,30 @@
   Created: 2020-08-03
 </pre>
 
-==Abstract==
+##Abstract
 
 
 The contract is used to determine the profit distribution strategy of multiple owners of DToken.
 
 
-==Motivation==
+##Motivation
 
 There may be multiple owners of DToken on the chain, and each owner's share of profit distribution is different. The specific allocation can be set in this contract.
 
-==Specification==
+##Specification
 
-===Methods===
+###Methods
 
-====register====
+####register
 
-<pre>
+```rust
 pub fn register(key: &[u8], param_bytes: &[u8]) -> bool
-</pre>
+```
 
 Register the dividend distribution strategy on the chain.
 
 The RegisterParam is defined as follow:
-```
+```rust
 #[derive(Encoder, Decoder)]
 pub struct RegisterParam {
     addr_amt: Vec<AddrAmt>,  //Address and share for agreed profit distribution
@@ -48,157 +48,108 @@ pub struct AddrAmt {
 
 The parameters are of the following type:
 
-{| class = "wikitable"
-! style = "text-align:center;"| Parameter
-! Type| Parameter Description
-|-
-| key
-| &[u8]
-| key is also called resource_id in the other contract, used to mark the uniqueness of dividend strategy
-|-
-| param_bytes
-| &[u8]
-| the serialization result of FeeSplitModel
-|}
+| Parameter | Type | Description|
+|-----------|-------|-----------|
+| key | &[u8] | also called resource_id in the other contract, used to mark the uniqueness of dividend strategy
+| param_bytes | &[u8] | the serialization result of FeeSplitModel
 
 Event
 
 This method will launch the following events:
+```
 ["register", key, param_bytes]
+```
 
 
-====getRegisterParam====
+#### getRegisterParam
 
-<pre>
+```rust
 pub fn get_register_param(key: &[u8]) -> RegisterParam
-</pre>
+```
 
 Query RegisterParam by key.
 
 The parameters are of the following type:
 
-{| class = "wikitable"
-! style = "text-align:center;"| Parameter
-! Type| Parameter Description
-|-
-| key
-| &[u8]
-| key is also called resource_id in the other contract, used to mark the uniqueness of dividend strategy
-|}
+| Parameter | Type | Description|
+|-----------|-------|-----------|
+| key | &[u8] | key is also called resource_id in the other contract, used to mark the uniqueness of dividend strategy
 
 
-====transfer====
+#### transfer
 
-<pre>
+```rust
 pub fn transfer(from: &Address, key: &[u8], amt: U128) -> bool
-</pre>
+```
 
 Transfer token assets to current contract address.
 
 The parameters are of the following type:
 
-{| class = "wikitable"
-! style = "text-align:center;"| Parameter
-! Type
-! Desc
-|-
-| from
-| &Address
-| buyer address
-|-
-| key
-| &[u8]
-| Commodity ID
-|-
-| amt
-| U128
-| Fees paid by the buyer
-|}
+| Parameter | Type | Description|
+|-----------|-------|-----------|
+| from | &Address | buyer address
+| key | &[u8] | Commodity ID
+| amt | U128 | Fees paid by the buyer
 
 Event
 
+```
 ["transfer", from, key, amt]
+```
 
-=========getBalance=======
+#### getBalance
 
-<pre>
+```rust
 pub fn get_balance(key: &[u8]) -> U128
-</pre>
+```
 
 Query balance by commodity ID
 
-{| class = "wikitable"
-! style = "text-align:center;"| Parameter
-! Type
-! Desc
-|-
-| key
-| &[u8]
-| commodity ID
-|}
+| Parameter | Type | Description|
+|-----------|-------|-----------|
+| key | &[u8] | commodity ID
 
 
-====withdraw====
+#### withdraw
 
-<pre>
+```rust
 pub fn withdraw(key: &[u8], addr: &Address) -> bool
-</pre>
+```
 
 The data owner withdraw token from the contract.
 
-{| class = "wikitable"
-! style = "text-align:center;"| Parameter
-! Type
-! Desc
-|-
-| key
-| &[u8]
-| commodity ID
-|-
-| addr
-| &Address
-| the address who withdraw token, need the address signature
-|}
-
+| Parameter | Type | Description|
+|-----------|-------|-----------|
+| key | &[u8] | commodity ID
+| addr | &Address | the address who withdraw token, need the address signature
 
 Event
 
+```
 ["withdraw", key, addr]
+```
 
+#### transferWithdraw
 
-
-====transferWithdraw====
-
-<pre>
+```rust
 pub fn transfer_withdraw(from: &Address, key: &[u8], amt: U128) -> bool
-</pre>
+```
 
 Delete the specified authorized address according to TokenTemplateId
 
-
-{| class = "wikitable"
-! style = "text-align:center;"| Parameter
-! Type
-! Desc
-|-
-| from
-| &Address
-| buyer address
-|-
-| key
-| &[u8]
-| commodity ID
-|-
-| amt
-| U128
-| Fees paid by the buyer
-|}
+| Parameter | Type | Description|
+|-----------|-------|-----------|
+| from | &Address | buyer address
+| key | &[u8] | commodity ID
+| amt | U128 | Fees paid by the buyer
 
 Event
 
+```
 ["transferWithdraw", from, key, amt]
+```
 
-
-===Implementation===
+### Implementation
 
 [[https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/split_policy | OEP-78]]
