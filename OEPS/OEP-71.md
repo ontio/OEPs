@@ -45,9 +45,8 @@ fn create_token_template(creator: &Address, tt_bs: &[u8]) -> bool
 
 This method will store the TokenTemplate to chain.The TokenTemplate is defined as follow:```
 
-1. [derive(Clone, Encoder, Decoder)]
-
 ```
+[derive(Clone, Encoder, Decoder)]
 pub struct TokenTemplate {
    pub data_id: Option<Vec<u8>>,
    pub token_hash: Vec<Vec<u8>>,
@@ -73,7 +72,11 @@ The parameters are of the following type:
 
 Event
 
-This method will launch the following events:["createTokenTemplate", creator, tt_bs, token_template_id]
+This method will launch the following events:
+```
+["createTokenTemplate", creator, tt_bs, token_template_id]
+```
+
 
 #### update_token_template
 
@@ -93,7 +96,10 @@ The parameters are of the following type:
 
 Event
 
+```
 ["updateTokenTemplate", token_template_id, tt_bs]
+```
+
 
 #### removeTokenTemplate
 
