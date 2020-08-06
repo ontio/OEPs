@@ -7,21 +7,21 @@
   Created: 2020-08-03
 </pre>
 
-##Abstract
+## Abstract
 
 
 The contract is used to determine the profit distribution strategy of multiple owners of DToken.
 
 
-##Motivation
+## Motivation
 
 There may be multiple owners of DToken on the chain, and each owner's share of profit distribution is different. The specific allocation can be set in this contract.
 
-##Specification
+## Specification
 
-###Methods
+### Methods
 
-####register
+#### register
 
 ```rust
 pub fn register(key: &[u8], param_bytes: &[u8]) -> bool
