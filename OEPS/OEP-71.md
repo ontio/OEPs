@@ -33,13 +33,13 @@ As an important component of DDXF, the authority management of data is managed i
 ## Specification
 ### Methods
 #### create_token_template
-```
+```rust
 fn create_token_template(creator: &Address, tt_bs: &[u8]) -> bool
 ```
 
 This method will store the TokenTemplate to chain.The TokenTemplate is defined as follow:
 
-```
+```rust
 [derive(Clone, Encoder, Decoder)]
 pub struct TokenTemplate {
    pub data_id: Option<Vec<u8>>,
@@ -50,7 +50,6 @@ pub struct TokenTemplate {
 }
 ```
 
-
 - `data_id` is the ontid of data.
 - `token_hash` is bytearray of token_hash
 - `endpoint` is the api of the seller,
@@ -59,7 +58,7 @@ pub struct TokenTemplate {
 
 The parameters are of the following type:
 
-| Parameter  |  Type                  |             Desc                            |
+| Parameter |    Type               |  Description                             |
 | :--------- | :--------------------- | :------------------------------------------ |
 | creator    | Address                | the owner of token template                 |
 | tt_bs      | &[u8]                  | the serialization result of token template  |
@@ -74,9 +73,8 @@ This method will launch the following events:
 
 #### update_token_template
 
-```
+```rust
 fn update_token_template(token_template_id: &[u8], tt_bs: &[u8]) -> bool
-
 ```
 
 Update the TokenTemplate on the chain according to the TokenTemplateId.
@@ -97,9 +95,8 @@ Event
 
 #### removeTokenTemplate
 
-```
+```rust
 fn remove_token_template(token_template_id: &[u8]) -> bool
-
 ```
 
 Delete TokenTemplate based on TokenTemPlateId.
@@ -116,9 +113,8 @@ Event
 
 #### authorizeTokenTemplate
 
-```
+```rust
 fn authorize_token_template(token_template_id: &[u8], authorized_addr: &[Address]) -> bool
-
 ```
 
 TokenTemplate creator authorizes other addresses to generate DTokens based on the TokenTemplateId.
@@ -136,9 +132,8 @@ Event
 
 #### removeAuthorizeAddr
 
-```
+```rust
 fn remove_authorize_addr(token_template_id: &[u8], authorized_addr: &[Address]) -> bool
-
 ```
 
 Delete the specified authorized address according to TokenTemplateId.
@@ -157,9 +152,8 @@ Event
 
 #### generateDToken
 
-```
+```rust
 fn generate_dtoken(acc: &Address, token_template_id: &[u8], n: U128) -> bool
-
 ```
 
 The authorized address generates DToken according to the TokenTemplateId, and records the DToken in the input parameter acc.This method can be extended, such as adding expire date, etc.
@@ -179,12 +173,11 @@ Event
 
 #### useToken
 
-```
+```rust
 fn use_token(account: &Address, token_id: &[u8], n: U128) -> bool
-
 ```
 
-The buyer of the token has the right to consume the token.It is recommended to destroy the DToken after it is used up to save blockchain storage space.
+The buyer of the token has the right to consume the token. It is recommended to destroy the DToken after it is used up to save blockchain storage space.
 
 | Parameter | Type     | Desc                                     |
 | --------- | -------- | ---------------------------------------- |
@@ -200,9 +193,8 @@ Event
 
 #### deleteToken
 
-```
+```rust
 fn delete_token(account: &Address, token_id: &[u8]) -> bool
-
 ```
 
 The TokenTemplate creator can invoke this method to delete token.Only the token owner can delete.Optionally, for expired tokens, the token initiator can delete it to save blockchain storage space.
