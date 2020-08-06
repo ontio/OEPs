@@ -47,18 +47,16 @@ This method will store the TokenTemplate to chain.The TokenTemplate is defined a
 
 1. [derive(Clone, Encoder, Decoder)]
 
-pub struct TokenTemplate {
-
 ```
+pub struct TokenTemplate {
    pub data_id: Option<Vec<u8>>,
    pub token_hash: Vec<Vec<u8>>,
    pub endpoint: Vec<u8>,
    pub token_name: Vec<u8>,
    pub token_symbol: Vec<u8>,
-
+}
 ```
 
-}```
 
 - `data_id` is the ontid of data.
 - `token_hash` is bytearray of token_hash
@@ -112,7 +110,9 @@ Delete TokenTemplate based on TokenTemPlateId.
 
 Event
 
+```
 ["removeTokenTemplate", token_template_id]
+```
 
 #### authorizeTokenTemplate
 
@@ -129,8 +129,10 @@ TokenTemplate creator authorizes other addresses to generate DTokens based on th
 | authorized_addr   | &[Address] | Authorized address                               |
 
 Event
-
+```
 ["authorizeTokenTemplate", token_template_id, authorized_addr]
+```
+
 
 #### removeAuthorizeAddr
 
@@ -148,7 +150,10 @@ Delete the specified authorized address according to TokenTemplateId.
 
 Event
 
+```
 ["removeAuthorizeAddr", token_template_id, authorized_addr]
+```
+
 
 #### generateDToken
 
@@ -167,7 +172,10 @@ The authorized address generates DToken according to the TokenTemplateId, and re
 
 Event
 
+```
 ["generateDToken", acc, acc, token_template_id,n, token_id]
+```
+
 
 #### useToken
 
@@ -186,7 +194,10 @@ The buyer of the token has the right to consume the token.It is recommended to d
 
 Event
 
+```
 ["useToken", account, token_id, n]
+```
+
 
 #### deleteToken
 
@@ -204,7 +215,9 @@ The TokenTemplate creator can invoke this method to delete token.Only the token 
 
 Event
 
+```
 ["deleteToken", account, token_id]
+```
 
 ### Implementation
 
