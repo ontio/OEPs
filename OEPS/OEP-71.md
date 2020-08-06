@@ -29,18 +29,12 @@
 Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP4, OEP5, and OEP8.
 
 ## Motivation
-
 As an important component of DDXF, the authority management of data is managed in the form of on-chain tokens, including data authorization management and data operation authentication, supporting the management of data operation processes in the data life cycle, and using on-chain traceability And the ability to confirm rights enables data rights management to support cross-system interoperability.According to different token characteristics, it can be further extended. This OEP is the basic data token, which only supports the defined issuance and use of data tokens.
-
 ## Specification
-
 ### Methods
-
 #### create_token_template
-
 ```
 fn create_token_template(creator: &Address, tt_bs: &[u8]) -> bool
-
 ```
 
 This method will store the TokenTemplate to chain.The TokenTemplate is defined as follow:
@@ -203,7 +197,6 @@ Event
 ```
 ["useToken", account, token_id, n]
 ```
-
 
 #### deleteToken
 
