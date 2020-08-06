@@ -24,14 +24,13 @@ Sub-contract of DDXF series, provides a place for token/DToken owner to manage t
 
 ```
 fn init(dtoken: Address, split_policy: Address) -> bool
-
 ```
 
 This method will store the default [contract address](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.mediawiki%7Cdtoken) and [split_policy contract address](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-78.mediawiki),only the admin has the right to invoke this method.
 
 The parameters are of the following type:
 
-| Parameter    | Type    |                               |
+| Parameter    | Type    |   Desc                        |
 | ------------ | ------- | ----------------------------- |
 | dtoken       | Address | dtoken contract address       |
 | split_policy | Address | split_policy contract address |
@@ -45,7 +44,6 @@ pub fn dtoken_seller_publish(
     item_bytes: &[u8],
     split_policy_param_bytes: &[u8],
 ) -> bool
-
 ```
 
 The seller publishes goods on the chain by calling this method.
@@ -97,7 +95,6 @@ pub enum TokenType {
     ONG,
     OEP4,
 }
-
 ```
 
 RegisterParam struct defined as follows:
@@ -115,7 +112,6 @@ pub struct RegisterParam {
     token_type: TokenType,
     contract_addr: Option<Address>,
 }
-
 ```
 
 The parameters are of the following type:
@@ -159,14 +155,12 @@ Event
 
 ```
 ["update", resource_id, resource_ddo_bytes, item_bytes, split_policy_param_bytes]
-
 ```
 
 #### delete
 
 ```
 pub fn delete(resource_id: &[u8]) -> bool
-
 ```
 
 Sellers delete items on the chain
@@ -179,14 +173,12 @@ Event
 
 ```
 ["delete", resource_id]
-
 ```
 
 #### buyDToken
 
 ```
 pub fn buy_dtoken(resource_id: &[u8], n: U128, buyer_account: &Address, payer: &Address) -> bool
-
 ```
 
 The buyer calls this method to purchase the goods on the chain.
@@ -202,7 +194,6 @@ Event
 
 ```
 ["buyDToken", resource_id, n, buyer_account, payer]
-
 ```
 
 #### buyDTokens
@@ -214,7 +205,6 @@ pub fn buy_dtokens(
     buyer_account: &Address,
     payer: &Address,
 ) -> bool
-
 ```
 
 Buy more than one dtoken at a time.
@@ -230,7 +220,6 @@ Event
 
 ```
 ["buyDToken", resource_id, n, buyer_account, payer]
-
 ```
 
 #### buyDTokenReward
@@ -243,7 +232,6 @@ pub fn buy_dtoken_reward(
     payer:&Address,
     unit_price:U128,
 ) -> bool
-
 ```
 
 This method can only be called for items that the fee.count is 0. The buyer can reward the seller with any number of tokens.
@@ -260,7 +248,6 @@ Event
 
 ```
 ["buyDToken", resource_id, n, buyer_account, payer, unit_price]
-
 ```
 
 ### Implementation
