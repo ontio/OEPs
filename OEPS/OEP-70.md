@@ -5,7 +5,6 @@
   Type: Standard
   Status: Accepted
   Created: 2020-08-03
-
 ```
 
 ## Abstract
@@ -17,9 +16,7 @@ The contract is used to publish, update and delete the goods on the chain, and u
 Sub-contract of DDXF series, provides a place for token/DToken owner to manage their published items, and enable token exchange between token owner and token acquiers.As an important component of DDXF, it provides a matching and transaction environment for assetized data, including the release and management of assetized data, and supports data transmission and exchange in the data life cycleData auditing, arbitration challenge and other services can be extended. This OEP is the basic Marketplace and only supports the release, update, deletion, and trading of data assets.
 
 ## Specification
-
 ### Methods
-
 #### init
 
 ```
@@ -59,7 +56,6 @@ pub struct ResourceDDO {
     pub accountant_contract_address: Option<Address>, // can be empty
     pub split_policy_contract_address: Option<Address>, //can be empty
 }
-
 ```
 
 This ResourceDDO contains three optional fields,[contract address](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.mediawiki%7Cdtoken),[contract address](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-77.mediawiki%7Caccountant) and[contract address](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-78.mediawiki%7Csplit_policy).
@@ -77,7 +73,6 @@ pub struct DTokenItem {
     pub sold: u64,// The number of items sold.
     pub token_template_ids: Vec<Vec<u8>>,// token_template_id array,token_template_id is used to mark the uniqueness of the TokenTemplate in the DToken contract.
 }
-
 ```
 
 Fee struct defined as follow:
@@ -127,7 +122,6 @@ Event
 
 ```
 ["dtokenSellerPublish", resource_id, resource_ddo_bytes, item_bytes, split_policy_param_bytes]
-
 ```
 
 #### update
@@ -139,7 +133,6 @@ fn update(
     item_bytes: &[u8],
     split_policy_param_bytes: &[u8],
 ) -> bool
-
 ```
 
 The seller calls this method to update the information of the goods on the chain.
