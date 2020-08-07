@@ -136,7 +136,7 @@ Event
 pub fn transfer_withdraw(from: &Address, key: &[u8], amt: U128) -> bool
 ```
 
-Delete the specified authorized address according to TokenTemplateId
+The buyer pays the fee and sends the fee directly to the data owner.
 
 | Parameter | Type | Description|
 |-----------|-------|-----------|
@@ -152,4 +152,4 @@ Event
 
 ### Implementation
 
-[[https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/split_policy | OEP-78]]
+[OEP-78](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/split_policy)
