@@ -1,11 +1,11 @@
-<pre>
-  OEP: 72
-  Title: DDXF DToken+Agent Standard
-  Author: lucas7788<sishsh@163.com>
-  Type: Standard
-  Status: Accepted
-  Created: 2018-07-03
-</pre>
+```
+OEP: 72
+Title: DDXF DToken+Agent Standard
+Author: lucas7788<sishsh@163.com>
+Type: Standard
+Status: Accepted
+Created: 2018-07-03
+```
 
 ## Abstract
 

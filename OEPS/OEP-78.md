@@ -1,11 +1,11 @@
-<pre>
-  OEP: 78
-  Title: DDXF SplitPolicy Standard
-  Author: lucas7788<sishsh@163.com>
-  Type: Standard
-  Status: Accepted
-  Created: 2020-08-03
-</pre>
+```
+OEP: 78
+Title: DDXF SplitPolicy Standard
+Author: lucas7788<sishsh@163.com>
+Type: Standard
+Status: Accepted
+Created: 2020-08-03
+```
 
 ## Abstract
 
