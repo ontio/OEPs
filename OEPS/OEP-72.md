@@ -22,7 +22,7 @@ According to different token characteristics, it can be further extended. This O
 ### Methods
 
 For methods related to the DToken standard, please refer to
-[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-71.mediawiki|DToken]] and it's extensions.
+[DToken](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-71.mediawiki) and it's extensions.
 
 
 #### useTokenByAgent
@@ -83,7 +83,7 @@ fn add_agents(
 ) -> bool
 ```
 
-This method only append agents for the specified token.
+This method only append agents for the specified multiple token.
 
 |Parameter | Type |  Desc |
 |----------|------|--------|
@@ -105,7 +105,7 @@ Event
 fn remove_token_agents(account: &Address, token_id: &[u8], agents: &[Address]) -> bool
 ```
 
-This method only append agents for the specified token.
+This method only remove agents for the specified token.
 
 |Parameter | Type |  Desc |
 |----------|------|--------|
@@ -123,5 +123,5 @@ Event
 ### Implementation
 
 
-Please refer to [[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.mediawiki|OEP-73]],
-[[https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken|DToken+Agent+Oep8]].
+Please refer to [OEP-73](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.mediawiki),
+[DToken+Agent+Oep8](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken).
