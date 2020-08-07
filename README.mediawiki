@@ -128,19 +128,75 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Draft
 | [https://github.com/ontio/OEPs/pull/61 pull request]
 |-
-|
-| Data Token Standard
-|
+| 69
+| Streaming Payment Standard
+| Laizy
 | Standard
 | Draft
-| Data Tokenization Standard, etc.
+| [https://github.com/ontio/OEPs/pull/69 pull request]
 |-
-|
-| Token Exchange Standard
-|
+| [[OEPS/OEP-70.md|70]]
+| DToken Exchange Standard
+| Lucas7788 
 | Standard
-| Stub
-| Data-Token Exchange Standard, etc.
+| Accepted
+| -
+|-
+| [[OEPS/OEP-71.md|71]]
+| Data Token Standard
+| Lucas7788
+| Standard
+| Accepted
+| -
+|-
+| [[OEPS/OEP-72.md|72]]
+| Data Token with Agent Standard
+| Lucas7788
+| Standard
+| Accepted
+| -
+|-
+| 73
+| Data Token with Crypto Item Standard
+| Lucas7788
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/73 pull request]
+|-
+| 74
+| Data Token with Token Standard
+| Lucas7788
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/74 pull request]
+|-
+| 75
+| Data Token with Non-Fungible Token Standard
+| Lucas7788
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/75 pull request]
+|-
+| 76
+| Data Token with Streaming Payment Standard
+| Lucas7788
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/76 pull request]
+|-
+| 77
+| Market Accountant of Data Token Exchange Standard
+| Lucas7788
+| Standard
+| Draft
+| [https://github.com/ontio/OEPs/pull/77 pull request]
+|-
+| [[OEPS/OEP-78.md|78]]
+| Split Policy of Data Token Exchange Standard
+| Lucas7788
+| Standard
+| Accepted
+| -
 |-
 |
 | Ontology Data Encryption extension
