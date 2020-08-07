@@ -28,7 +28,7 @@ For methods related to the DToken standard, please refer to
 #### useTokenByAgent
 
 ```rust
-fn use_token_by_agent(account: &Address, agent: &Address, token_id: &[u8], n: U128) -> bool
+fn use_token_by_agent(account: &Address, agent: &Address, token_id: &[u8], n: U128) -> bool{}
 ```
 
 Use token by agent, the agent of the token has the right to invoke this method.
@@ -54,7 +54,7 @@ fn add_token_agents(
     token_id: &[u8],
     agents: &[Address],
     n: Vec<U128>,
-) -> bool
+) -> bool{}
 ```
 
 This method only append agents for the specified token.
@@ -80,7 +80,7 @@ fn add_agents(
     agents: Vec<Address>,
     n: Vec<U128>,
     token_ids: Vec<Vec<u8>>,
-) -> bool
+) -> bool{}
 ```
 
 This method only append agents for the specified multiple token.
@@ -102,7 +102,7 @@ Event
 #### removeTokenAgents
 
 ```rust
-fn remove_token_agents(account: &Address, token_id: &[u8], agents: &[Address]) -> bool
+fn remove_token_agents(account: &Address, token_id: &[u8], agents: &[Address]) -> bool{}
 ```
 
 This method only remove agents for the specified token.

@@ -24,7 +24,7 @@ There may be multiple owners of DToken on the chain, and each owner's share of p
 #### register
 
 ```rust
-pub fn register(key: &[u8], param_bytes: &[u8]) -> bool
+pub fn register(key: &[u8], param_bytes: &[u8]) -> bool{}
 ```
 
 Register the dividend distribution strategy on the chain.
@@ -64,7 +64,7 @@ This method will launch the following events:
 #### getRegisterParam
 
 ```rust
-pub fn get_register_param(key: &[u8]) -> RegisterParam
+pub fn get_register_param(key: &[u8]) -> RegisterParam{}
 ```
 
 Query RegisterParam by key.
@@ -79,7 +79,7 @@ The parameters are of the following type:
 #### transfer
 
 ```rust
-pub fn transfer(from: &Address, key: &[u8], amt: U128) -> bool
+pub fn transfer(from: &Address, key: &[u8], amt: U128) -> bool{}
 ```
 
 Transfer token assets to current contract address.
@@ -101,7 +101,7 @@ Event
 #### getBalance
 
 ```rust
-pub fn get_balance(key: &[u8]) -> U128
+pub fn get_balance(key: &[u8]) -> U128{}
 ```
 
 Query balance by commodity ID
@@ -114,7 +114,7 @@ Query balance by commodity ID
 #### withdraw
 
 ```rust
-pub fn withdraw(key: &[u8], addr: &Address) -> bool
+pub fn withdraw(key: &[u8], addr: &Address) -> bool{}
 ```
 
 The data owner withdraw token from the contract.
@@ -133,7 +133,7 @@ Event
 #### transferWithdraw
 
 ```rust
-pub fn transfer_withdraw(from: &Address, key: &[u8], amt: U128) -> bool
+pub fn transfer_withdraw(from: &Address, key: &[u8], amt: U128) -> bool{}
 ```
 
 The buyer pays the fee and sends the fee directly to the data owner.
