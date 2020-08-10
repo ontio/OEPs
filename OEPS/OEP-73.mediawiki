@@ -1,0 +1,35 @@
+<pre>
+  OEP: 73
+  Title: DDXF DToken+Oep8 Standard
+  Author: lucas7788 <sishsh@163.com>
+  Type: Standard
+  Status: Accepted
+  Created: 2020-08-03
+</pre>
+
+==Abstract==
+
+Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP8.
+
+
+==Motivation==
+Capitalize tokens on the basis of data tokenization, and use blockchain technology to realize the generation, transfer and transaction of capitalized tokens. This OEP is an OEP8-type asset support for DToken.
+
+==Specification==
+
+===Methods===
+
+
+For methods related to the DToken standard, please refer to
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-71.mediawiki | DToken]] and it's extensions,
+e.g.,[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-72.mediawiki | DToken+Agent+OEP-72]].
+
+
+
+For methods related to the OEP-8 standard, please refer to
+[Oep8](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-8.mediawiki)
+
+
+===Implementation===
+
+[DToken+Agent+Oep8](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken)
