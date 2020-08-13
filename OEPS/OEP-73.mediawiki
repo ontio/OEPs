@@ -21,15 +21,15 @@ Capitalize tokens on the basis of data tokenization, and use blockchain technolo
 
 
 For methods related to the DToken standard, please refer to
-[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-71.mediawiki | DToken]] and it's extensions,
-e.g.,[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-72.mediawiki | DToken+Agent+OEP-72]].
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-71.md | DToken]] and it's extensions,
+e.g.,[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-72.md | DToken+Agent (OEP-72)]].
 
 
 
 For methods related to the OEP-8 standard, please refer to
-[Oep8](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-8.mediawiki)
+[[https://github.com/ontio/OEPs/blob/master/OEPS/OEP-8.mediawiki|Oep8]]
 
 
 ===Implementation===
 
-[DToken+Agent+Oep8](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken)
+[[https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken|DToken+Agent+Oep8 contract]]
