@@ -8,22 +8,6 @@
 
 ```
 
-## Contents
-
-- [1 Abstract](https://www.mediawiki.org/w/index.php?title=Project:Sandbox&action=submit#Abstract)
-- [2 Motivation](https://www.mediawiki.org/w/index.php?title=Project:Sandbox&action=submit#Motivation)
-- 3 Specification
-  - 3.1 Methods
-    - [3.1.1 create_token_template](https://www.mediawiki.org/w/index.php?title=Project:Sandbox&action=submit#create_token_template)
-    - [3.1.2 update_token_template](https://www.mediawiki.org/w/index.php?title=Project:Sandbox&action=submit#update_token_template)
-    - [3.1.3 removeTokenTemplate](https://www.mediawiki.org/w/index.php?title=Project:Sandbox&action=submit#removeTokenTemplate)
-    - [3.1.4 authorizeTokenTemplate](https://www.mediawiki.org/w/index.php?title=Project:Sandbox&action=submit#authorizeTokenTemplate)
-    - [3.1.5 removeAuthorizeAddr](https://www.mediawiki.org/w/index.php?title=Project:Sandbox&action=submit#removeAuthorizeAddr)
-    - [3.1.6 generateDToken](https://www.mediawiki.org/w/index.php?title=Project:Sandbox&action=submit#generateDToken)
-    - [3.1.7 useToken](https://www.mediawiki.org/w/index.php?title=Project:Sandbox&action=submit#useToken)
-    - [3.1.8 deleteToken](https://www.mediawiki.org/w/index.php?title=Project:Sandbox&action=submit#deleteToken)
-  - [3.2 Implementation](https://www.mediawiki.org/w/index.php?title=Project:Sandbox&action=submit#Implementation)
-
 ## Abstract
 
 Sub-contract of DDXF series, a standard proposal to combine off-chain access-token (tokenization) with on-chain token (assertization). Provides support for data management, esp., the permission control. This contract is a basic version for DToken, which cannot be retransferred. For the rest DToken contracts, which support OEP4, OEP5, and OEP8.
@@ -212,4 +196,4 @@ Event
 
 ### Implementation
 
-Please refer to [OEP-73](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.md),[DToken+Agent+Oep8](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken).
+Please refer to [OEP-73](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.mediawiki), [DToken+Agent+Oep8 contract](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken).
