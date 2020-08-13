@@ -156,12 +156,12 @@ First review [[OEPS/OEP-1.mediawiki|OEP-1]]. Then clone the repository and add y
 | Accepted
 | -
 |-
-| 73
+| [[OEPS/OEP-73.mediawiki|73]]
 | Data Token with Crypto Item Standard
 | Lucas7788
 | Standard
-| Draft
-| [https://github.com/ontio/OEPs/pull/73 pull request]
+| Accepted
+| -
 |-
 | 74
 | Data Token with Token Standard
