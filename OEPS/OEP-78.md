@@ -152,4 +152,4 @@ Event
 
 ### Implementation
 
-[OEP-78](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/split_policy)
+[OEP-78 contract](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/split_policy)

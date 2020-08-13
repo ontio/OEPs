@@ -22,7 +22,7 @@ According to different token characteristics, it can be further extended. This O
 ### Methods
 
 For methods related to the DToken standard, please refer to
-[DToken](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-71.mediawiki) and it's extensions.
+[DToken](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-71.md) and it's extensions.
 
 
 #### useTokenByAgent
@@ -123,5 +123,5 @@ Event
 ### Implementation
 
 
-Please refer to [OEP-73](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.mediawiki),
-[DToken+Agent+Oep8](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken).
+Please refer to [OEP-73](https://github.com/ontio/OEPs/blob/master/OEPS/OEP-73.mediawiki), 
+[DToken+Agent+Oep8 contract](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/dtoken).
