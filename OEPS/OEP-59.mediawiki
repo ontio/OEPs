@@ -1,0 +1,48 @@
+<pre>
+  OEP: 59
+  Title: Composite Smart Contract Standard
+  Author: Jawax <jwang35412@gmail.com>
+  Type: Standard
+  Status: Accepted
+  Created: 2019-07-31
+</pre>
+
+==Abstract==
+
+Given the existence of an abundance of OEP standards, a method for detection should be implemented.
+
+This OEP proposes a solution to the scenarios where a smart contract supports multiple existing standards.
+
+The OEP is a specification for creating a smart contract which conforms with two or more other OEPs.
+
+==Motivation==
+
+A standard interface which allows the detection of implemented standards on the Ontology blockchain to be conveniently used by other applications.
+
+==Specification==
+
+===Methods===
+
+====supportedStandards====
+
+<pre>
+def supportedStandards()
+</pre>
+
+Returns an array of <code>string</code> values in the format <code>"OEP-X"</code> where <code>X</code> corresponds to an existing OEP standard.
+
+For example, an <code>OEP-4</code> contract implementing this standard would return <code>["OEP-4", "OEP-59"]</code>.
+
+====supports====
+
+<pre>
+def supports(standard)
+</pre>
+
+Returns a <code>boolean</code> whether the contract supports the <code>standard</code>.
+
+For example, <code>supports("OEP-4")</code> would return <code>true</code> if <code>supportedStandards()</code> returns <code>["OEP-4", "OEP-59"]</code>.
+
+===Implementation===
+
+OEP-4/59: [[https://github.com/jwang35412/OEP4-Example/blob/master/contract.py | python example]]
