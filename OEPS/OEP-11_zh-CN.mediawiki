@@ -1,0 +1,136 @@
+<pre>
+  OEP: 11
+  Title: Ontology X-Shard Smart Contract Specification
+  Author: qiluge <wangcheng@onchain.com>
+  Type: Standard
+  Status: Draft
+  Created: 2019-06-11
+</pre>
+
+==Abstract==
+
+在分片的网络环境下，传统的智能合约并不能实现跨分片调用合约，这将不能充分发挥分片的优势。所以有必要对原来的智能合约作出补充，以适应新的环境。这些补充主要体现在允许智能合约跨分片运行以及合约跨分片迁移上。
+
+合约跨分片运行有两层含义，一是这本合约可以在多个分片上运行，二是这本合约可以跨分片调用其他合约，也可以被其他合约跨分片调用。这里的跨分片运行有一个前置条件，即合约所跨的分片必须是在父分片和子分片形成的分片簇之间，可以是父子、亲兄弟之间跨分片，不允许祖孙、叔侄、堂兄弟分片之间跨分片。
+
+合约跨分片迁移指的是合约在分片间迁移，把合约的所有状态从一个分片迁移到另一个分片。这种迁移的限制是只能在拥有同一个父分片的子分片之间迁移。
+
+实现合约的跨分片运行及迁移需要对现有的智能合约作出补充，包括为合约添加元数据（meta data）来标识合约状态以及添加跨分片通信API。这些也正是OEP-11的内容。
+
+==Motivation==
+
+为了智能合约能够在本体的分片网络环境中跨分片通信。
+
+==Specification==
+
+===智能合约元数据===
+
+====定义====
+<pre>
+type MetaDataCode struct {
+    OntVersion uint64
+    Contract   Address
+    Owner      Address
+    AllShard   bool
+    IsFrozen   bool
+    ShardId    uint64
+
+    InvokedContract []Address
+}
+</pre>
+
+合约的元数据描述了合约的状态，各个字段含义如下：
+
+<pre>
+OntVersion: 元数据的版本；
+Contract: 合约地址；
+Owner: 合约的owner；
+AllShard: 标识合约的运行模式，是多分片运行还是单分片运行；
+IsFrozen: 合约是否冻结，如果冻结了，合约将无法调用；该字段在合约跨分片迁移的时候使用；
+ShardId: 标识单分片运行的合约运行在哪个分片上；
+InvokedContract: 该字段标识所有该合约可以跨分片调用的合约地址的数组.
+</pre>
+
+====元数据初始化====
+
+合约的代码（byte code）和合约的元数据必须是位于同一个分片上，这意味着合约在哪个分片上部署，合约的元数据就在哪个分片上。然而，合约的元数据并不会随着合约的部署而自动生成，即合约部署完成之后，对应的元数据是空。
+
+这么设计是为了兼容ontology网络上已有的旧的合约，因为它们都没有元数据。当一本合约没有对应的元数据时，该合约只能运行在部署的分片上，不能进行跨分片通信，这意味着他不能被其它分片上的合约访问，也不能访问其它分片的合约。合约部署完成之后，可以在任何时候为合约初始化元数据，但是这只能通过在本合约里调用ontology提供的底层API<code>InitMetaData</code>来实现。
+
+<pre>
+def InitMetaData(owner, allShard, isfrozen, shardId, invokedContracts):
+    """
+    :param owner: address, contract owner
+    :param allShard: bool, running multi shard or not
+    :param isfrozen: bool, freeze contract or not
+    :param shardId: integer, running shard id
+    :param invokedContracts: address array, all contract can be x-shard call by self
+    """
+</pre>
+
+<code>AllShard</code>与<code>ShardId</code>的不同取值的组合标识出了合约的运行模式。当<code>AllShard</code>为true时，合约为多分片运行模式，否则合约为单分片运行模式；<code>ShardId</code>必须是合约部署的当前的shard的Id或者是当前shard的子shard的Id。单分片模式下，当合约的状态已经被修改过了，即合约已经在ontology链上存储过数据时，<code>ShardId</code>只能是当前shard的Id。这种设计是为了支持合约的跨分片迁移，因为合约迁移只能在拥有同一个父分片的子分片之间进行，所以如果合约在当前分片运行了一段时间并且记录了数据之后，再将合约的元数据的<code>ShardId</code>初始化成当前shard的子shard的Id，则该合约将无法在分片之间进行迁移，因为合约已经产生的数据被存储在了当前分片上。另一方面，当合约的状态已经修改过了，该合约初始化元数据时，可以将该合约的运行模式设置成多分片的，即元数据的<code>AllShard</code>设为true。因为多分片模式运行的合约不需要支持合约间迁移，它只需要在一个父分片及所有子分片之间都能调用就行了。
+
+所以正确的做法是，每一本合约应该定义一个<code>init</code>方法，在这个方法里进行合约的初始化，初始化过程应含有<code>InitMetaData</code>和其他合约状态的初始化。需要注意的是，<code>InitMetaData</code>最好在其他合约状态的初始化之前。当合约部署完成之后，应首先调用<code>init</code>方法进行初始化，将元数据生成好。在这之后，再进行相应的业务逻辑调用。对于现有的ontology的旧的合约，由于部署好的合约里并不含有<code>InitMetaData</code>调用逻辑，所以无法直接初始化元数据。这种情况下，如果想让合约能够在多个分片上运行，只能先进行合约升级，并且在新的合约里添加上<code>InitMetaData</code>调用逻辑，合约升级完成之后，调用<code>InitMetaData</code>，将元数据生成。如果已有的合约没有留出合约升级接口，则该合约只能以单分片模式继续运行在ontology主链上。
+
+====元数据修改====
+
+当合约需要迁移的时候，需要先将合约冻结，这时我们需要修改合约的元数据来冻结合约。但是<code>InitMetaData</code> API只能用来初始化元数据，无法对已有的元数据进行修改。这样设计是因为<code>InitMetaData</code>是合约级的API，只能通过合约调用的方式调用。一旦通过<code>InitMetaData</code>将合约冻结，将无法再调用合约将合约解冻。
+
+为了解决这种弊病，ontology应该新增一种交易类型，专门用来改变合约的元数据。这种新的交易类型被称为<code>ChangeMetaData</code>，它的<code>TxType</code>为<code>0xd2</code>，它的payload即是[[#定义 | <code>MetaDataCode</code>]]。
+
+对于这种交易类型，为了防止任意修改合约的元数据，鉴权是必要的，只允许元数据中的<code>Owner</code>修改这份元数据，这也是在元数据里添加owner字段的作用。同时，这个交易对于可以修改的元数据的内容也做了限制，元数据能修改的只有<code>Owner</code>, <code>IsFrozen</code>, <code>InvokedContract</code>三个字段。即只能更换合约的<code>Owner</code>，冻结或解冻合约，以及更新合约可以跨分片调用的合约。
+
+====元数据约束条件====
+
+为了保证合约在分片之间的正常进行，合约在设置元数据时，需要满足一定的约束条件，具体如下：
+
+1. <code>ShardId</code>只能是合约部署的分片的Id或者部署的分片的子分片的Id；
+
+2. 除了允许合约跨分片调用自己之外，合约的跨分片调用链不能成环，即合约A的<code>InvokedContracts</code>里有合约B，合约B的<code>InvokedContracts</code>不能有A，但是可以有B自己。
+
+===跨分片调用===
+
+在分片的网络环境中，ontology提供了两个跨分片通信的接口：<code>NotifyRemoteShard</code>和<code>InvokeRemoteShard</code>，分别用来进行异步调用和同步调用。因为跨分片调用中的通信过程依赖于网络传输，所以跨分片调用时传输的参数应序列化成byte array。
+
+====异步调用====
+
+<pre>
+def NotifyRemoteShard(shardId, contract, fee, method, args):
+    """
+    :param shardId: integer, target shard Id
+    :param contract: address, target contract
+    :param fee: integer, use gas
+    :param method: string, method name
+    :param args: byte array of serialize args
+    :return:
+    """
+</pre>
+
+用来进行跨分片异步调用，caller无法取到callee的调用结果，也不知道callee在目标分片上什么时候执行，也不知道callee执行成功还是失败。
+
+====同步调用====
+
+<pre>
+def InvokeRemoteShard(shardId, contract, method, args):
+    """
+    :param shardId: integer, target shard Id
+    :param contract: address, target contract
+    :param fee: integer, use gas
+    :param method: string, method name
+    :param args: byte array of serialize args
+    :return:
+    """
+</pre>
+
+用来进行跨分片同步调用，caller可以取到callee的调用结果。可以将其视为延时执行的跨合约调用。由于调用的结果经网络传输返回，所以callee的返回结果应该是序列化之后的byte array。为了保证同步调用的原子化，整个跨分片调用过程中所涉及到的contract都会被锁定，直到调用完成。被锁定的合约不允许任何形式的调用，包括非跨分片调用，这意味着在整个跨分片同步调用期间，涉及的合约将无法访问。这种锁定称为智能合约锁，智能合约锁的存在保护了跨分片同步调用的原子性，但是降低了智能合约的执行效率。同时，为了不影响和保护已经存在于ontology主链上的合约，ontology主链不被允许参与跨分片同步调用，无论是作为调用方还是被调用方。
+
+====跨分片调用的手续费支付====
+
+对于异步调用的情况，由于caller无法得知调用结果，所以同步调用采用在目标分片上实时扣费的机制。这意味着原始的调用人必须在目标分片上持有一定量的ONG。同时，原始的调用人可以通过<code>NotifyRemoteShard</code> API中的<code>fee</code>参数控制这次跨分片异步调用最多使用多少gas。另一方面，这一笔异步调用的gasPrice由目标分片决定，所以原始调用人为这一次跨分片异步调用支付的手续费最大为<code>fee</code>乘以目标分片的gasPrice。当调用结束时，这一笔手续费会从原始调用人在目标分片上的账户中扣除。
+
+对于同步调用的情况，调用的手续费在原始分片上扣除。要注意的是，发起含有跨分片调用的交易时，该笔交易的gasPrice必须大于等于所有被调用的分片所设置的gasPrice，否则对应的跨分片调用将会失败。
+
+===Implementation===
+====Example implementations are available at====
+
+OEP-11 Python Template: [[https://github.com/qiluge/ontology-xshard-contract/tree/master/xshardcall | Python Template]]
