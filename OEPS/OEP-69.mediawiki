@@ -1,0 +1,273 @@
+<pre>
+  OEP: 69
+  Title: DDXF Marketplace Standard
+  Author:
+  Type: Standard
+  Status: Accepted
+  Created: 2018-07-03
+</pre>
+
+==Abstract==
+
+
+
+==Motivation==
+
+
+==Specification==
+
+===Methods===
+
+====init====
+
+<pre>
+fn init(dtoken: Address, split_policy: Address) -> bool
+</pre>
+
+this method will store the default dtoken contract address and split_policy contract address.
+only the admin has the right to invoke this method.
+
+The parameters are of the following type:
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type
+|-
+| dtoken
+| Address
+|-
+| split_policy
+| Address
+|}
+
+====dtokenSellerPublish====
+
+<pre>
+pub fn dtoken_seller_publish(
+    resource_id: &[u8],
+    resource_ddo_bytes: &[u8],
+    item_bytes: &[u8],
+    split_policy_param_bytes: &[u8],
+) -> bool
+</pre>
+
+The seller publishes goods on the chain by calling this method.
+
+
+The parameters are of the following type:
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type
+! Desc
+|-
+| resource_id
+| &[u8]
+| used to mark the only commodity in the chain
+|-
+| resource_ddo_bytes
+| &[u8]
+| the result of ResourceDDO struct serialization
+|-
+| item_bytes
+| &[u8]
+| the result of DTokenItem struct serialization
+|-
+| split_policy_param_bytes
+| &[u8]
+| the result of RegisterParam struct serialization
+|}
+
+event
+
+["dtokenSellerPublish", resource_id, resource_ddo_bytes, item_bytes, split_policy_param_bytes]
+
+====update====
+
+<pre>
+fn update(
+    resource_id: &[u8],
+    resource_ddo_bytes: &[u8],
+    item_bytes: &[u8],
+    split_policy_param_bytes: &[u8],
+) -> bool
+</pre>
+
+The seller calls this method to update the information of the goods on the chain.
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type
+! Desc
+|-
+| resource_id
+| &[u8]
+| used to mark the only commodity in the chain
+|-
+| resource_ddo_bytes
+| &[u8]
+| the result of ResourceDDO struct serialization
+|-
+| item_bytes
+| &[u8]
+| the result of DTokenItem struct serialization
+|-
+| split_policy_param_bytes
+| &[u8]
+| the result of RegisterParam struct serialization
+|}
+
+
+event
+
+["update", resource_id, resource_ddo_bytes, item_bytes, split_policy_param_bytes]
+
+
+====delete====
+
+<pre>
+pub fn delete(resource_id: &[u8]) -> bool
+</pre>
+
+Sellers delete items on the chain
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type
+! Desc
+|-
+| resource_id
+| &[u8]
+| used to mark the only commodity in the chain
+|}
+
+
+event
+
+["delete", resource_id]
+
+
+
+====buyDToken====
+
+<pre>
+pub fn buy_dtoken(resource_id: &[u8], n: U128, buyer_account: &Address, payer: &Address) -> bool
+</pre>
+
+The buyer calls this method to purchase the goods on the chain
+
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type
+! Desc
+|-
+| resource_id
+| &[u8]
+| used to mark the only commodity in the chain
+|-
+| n
+| U128
+| the number of purchases
+|-
+| buyer_account
+| &Address
+| buyer's address
+|-
+| payer
+| &Address
+| Address to pay for the purchase
+|}
+
+event
+
+["buyDToken", resource_id, n, buyer_account, payer]
+
+====buyDTokens====
+
+<pre>
+pub fn buy_dtokens(
+    resource_ids: Vec<Vec<u8>>,
+    ns: Vec<U128>,
+    buyer_account: &Address,
+    payer: &Address,
+) -> bool
+</pre>
+
+buy more than one dtoken at a time
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type
+! Desc
+|-
+| resource_ids
+| Vec<Vec<u8>>
+| array of resource_id which used to mark the only commodity in the chain
+|-
+| ns
+| Vec<U128>
+| array of n which is the number of purchases. the length of resource_ids must be the same with the length of ns.
+|-
+| buyer_account
+| &Address
+| buyer's address
+|-
+| payer
+| &Address
+| Address to pay for the purchase
+|}
+
+event
+
+[
+["buyDToken", resource_id, n, buyer_account, payer],
+]
+
+====buyDTokenReward====
+
+<pre>
+pub fn buy_dtoken_reward(
+    resource_id: &[u8],
+    n: U128,
+    buyer_account: &Address,
+    payer: &Address,
+    unit_price: U128,
+) -> bool
+</pre>
+
+This method can only be called for items that the fee.count is 0, The buyer can reward the seller with any number of tokens.
+
+{| class = "wikitable"
+! style = "text-align:center;"| Parameter
+! Type
+! Desc
+|-
+| resource_id
+| &[u8]
+| used to mark the only commodity in the chain
+|-
+| n
+| U128
+| the number of purchases
+|-
+| buyer_account
+| &Address
+| buyer's address
+|-
+| payer
+| &Address
+| Address to pay for the purchase
+|-
+| unit_price
+| U128
+| unit price the buyer is willing to pay
+|}
+
+event
+
+["buyDToken", resource_id, n, buyer_account, payer, unit_price]
+
+===Implementation===
+
+[oep-69](https://github.com/ont-bizsuite/ddxf-contract-suite/tree/master/contracts/marketplace)
